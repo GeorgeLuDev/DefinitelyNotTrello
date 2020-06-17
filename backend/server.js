@@ -5,8 +5,7 @@ app.use(bodyParser.json());
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017';
-// const dbName = "DNTDB";
+const url = 'mongodb://localhost:27017/DNTDB';
 const client = new MongoClient(url, {useUnifiedTopology: true});
 client.connect();
 
@@ -47,7 +46,7 @@ app.post('/api/SignUp', (req,res) =>
     try
     {
       const db = client.db();
-      const result = db.collection('Users').insertOne(newColor);
+      const result = db.collection('Users').insertOne(newUser);
     }
     catch(e)
     {
@@ -64,7 +63,7 @@ app.post('/api/SignUp', (req,res) =>
 
 });
 
-app.post('/api/SignIn', (req,res) => 
+app.post('/api/SignIn', async (req,res) => 
 {
     console.log('SignIn api hit');
     var error = '';
@@ -73,12 +72,20 @@ app.post('/api/SignIn', (req,res) =>
     const { email, password } = req.body;
 
     // do stuff with database
+    const db = client.db();
+    var query = 
+    {
+        email:email,
+        password:password
+    };
+    const result = await db.collection('Users').find(query).toArray();
+
+    console.log(result);
 
     // send result back
     var ret = 
     {
-        email : email,
-        password : password,
+        result:result,
         error: error
     };
 

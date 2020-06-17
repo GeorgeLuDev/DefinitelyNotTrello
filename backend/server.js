@@ -27,7 +27,7 @@ app.get('/api/test', (req,res) =>
 
 });
 
-app.post('/api/SignUp', (req,res) => 
+app.post('/api/SignUp',async (req,res) => 
 {
     console.log('SignUp api hit');
     var error = '';
@@ -46,7 +46,7 @@ app.post('/api/SignUp', (req,res) =>
     try
     {
       const db = client.db();
-      const result = db.collection('Users').insertOne(newUser);
+      const result = await db.collection('Users').insertOne(newUser);
     }
     catch(e)
     {

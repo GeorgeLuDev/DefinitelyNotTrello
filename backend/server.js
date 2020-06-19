@@ -5,16 +5,19 @@ app.use(bodyParser.json());
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
 const url = 'mongodb://localhost:27017/DNTDB';
 const client = new MongoClient(url, {useUnifiedTopology: true});
 client.connect();
 
+// root api
 app.get('/', (req,res) => 
 {
     console.log('Root hit');
     res.send('API root is working')
 });
 
+//test api
 app.get('/api/test', (req,res) => 
 {
     console.log('Test api hit');
@@ -27,6 +30,9 @@ app.get('/api/test', (req,res) =>
 
 });
 
+// --board api's--
+
+// create user api
 app.post('/api/SignUp',async (req,res) => 
 {
     console.log('SignUp api hit');
@@ -63,6 +69,7 @@ app.post('/api/SignUp',async (req,res) =>
 
 });
 
+// verify sign in api
 app.post('/api/SignIn', async (req,res) => 
 {
     console.log('SignIn api hit');
@@ -78,19 +85,135 @@ app.post('/api/SignIn', async (req,res) =>
         email:email,
         password:password
     };
-    const result = await db.collection('Users').find(query).toArray();
 
-    console.log(result);
+    var result = await db.collection('Users').findOne(query);
 
+    if (result == null)
+    {
+        result = 
+        {
+            "_id": "-1",
+            "firstName": "",
+            "lastName": "",
+            "email": "",
+            "password": ""
+        };
+    }
     // send result back
     var ret = 
     {
-        result:result,
+        result: result,
         error: error
     };
 
     res.status(200).json(ret);
 
 });
+
+app.post('/api/UpdateUser', async (req,res) => 
+{
+    console.log('UpdateUser api hit');
+    var error = '';
+
+    // get incoming json
+    const { _id, firstName, lastName, email, password } = req.body;
+
+    // do stuff with database
+    const db = client.db();
+
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+
+    var newValues = 
+    {
+        $set:
+        {
+            firstName : firstName,
+            lastName : lastName,
+            email : email,
+            password : password
+        }
+    };
+
+    var result = await db.collection('Users').updateOne(query,newValues);
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+app.post('/api/DeleteUser', async (req,res) => 
+{
+    console.log('DeleteUser api hit');
+    var error = '';
+
+    // get incoming json
+    const { _id } = req.body;
+
+    // do stuff with database
+    const db = client.db();
+
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+
+    var result = await db.collection('Users').deleteOne(query);
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+// create email verification api
+
+// create reset password api
+
+// --board api's--
+
+// create board api
+
+// read board api
+
+// update board api
+
+// delete board api
+
+
+// --list api's--
+
+// create list api
+
+// read list api
+
+// update list api
+
+// delete list api
+
+
+// --card api's--
+
+// create card api
+
+// read card api
+
+// update card api
+
+// delete card api
+
 
 app.listen(5000, () => console.log('Server started on port ${5000}'));

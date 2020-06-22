@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
+PORT = process.env.port || 5000;
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
@@ -110,7 +111,7 @@ app.post('/api/SignIn', async (req,res) =>
 
 });
 
-app.post('/api/UpdateUser', async (req,res) => 
+app.put('/api/UpdateUser', async (req,res) => 
 {
     console.log('UpdateUser api hit');
     var error = '';
@@ -150,7 +151,7 @@ app.post('/api/UpdateUser', async (req,res) =>
 
 });
 
-app.post('/api/DeleteUser', async (req,res) => 
+app.delete('/api/DeleteUser', async (req,res) => 
 {
     console.log('DeleteUser api hit');
     var error = '';
@@ -179,41 +180,41 @@ app.post('/api/DeleteUser', async (req,res) =>
 
 });
 
-// create email verification api
+    // create email verification api
 
-// create reset password api
+    // create reset password api
 
 // --board api's--
 
-// create board api
+    // create board api
 
-// read board api
+    // read board api
 
-// update board api
+    // update board api
 
-// delete board api
+    // delete board api
 
 
 // --list api's--
 
-// create list api
+    // create list api
 
-// read list api
+    // read list api
 
-// update list api
+    // update list api
 
-// delete list api
+    // delete list api
 
 
 // --card api's--
 
-// create card api
+    // create card api
 
-// read card api
+    // read card api
 
-// update card api
+    // update card api
 
-// delete card api
+    // delete card api
 
 
-app.listen(5000, () => console.log('Server started on port ${5000}'));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -19,7 +19,7 @@ app.get('/', (req,res) =>
 });
 
 //test api
-app.get('/api/test', (req,res) => 
+app.get('/api/test', async (req,res) => 
 {
     console.log('Test api hit');
     var test = 'THIS IS THE API TEST';
@@ -31,10 +31,49 @@ app.get('/api/test', (req,res) =>
 
 });
 
+// get everything from database api
+app.get('/api/database', async (req,res) => 
+{
+    console.log('Database api hit');
+
+    var test = 'THIS IS THE DATABASE';
+    var Users;
+    var Boards;
+    var Lists;
+    var Cards;
+
+    try
+    {
+        const db = client.db();
+        Users = await db.collection('Users').find({}).toArray();
+        Boards = await db.collection('Boards').find({}).toArray();
+        Lists = await db.collection('Lists').find({}).toArray();
+        Cards = await db.collection('Cards').find({}).toArray();
+    }
+    catch(e)
+    {
+        error = e.toString();
+    }
+
+    
+    // send result back
+    var ret = 
+    {
+        test: test,
+        users: Users,
+        boards: Boards,
+        lists: Lists,
+        cards: Cards
+    };
+
+    res.status(200).json(ret);
+
+});
+
 // --board api's--
 
 // create user api
-app.post('/api/SignUp',async (req,res) => 
+app.post('/api/SignUp', async (req,res) => 
 {
     console.log('SignUp api hit');
     var error = '';
@@ -46,14 +85,16 @@ app.post('/api/SignUp',async (req,res) =>
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password
+        password: password,
+        emailVerification: 0,
+        childrenBoards: []
     }
 
     // do stuff with database
     try
     {
-      const db = client.db();
-      const result = await db.collection('Users').insertOne(newUser);
+        const db = client.db();
+        const result = await db.collection('Users').insertOne(newUser);
     }
     catch(e)
     {
@@ -188,6 +229,42 @@ app.delete('/api/DeleteUser', async (req,res) =>
 
     // create board api
 
+app.post('/api/CreateBoard', async (req,res) => 
+{
+    console.log('CreateBoard api hit');
+    var error = '';
+
+    // get incoming json and format
+    const { firstName, lastName, email, password } = req.body;
+    const newUser =
+    {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password
+    }
+
+    // do stuff with database
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Users').insertOne(newUser);
+    }
+    catch(e)
+    {
+        error = e.toString();
+    }
+
+    // send result back
+    var ret = 
+    {
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
     // read board api
 
     // update board api
@@ -216,5 +293,10 @@ app.delete('/api/DeleteUser', async (req,res) =>
 
     // delete card api
 
+// --Extra api's--
+
+    // given a User return all boards belonging to that user
+
+    // given a board return all Lists and Cards associated with that board
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

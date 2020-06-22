@@ -70,8 +70,6 @@ app.get('/api/database', async (req,res) =>
 
 });
 
-// --board api's--
-
 // create user api
 app.post('/api/SignUp', async (req,res) => 
 {
@@ -152,13 +150,14 @@ app.post('/api/SignIn', async (req,res) =>
 
 });
 
+// update users api
 app.put('/api/UpdateUser', async (req,res) => 
 {
     console.log('UpdateUser api hit');
     var error = '';
 
     // get incoming json
-    const { _id, firstName, lastName, email, password } = req.body;
+    const { _id, firstName, lastName, email, password, emailVerification, childrenBoards } = req.body;
 
     // do stuff with database
     const db = client.db();
@@ -175,7 +174,9 @@ app.put('/api/UpdateUser', async (req,res) =>
             firstName : firstName,
             lastName : lastName,
             email : email,
-            password : password
+            password : password,
+            emailVerification : emailVerification,
+            childrenBoards : childrenBoards
         }
     };
 
@@ -192,6 +193,7 @@ app.put('/api/UpdateUser', async (req,res) =>
 
 });
 
+// delete user api
 app.delete('/api/DeleteUser', async (req,res) => 
 {
     console.log('DeleteUser api hit');
@@ -221,13 +223,9 @@ app.delete('/api/DeleteUser', async (req,res) =>
 
 });
 
-    // create email verification api
-
-    // create reset password api
-
 // --board api's--
 
-    // create board api
+// create board api
 
 app.post('/api/CreateBoard', async (req,res) => 
 {
@@ -235,20 +233,19 @@ app.post('/api/CreateBoard', async (req,res) =>
     var error = '';
 
     // get incoming json and format
-    const { firstName, lastName, email, password } = req.body;
-    const newUser =
+    const { boardName, index, parentUsers } = req.body;
+    const newBoard =
     {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password
+        boardName : boardName,
+        index : index,
+        parentUsers : parentUsers
     }
 
-    // do stuff with database
+    // insert new board into DNTDB Boards collection
     try
     {
         const db = client.db();
-        const result = await db.collection('Users').insertOne(newUser);
+        const result = await db.collection('Boards').insertOne(newBoard);
     }
     catch(e)
     {
@@ -265,12 +262,102 @@ app.post('/api/CreateBoard', async (req,res) =>
 
 });
 
-    // read board api
+// read board api
+app.get('/api/ReadBoard/:id', async (req,res) => 
+{
+    console.log('ReadBoard api hit');
+    var error = '';
 
-    // update board api
+    // 
+    var query = 
+    { 
+        _id: ObjectId(req.params.id)
+    };
 
-    // delete board api
+    // do stuff with database
+    const db = client.db();
 
+    var result = await db.collection('Boards').findOne(query);
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+// update board api
+app.put('/api/UpdateBoard', async (req,res) => 
+{
+    console.log('UpdateBoard api hit');
+    var error = '';
+
+    // get incoming json
+    const { _id, boardName, index, parentUsers } = req.body;
+
+    // do stuff with database
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+    
+    var newValues = 
+    {
+        $set:
+        {
+            boardName : boardName,
+            index : index,
+            parentUsers , parentUsers
+        }
+    };
+    
+    const db = client.db();
+    var result = await db.collection('Boards').updateOne(query,newValues);
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+// delete board api
+app.delete('/api/DeleteBoard', async (req,res) => 
+{
+    console.log('DeleteBoard api hit');
+    var error = '';
+
+    // get incoming json
+    const { _id } = req.body;
+
+    // do stuff with database
+    
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+    
+    const db = client.db();
+    var result = await db.collection('Boards').deleteOne(query);
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
 
 // --list api's--
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from '../components/Header';
 
-const SignUp = () =>
+const SignUpPage = () =>
 {
     return(
         <div>
@@ -11,4 +11,4 @@ const SignUp = () =>
     );
 }
 
-export default SignUp;
+export default SignUpPage;

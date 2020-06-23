@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from '../components/Header';
 
-const SignIn = () =>
+const ForgotPasswordPage = () =>
 {
     return(
         <div>
@@ -11,4 +11,4 @@ const SignIn = () =>
     );
 }
 
-export default SignIn;
+export default ForgotPasswordPage;

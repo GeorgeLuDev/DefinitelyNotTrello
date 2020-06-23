@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
-import SignIn from './pages/SignIn';
-import ForgotPassword from './pages/ForgotPassword';
-import SignUp from './pages/SignUp';
-import ListOfBoards from './pages/ListOfBoards';
-import UserSettings from './pages/UserSettings';
+import SignInPage from './pages/SignInPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import SignUpPage from './pages/SignUpPage';
+import ListOfBoardsPage from './pages/ListOfBoardsPage';
+import UserSettingsPage from './pages/UserSettingsPage';
 import BoardPage from './pages/BoardPage';
 
 import './App.css';
@@ -15,19 +15,19 @@ function App() {
     <Router >
       <Switch>
         <Route path="/" exact>
-          <SignIn />
+          <SignInPage />
         </Route>
         <Route path="/ForgotPassword" exact>
-          <ForgotPassword />
+          <ForgotPasswordPage />
         </Route>
         <Route path="/SignUp" exact>
-          <SignUp />
+          <SignUpPage />
         </Route>
         <Route path="/ListOfBoards" exact>
-          <ListOfBoards />
+          <ListOfBoardsPage />
         </Route>
         <Route path="/UserSettings" exact>
-          <UserSettings />
+          <UserSettingsPage />
         </Route>
         <Route path="/BoardPage" exact>
           <BoardPage />

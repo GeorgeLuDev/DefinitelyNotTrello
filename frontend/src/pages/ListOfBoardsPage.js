@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from '../components/Header';
 
-const UserSettings = () =>
+const ListOfBoardsPage = () =>
 {
     return(
         <div>
@@ -11,4 +11,4 @@ const UserSettings = () =>
     );
 }
 
-export default UserSettings;
+export default ListOfBoardsPage;

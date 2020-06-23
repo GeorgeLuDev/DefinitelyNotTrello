@@ -448,7 +448,7 @@ app.put('/api/UpdateList', async (req,res) =>
     
     // Database search and update.
     const db = client.db();
-    var result = await db.collection('Boards').updateOne(query, newValues);
+    var result = await db.collection('Lists').updateOne(query, newValues);
 
     // Return result.
     var ret = 
@@ -477,9 +477,9 @@ app.delete('/api/DeleteList', async (req,res) =>
         _id: ObjectId(_id)
     };
     
-    // Database search and delete..
+    // Database search and delete.
     const db = client.db();
-    var result = await db.collection('Boards').deleteOne(query);
+    var result = await db.collection('Lists').deleteOne(query);
 
     // Return result.
     var ret = 

@@ -368,11 +368,12 @@ app.post('/api/CreateList', async (req,res) =>
     var error = '';
 
     // Get JSON and format it.
-    const { listName, index } = req.body;
+    const { listName, index , parentBoard } = req.body;
     const newList =
     {
         listName : listName,
-        index : index
+        index : index,
+        parentBoard : parentBoard
     };
 
     // Insert new list into DNTDB Lists collection.
@@ -429,7 +430,7 @@ app.put('/api/UpdateList', async (req,res) =>
     var error = '';
 
     // Retrieve JSON.
-    const { _id, listName, index } = req.body;
+    const { _id, listName, index, parentBoard } = req.body;
 
     // Get the ID to query the database.
     var query = 
@@ -443,6 +444,7 @@ app.put('/api/UpdateList', async (req,res) =>
         {
             listName : listName,
             index : index,
+            parentBoard : parentBoard
         }
     };
     

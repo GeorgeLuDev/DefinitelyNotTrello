@@ -361,13 +361,136 @@ app.delete('/api/DeleteBoard', async (req,res) =>
 
 // --list api's--
 
-    // create list api
+// CreateList API
+app.post('/api/CreateList', async (req,res) =>
+{
+    console.log('CreateList API hit.');
+    var error = '';
 
-    // read list api
+    // Get JSON and format it.
+    const { listName, index } = req.body;
+    const newList =
+    {
+        listName : listName,
+        index : index
+    };
 
-    // update list api
+    // Insert new list into DNTDB Lists collection.
+    try
+    {
+        const db = client.db();
+        const result = await db.collection('Lists').insertOne(newList);
+    }
+    catch(e)
+    {
+        error = e.toString();
+    }
 
-    // delete list api
+    // Return result.
+    var ret = 
+    {
+        error: error
+    };
+
+    res.status(200).json(ret);
+});
+
+// ReadList API
+app.get('/api/ReadList/:id', async (req,res) => 
+{
+    console.log('ReadList API hit.');
+    var error = '';
+
+    // Get the ID to query the database.
+    var query = 
+    { 
+        _id: ObjectId(req.params.id)
+    };
+
+    // Database search.
+    const db = client.db();
+    var result = await db.collection('Lists').findOne(query);
+
+    // Return result.
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+// UpdateList API
+app.put('/api/UpdateList', async (req,res) => 
+{
+    console.log('UpdateList API hit.');
+    var error = '';
+
+    // Retrieve JSON.
+    const { _id, listName, index } = req.body;
+
+    // Get the ID to query the database.
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+    
+    var newValues = 
+    {
+        $set:
+        {
+            listName : listName,
+            index : index,
+        }
+    };
+    
+    // Database search and update.
+    const db = client.db();
+    var result = await db.collection('Boards').updateOne(query, newValues);
+
+    // Return result.
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+// DeleteList API
+app.delete('/api/DeleteList', async (req,res) => 
+{
+    console.log('DeleteList API hit');
+    var error = '';
+
+    // Retrieve JSON.
+    const { _id } = req.body;
+
+
+    // Get the ID to query the database.
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+    
+    // Database search and delete..
+    const db = client.db();
+    var result = await db.collection('Boards').deleteOne(query);
+
+    // Return result.
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
 
 
 // --card api's--

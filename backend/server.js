@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
-PORT = process.env.port || 5000;
+PORT = (process.env.port || 5000);
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
@@ -10,6 +10,21 @@ var ObjectId = require('mongodb').ObjectID;
 const url = 'mongodb://localhost:27017/DNTDB';
 const client = new MongoClient(url, {useUnifiedTopology: true});
 client.connect();
+
+// CORS Headers => Required for cross-origin/ cross-server communication
+app.use((req, res, next) => 
+{
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, DELETE'
+  );
+  next();
+});
 
 // root api
 app.get('/', (req,res) => 
@@ -84,8 +99,7 @@ app.post('/api/SignUp', async (req,res) =>
         lastName: lastName,
         email: email,
         password: password,
-        emailVerification: 0,
-        childrenBoards: []
+        emailVerification: 0
     }
 
     // do stuff with database
@@ -135,14 +149,16 @@ app.post('/api/SignIn', async (req,res) =>
             "_id": "-1",
             "firstName": "",
             "lastName": "",
-            "email": "",
-            "password": ""
+            "emailVerification": "",
         };
     }
     // send result back
     var ret = 
     {
-        result: result,
+        id: result._id,
+        firstName: result.firstName,
+        lastName: result.lastName,
+        emailVerification: result.emailVerification,
         error: error
     };
 
@@ -175,8 +191,7 @@ app.put('/api/UpdateUser', async (req,res) =>
             lastName : lastName,
             email : email,
             password : password,
-            emailVerification : emailVerification,
-            childrenBoards : childrenBoards
+            emailVerification : emailVerification
         }
     };
 
@@ -616,8 +631,86 @@ app.delete('/api/DeleteCard', async(req,res) =>
 
 // --Extra api's--
 
-    // given a User return all boards belonging to that user
+// given a User return all boards belonging to that user
+app.get('/api/User/:id', async (req,res) => 
+{
+    console.log('User/id api hit');
+    var error = '';
 
-    // given a board return all Lists and Cards associated with that board
+    // Get the User ID to query the database.
+    var query = 
+    { 
+        parentUsers: req.params.id
+    };
+    var sort = { index: 1 };
+
+    // Database search.
+    const db = client.db();
+    var result = await db.collection('Boards').find(query).sort(sort).toArray();
+
+    // Return result.
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
+
+// given a board return all Lists and Cards associated with that board
+app.get('/api/Board/:id', async (req,res) => 
+{
+    console.log('Board/:id api hit');
+    var error = '';
+
+    // 
+    var query = 
+    { 
+        parentBoard: req.params.id
+    };
+    var sort = { index: 1 };
+
+    // do stuff with database
+    const db = client.db();
+
+    var listResult = await db.collection('Lists').find(query).sort(sort).toArray();
+    var listString = [];
+    var cardString = [[],[]];
+    // console.log(listResul[];
+    // console.log(listResult.length);
+
+    for (var i=0;i<listResult.length;i++)
+    {
+        console.log("i:" + i);
+        listString.push(listResult[i].listName);
+        query = 
+        { 
+            parentList: listResult[i]._id.toString()
+        };
+        
+        console.log(query);
+        var cardResult = await db.collection('Cards').find(query).sort(sort).toArray(); // fail not returning anything
+        console.log(cardResult);
+        for (var j = 0; j < cardResult.length;j++)
+        {
+            console.log("j:" + j);
+            cardString[i].push(cardResult[j].cardName);
+        }
+    }
+
+    // send result back
+    var ret = 
+    {
+        listString: listString,
+        cardString: cardString,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

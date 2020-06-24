@@ -2,14 +2,14 @@ import React from 'react';
 
 import Header from '../components/Header';
 
-const ForgotPasswordPage = () =>
+const ResetPasswordPage = () =>
 {
     return(
         <div>
             <Header />
-            <h1>Forget password Page</h1>
+            <h1>Email Verified Page</h1>
         </div>
     );
 }
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

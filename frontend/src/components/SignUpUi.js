@@ -28,7 +28,7 @@ function SignInUi()
             var res = JSON.parse(await response.text());
 
             console.log(res);
-            if (res.error == "")
+            if (res.error === "")
             {
                 setMessage("Sign Up Successful");
             }

@@ -27,11 +27,11 @@ function SignInUi()
 
             console.log(res);
 
-            if (res.id == -1)
+            if (res.id === -1)
             {
                 setMessage("User/Password combination incorrect");
             }
-            else if (res.emailVerification == 0)
+            else if (res.emailVerification === 0)
             {
                 setMessage("Please verify your email before signing in");
             }

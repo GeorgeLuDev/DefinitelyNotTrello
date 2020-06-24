@@ -12,6 +12,8 @@ function Header()
             <a href="/ListOfBoards">ListOfBoards</a><br />
             <a href="/BoardPage">BoardPage</a><br />
             <a href="/UserSettings">UserSettings</a><br />
+            <a href="/EmailVerification/:id">Email Verification</a><br />
+            <a href="/ResetPassword/:id">Reset Password</a><br />
         </div>
     );
 };

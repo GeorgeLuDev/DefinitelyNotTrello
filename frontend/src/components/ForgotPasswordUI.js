@@ -14,11 +14,35 @@ function ForgotPasswordUI()
 
         var js = '{"email":"'+loginEmail.value + '"}';
 
+        console.log(js);
+
+        try
+        {
+            const response = await fetch('http://localhost:5000/api/SentResetPassword',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            
+            console.log("Calling the send password reset apu");
+
+            var res = JSON.parse(await response.text());
+
+            console.log(res);
+
+            if(res.error != null)
+            {
+                setMessage(res.error)
+            }
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+
     }
 
     return (
         <div>
-            <h1>Reset your password here</h1>
+            <h1>Forget password Page</h1>
             <form>
                 <label>Email Address</label>
                 <input type="text" placeholder="Email" ref={(c) => loginEmail = c}/><br/>

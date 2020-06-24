@@ -2,12 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
-PORT = process.env.port || 5000;
+const PORT = process.env.port || 5000;
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-const url = 'mongodb://localhost:27017/DNTDB';
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/DNTDB';
 const client = new MongoClient(url, {useUnifiedTopology: true});
 client.connect();
 
@@ -617,5 +617,9 @@ app.delete('/api/DeleteCard', async(req,res) =>
     // given a User return all boards belonging to that user
 
     // given a board return all Lists and Cards associated with that board
+if (process.env.NODE_ENV === 'production')
+{
+	app.use(express.static('frontend/build'));
+}
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

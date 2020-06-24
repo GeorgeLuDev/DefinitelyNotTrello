@@ -5,8 +5,8 @@ function Header()
 {
     return(
         <div>  
-            <h1 id="title">Testing different pages</h1>
-            <a href="/">Root</a><br />
+            <h1>Testing different pages</h1>
+            <a href="/">Root/Sign In</a><br />
             <a href="/ForgotPassword">ForgotPassword</a><br />
             <a href="/SignUp">SignUp</a><br />
             <a href="/ListOfBoards">ListOfBoards</a><br />

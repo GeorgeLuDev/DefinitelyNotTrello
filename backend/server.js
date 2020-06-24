@@ -6,7 +6,7 @@ app.use(bodyParser.json());
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/DNTDB';
-const client = new MongoClient(url, {useUnifiedTopology: true});
+const client = new MongoClient(url,{useUnifiedTopology: true});
 client.connect();
 
 app.get('/', (req,res) => 

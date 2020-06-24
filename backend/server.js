@@ -118,29 +118,31 @@ app.post('/api/SignUp', async (req,res) =>
         emailVerification: 0
     }
 
-    var verifyUserEmail = {
-        from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: 'Verify Account', // Subject line
-        text: 'Click the link below to verify your email', // plain text body
-        html: "Verify User Link" // html body
-    };
-
-    transporter.sendMail(verifyUserEmail, (error, info) => {
-        if (error) 
-        {
-            return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);   
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-  
-    });
-
+    
     // do stuff with database
     try
     {
         const db = client.db();
         const result = await db.collection('Users').insertOne(newUser);
+        var verifyUserEmail = {
+            from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
+            to: email, // list of receivers
+            subject: 'Verify Account', // Subject line
+            text: 'Click the link below to verify your email', // plain text body
+            // html: "<a href=\"localhost:3000/EmailVerification/" + result.ops[0]._id + "\">Verify Email</a>" // html body
+            html: `<a href=\"http://localhost:3000/EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
+
+        };
+
+        transporter.sendMail(verifyUserEmail, (error, info) => {
+            if (error) 
+            {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);   
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      
+        });
     }
     catch(e)
     {
@@ -295,7 +297,6 @@ app.put('/api/EmailVerification', async (req,res) =>
     {
         $set:
         {
-            _id : _id,
             emailVerification : 1
         }
     };

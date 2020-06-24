@@ -2,13 +2,14 @@ import React from 'react';
 
 import Header from '../components/Header';
 
-const SignUp = () =>
+const ForgotPasswordPage = () =>
 {
     return(
         <div>
             <Header />
+            <h1>Forget password Page</h1>
         </div>
     );
 }
 
-export default SignUp;
+export default ForgotPasswordPage;

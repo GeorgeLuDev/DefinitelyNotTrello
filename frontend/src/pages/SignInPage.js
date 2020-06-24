@@ -1,14 +1,16 @@
 import React from 'react';
 
 import Header from '../components/Header';
+import SignInUi from '../components/SignInUi';
 
-const ForgotPassword = () =>
+const SignInPage = () =>
 {
     return(
         <div>
             <Header />
+            <SignInUi />
         </div>
     );
 }
 
-export default ForgotPassword;
+export default SignInPage;

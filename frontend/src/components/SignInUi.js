@@ -50,7 +50,6 @@ function SignInUi()
                 window.location.href = '/ListOfBoards';
             }
 
-
         }
         catch(e)
         {

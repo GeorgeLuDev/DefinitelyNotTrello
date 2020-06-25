@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ForgotPasswordUI()
+function ForgotPasswordUi()
 {
 
     var loginEmail;
@@ -20,7 +20,7 @@ function ForgotPasswordUI()
         {
             const response = await fetch('http://localhost:5000/api/SentResetPassword',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             
-            console.log("Calling the send password reset apu");
+            console.log("Calling the send password reset api");
 
             var res = JSON.parse(await response.text());
 
@@ -53,4 +53,4 @@ function ForgotPasswordUI()
     )
 }
 
-export default ForgotPasswordUI;
+export default ForgotPasswordUi;

@@ -13,7 +13,7 @@ function Header()
             <a href="/BoardPage">BoardPage</a><br />
             <a href="/UserSettings">UserSettings</a><br />
             <a href="/EmailVerification/:id">Email Verification</a><br />
-            <a href="/ResetPassword/:id">Reset Password</a><br />
+            <a href="/UpdatePassword/:id">Reset Password</a><br />
         </div>
     );
 };

@@ -7,7 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import ListOfBoardsPage from './pages/ListOfBoardsPage';
 import UserSettingsPage from './pages/UserSettingsPage';
 import BoardPage from './pages/BoardPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+import UpdatePasswordPage from './pages/UpdatePasswordPage';
 import EmailVerifiedPage from './pages/EmailVerifiedPage';
 
 import './App.css';
@@ -34,8 +34,8 @@ function App() {
         <Route path="/UserSettings" exact>
           <UserSettingsPage />
         </Route>
-        <Route path="/ResetPassword/:id" exact>
-          <ResetPasswordPage />
+        <Route path="/UpdatePassword/:id" exact>
+          <UpdatePasswordPage />
         </Route>
         <Route path="/EmailVerification/:id" component={EmailVerifiedPage} exact>
           <EmailVerifiedPage />

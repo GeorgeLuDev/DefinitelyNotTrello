@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
-PORT = (process.env.port || 5000);
+const PORT = process.env.port || 5000;
 
 // mailing stuff
 const nodemailer = require('nodemailer');
@@ -23,7 +23,7 @@ var transporter = nodemailer.createTransport({
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-const url = 'mongodb://localhost:27017/DNTDB';
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/DNTDB';
 const client = new MongoClient(url, {useUnifiedTopology: true});
 client.connect();
 
@@ -859,6 +859,11 @@ app.get('/api/Board/:id', async (req,res) =>
     // do stuff with database
     const db = client.db();
 
+    // given a board return all Lists and Cards associated with that board
+if (process.env.NODE_ENV === 'production')
+{
+	app.use(express.static('frontend/build'));
+}
     var listResult = await db.collection('Lists').find(query).sort(sort).toArray();
     var listString = [];
     var cardString = [[],[]];

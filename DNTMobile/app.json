@@ -1,0 +1,17 @@
+{
+  "name": "DNTMobile",
+  "displayName": "DNTMobile",
+  "expo": {
+    "name": "DNTMobile",
+    "slug": "DNTMobile",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

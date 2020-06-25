@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from '../components/Header';
-import EmailVerifiedUI from '../components/EmailVerifiedUI';
+import EmailVerifiedUi from '../components/EmailVerifiedUi';
 
 const EmailVerifiedPage = () =>
 {
@@ -9,7 +9,7 @@ const EmailVerifiedPage = () =>
         <div>
             <Header />
             <h1>Email Verified Page</h1>
-            <EmailVerifiedUI components={EmailVerifiedUI}/>
+            <EmailVerifiedUi components={EmailVerifiedUi}/>
         </div>
     );
 }

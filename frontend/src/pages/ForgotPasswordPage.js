@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Header from '../components/Header';
+import ForgotPasswordUi from '../components/ForgotPasswordUi';
 
 const ForgotPasswordPage = () =>
 {
     return(
         <div>
             <Header />
-            <h1>Forget password Page</h1>
+            <ForgotPasswordUi />
         </div>
     );
 }

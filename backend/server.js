@@ -344,7 +344,7 @@ app.post('/api/SentResetPassword', async (req,res) =>
             to: email, // list of receivers
             subject: 'Reset Password', // Subject line
             text: 'Click the link below to reset password', // plain text body
-            html: "Reset Password Link" // html body
+            html: `<a href=\"http://localhost:3000/UpdatePassword/${result._id}\">Reset Password Link</a>` // html body
         };
     
         transporter.sendMail(verifyUserEmail, (error, info) => {
@@ -383,9 +383,43 @@ app.post('/api/SentResetPassword', async (req,res) =>
     //     html: "Hello World link2" // html body
     // };
 
+app.put('/api/UpdatePassword', async (req, res) =>
+{
+    console.log("UpdatePassword api hit");
+    var error = '';
+
+    console.log(req.body);
+
+    const { _id,  password} = req.body;
+
+    const db = client.db();
 
 
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
 
+    var newValues = 
+    {
+        $set:
+        {
+            password : password
+        }
+    };
+
+    var result = await db.collection('Users').updateOne(query,newValues);
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});    
 
 // --board api's--
 

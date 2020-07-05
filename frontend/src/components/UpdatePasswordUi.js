@@ -20,11 +20,29 @@ function UpdatePasswordUi()
         {
             const response = await fetch('http://localhost:5000/api/UpdatePassword',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
+            console.log("calling UpdatePassword api");
+
+            var res = JSON.parse(await response.text());
+
+            console.log(res);
+
+            if (res.error === "")
+            {
+                setMessage("Reset Password Successful, redirting to sign in");
+            }
+            else
+            {
+                setMessage("Reset Password Unsuccessful, redirting to sign in");
+            }
         }
         catch(e)
         {
-
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
         }
+
+
     }
 
     return(

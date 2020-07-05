@@ -373,15 +373,7 @@ app.post('/api/SentResetPassword', async (req,res) =>
     res.status(200).json(ret);
 
 });
-    // receive reset password
-    
-    // var resetPasswordEmail = {
-    //     from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
-    //     to: 'RECEIVEREMAILS', // list of receivers
-    //     subject: 'Reset Password', // Subject line
-    //     text: 'Click the link below to reset your password', // plain text body
-    //     html: "Hello World link2" // html body
-    // };
+    // update reset password
 
 app.put('/api/UpdatePassword', async (req, res) =>
 {

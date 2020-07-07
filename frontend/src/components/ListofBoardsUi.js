@@ -128,6 +128,7 @@ class ListofBoardsUi extends Component
 
             temp = document.createElement('span');
             temp.innerHTML = event.target.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            temp.onclick = this.handleGotoPage;
             event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
 
 
@@ -155,6 +156,11 @@ class ListofBoardsUi extends Component
         }
     }
 
+    handleGotoPage = event =>
+    {
+        window.location.href = '/BoardPage';
+    }
+
     handleBoardNameChange = event =>
     {
         this.setState({boardName: event.target.value});
@@ -166,7 +172,7 @@ class ListofBoardsUi extends Component
             <div>  
                 <h1>WELCOME This is the list of boards page</h1>
                 {
-                    this.state.boards.map(board => <div key={board._id}> <span>{board.boardName}</span> <button onClick = {(e) => this.handleDelete(e,board._id)}>Delete</button> <button onClick = {(e) => this.handleUpdate(e,board._id)}>Edit</button></div>)
+                    this.state.boards.map(board => <div key={board._id}> <span onClick={this.handleGotoPage}>{board.boardName}</span> <button onClick = {(e) => this.handleDelete(e,board._id)}>Delete</button> <button onClick = {(e) => this.handleUpdate(e,board._id)}>Edit</button></div>)
                 }
                 <form>
                     <label>Create Board</label>

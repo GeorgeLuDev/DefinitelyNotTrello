@@ -36,6 +36,8 @@ class ListofBoardsUi extends Component
                     boards: res.result
                 }
             )
+            
+            this.handleUpdate = this.handleUpdate.bind(this);
 
             console.log(this.state.boards);
         }
@@ -47,7 +49,7 @@ class ListofBoardsUi extends Component
         }
     }
 
-    handleSubmit = async event =>
+    handleCreate = async event =>
     {
         event.preventDefault();
         console.log("submmiting create board");
@@ -80,6 +82,79 @@ class ListofBoardsUi extends Component
         this.componentDidMount();
     }
 
+    handleDelete = async (event, id) =>
+    {
+        console.log(id);
+        event.preventDefault();
+        console.log("submmiting delete board");
+
+        var js = '{"_id":"'+ id + '"}';
+
+        console.log(js);
+
+        try
+        {
+            const response = await fetch('http://localhost:5000/api/DeleteBoard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+
+            var res = JSON.parse(await response.text());
+
+            console.log(res);
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+
+        this.componentDidMount();
+    }
+
+    handleUpdate = async (event, id) =>
+    {
+        var temp;
+        if (event.target.innerHTML == "Edit")
+        {
+            event.target.innerHTML = "Update";
+
+            temp = document.createElement('input');
+            temp.value = event.target.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
+            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
+        }
+        else
+        {
+            event.target.innerHTML = "Edit";
+
+            temp = document.createElement('span');
+            temp.innerHTML = event.target.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
+
+
+            var js = '{"_id":"'+ id + '","boardName":"' + temp.innerHTML + '"}';
+
+            console.log(js);
+
+            try
+            {
+                const response = await fetch('http://localhost:5000/api/UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+                var res = JSON.parse(await response.text());
+
+                console.log(res);
+
+            }
+            catch(e)
+            {
+                console.log("there was an error");
+                console.log(e.toString());
+                return;
+            }
+
+            this.componentDidMount();
+        }
+    }
+
     handleBoardNameChange = event =>
     {
         this.setState({boardName: event.target.value});
@@ -91,12 +166,12 @@ class ListofBoardsUi extends Component
             <div>  
                 <h1>WELCOME This is the list of boards page</h1>
                 {
-                    this.state.boards.map(board => <div id={board._id} key={board._id}> {board.boardName}</div>)
+                    this.state.boards.map(board => <div key={board._id}> <span>{board.boardName}</span> <button onClick = {(e) => this.handleDelete(e,board._id)}>Delete</button> <button onClick = {(e) => this.handleUpdate(e,board._id)}>Edit</button></div>)
                 }
                 <form>
                     <label>Create Board</label>
                     <input type="text" id="boardName" placeholder="Name of new Board" value={this.state.boardName} onChange={this.handleBoardNameChange}/><br/>
-                    <input type="submit" value="Create" onClick={this.handleSubmit}/><br/>
+                    <input type="submit" value="Create" onClick={this.handleCreate}/><br/>
                 </form>
             </div>
         );

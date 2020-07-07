@@ -495,14 +495,17 @@ app.put('/api/UpdateBoard', async (req,res) =>
         _id: ObjectId(_id)
     };
     
+    var objForUpdate = {};
+
+    if (req.body.boardName) objForUpdate.boardName = req.body.boardName;
+    if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.parentUsers) objForUpdate.parentUsers = req.body.parentUsers;
+
+    console.log(objForUpdate);
+
     var newValues = 
     {
-        $set:
-        {
-            boardName : boardName,
-            index : index,
-            parentUsers , parentUsers
-        }
+        $set : objForUpdate
     };
     
     const db = client.db();

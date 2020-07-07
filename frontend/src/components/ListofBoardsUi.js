@@ -156,9 +156,10 @@ class ListofBoardsUi extends Component
         }
     }
 
-    handleGotoPage = event =>
+    handleGotoPage = (event, boardId) =>
     {
-        window.location.href = '/BoardPage';
+        console.log(boardId);
+        window.location.href = '/BoardPage/' + boardId;
     }
 
     handleBoardNameChange = event =>
@@ -172,7 +173,12 @@ class ListofBoardsUi extends Component
             <div>  
                 <h1>WELCOME This is the list of boards page</h1>
                 {
-                    this.state.boards.map(board => <div key={board._id}> <span onClick={this.handleGotoPage}>{board.boardName}</span> <button onClick = {(e) => this.handleDelete(e,board._id)}>Delete</button> <button onClick = {(e) => this.handleUpdate(e,board._id)}>Edit</button></div>)
+                    this.state.boards.map(board =>
+                        <div key={board._id}>
+                            <span onClick={(e) => this.handleGotoPage(e, board._id)}>{board.boardName}</span>
+                            <button onClick = {(e) => this.handleDelete(e,board._id)}>Delete</button>
+                            <button onClick = {(e) => this.handleUpdate(e,board._id)}>Edit</button>
+                        </div>)
                 }
                 <form>
                     <label>Create Board</label>

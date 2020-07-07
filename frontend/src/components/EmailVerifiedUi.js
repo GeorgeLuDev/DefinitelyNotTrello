@@ -7,7 +7,7 @@ function EmailVerifiedUI()
     {
         console.log("doEmailVerified called");
 
-        var js = '{"_id":"'+ window.location.pathname.slice(19) + '"}';
+        var js = '{"_id":"'+ window.location.pathname.slice(11) + '"}';
 
         console.log(js);
 

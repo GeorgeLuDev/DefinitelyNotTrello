@@ -876,18 +876,19 @@ if (process.env.NODE_ENV === 'production')
         
         console.log(query);
         var cardResult = await db.collection('Cards').find(query).sort(sort).toArray(); // fail not returning anything
+        cardString[i] = cardResult;
         console.log(cardResult);
-        for (var j = 0; j < cardResult.length;j++)
-        {
-            console.log("j:" + j);
-            cardString[i].push(cardResult[j].cardName);
-        }
+        // for (var j = 0; j < cardResult.length;j++)
+        // {
+        //     console.log("j:" + j);
+        //     cardString[i].push(cardResult[j].cardName);
+        // }
     }
 
     // send result back
     var ret = 
     {
-        listString: listString,
+        listString: listResult,
         cardString: cardString,
         error: error
     };

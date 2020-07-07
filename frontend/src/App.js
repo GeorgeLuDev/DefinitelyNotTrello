@@ -28,7 +28,7 @@ function App() {
         <Route path="/ListOfBoards" exact>
           <ListOfBoardsPage />
         </Route>
-        <Route path="/BoardPage" exact>
+        <Route path="/BoardPage/:id" exact>
           <BoardPage />
         </Route>
         <Route path="/UserSettings" exact>

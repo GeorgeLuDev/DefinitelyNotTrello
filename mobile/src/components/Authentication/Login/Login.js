@@ -9,12 +9,13 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <View>
-
+          
         </View>
-
+        
         <View style={styles.formContainer}>
             <LoginForm />
         </View>
+        
       </View>
     );
   }
@@ -26,7 +27,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#3498db'
   }, 
   formContainer: {
-    flex: 1,
-    
+    flex: 1
+  },
+  innerText: {
+    color: 'red',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

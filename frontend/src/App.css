@@ -1,23 +1,36 @@
 body
 {
   margin: 0;
+  /*overflow-y: hidden;*/
+  background: tomato;
 }
 
+#root
+{
+  display: block;
+  float: left;
+}
+
+#header a
+{
+  display: block;
+  float: left;
+}
 .board
 {
-  display: grid;
-  grid-auto-columns: max-content;
-  grid-gap: 10px;
   padding: 10px;
-  grid-auto-flow : column;
+  height: 100%;
 }
 
 .list
 {
   background-color: lightgray;
+  display: inline-block;
+  float: left;
+  float: bottom;
+  margin: 1rem;
   padding: 1rem;
-  margin-top: 1rem;
-  overflow-y: auto;
+  width: 17rem;
 }
 
 .listContainer
@@ -36,10 +49,29 @@ body
   padding: 1rem;
   background-color: white;
   border: 1px solid black;
+  border-radius: 5px;
   margin : 1rem 0rem;
+  overflow: wrap;
 }
 
 .cardName
 {
-  width: 15rem;
+  display:inline-block;
+  word-wrap: break-word;
+  position: relative;
+  width: 13rem;
+  position: relative;
+}
+
+.deleteCard
+{
+  display: none;
+}
+
+.card:hover .deleteCard
+{
+  width: 1rem;
+  border: none;
+  display: inline-block;
+  float: right;
 }

@@ -291,8 +291,8 @@ class BoardUi extends Component
                                 this.state.cards[list.index].map(card =>
                                     <div className="card" key={card._id} draggable="true" onDragStart={(e) => this.dragStartCard(e)} onDragOver={(e) => this.dragOverCard(e)} onDragEnd={(e) => this.dragEndCard(e)}>
                                         <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</div>
-                                        <button onClick={(e) => this.handledeleteCard(e,card._id)}>
-                                            Delete Card
+                                        <button class="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
+                                            X
                                         </button>
                                     </div>)
                             }

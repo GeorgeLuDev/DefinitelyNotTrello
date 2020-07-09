@@ -119,17 +119,18 @@ class ListofBoardsUi extends Component
             event.target.innerHTML = "Update";
 
             temp = document.createElement('input');
-            temp.value = event.target.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
-            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
+            console.log(event.target.previousSibling.previousSibling.innerHTML);
+            temp.value = event.target.previousSibling.previousSibling.innerHTML;
+            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling);
         }
         else
         {
             event.target.innerHTML = "Edit";
 
             temp = document.createElement('span');
-            temp.innerHTML = event.target.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            temp.innerHTML = event.target.previousSibling.previousSibling.value;
             temp.onclick = this.handleGotoPage;
-            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
+            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling);
 
 
             var js = '{"_id":"'+ id + '","boardName":"' + temp.innerHTML + '"}';

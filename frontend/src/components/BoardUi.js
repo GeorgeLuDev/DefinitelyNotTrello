@@ -241,39 +241,69 @@ class BoardUi extends Component
         this.setState({listName: event.target.value});
     }
 
+    dragStartList = event =>
+    {
+        console.log("start drag on List");
+    }
+
+    dragOverList = event =>
+    {
+        event.preventDefault();
+        console.log(Math.floor(event.clientX / 313));
+    }
+
+    dragEndList = event =>
+    {
+        console.log("drag end on List");
+    }
+
+    dragStartCard = event =>
+    {
+        console.log("start drag on Card");
+    }
+
+    dragOverCard = event =>
+    {
+        event.preventDefault();
+        console.log(event.target.innerHTML);
+        // console.log([Math.floor(event.clientX / 313), Math.floor((event.clientY - 115) / 75)]);
+    }
+
+    dragEndCard = event =>
+    {
+        console.log("drag end on Card");
+    }
+
     render()
     {
         return(
-            <div>
-                <h1>Welcome to your board. These are your lists:</h1>
-                <ol>
+            <div className="board">
                 {
                     this.state.lists.map(list =>
-                        <li key={list._id}>
-                            <p contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</p>
-                            <button onClick={(e) => this.handledeleteList(e,list._id)}>
-                                Delete List
-                            </button>
-                            <ol>
+                        <div className="list" key={list._id} draggable="true" onDragStart={(e) => this.dragStartList(e)} onDragOver={(e) => this.dragOverList(e)} onDragEnd={(e) => this.dragEndList(e)}>
+                            <div className="listContainer">
+                                <div className="listName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                                <button onClick={(e) => this.handledeleteList(e,list._id)}>
+                                    Delete List
+                                </button>
+                            </div>
                             {
                                 this.state.cards[list.index].map(card =>
-                                    <li key={card._id}>
-                                        <p contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</p>
+                                    <div className="card" key={card._id} draggable="true" onDragStart={(e) => this.dragStartCard(e)} onDragOver={(e) => this.dragOverCard(e)} onDragEnd={(e) => this.dragEndCard(e)}>
+                                        <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</div>
                                         <button onClick={(e) => this.handledeleteCard(e,card._id)}>
                                             Delete Card
                                         </button>
-                                    </li>
-                                    )
+                                    </div>)
                             }
-                            </ol>
                             <form>
                                 <label>Create Card</label>
                                 <input type="text" id="listName" placeholder="Name of new Card"/><br/>
                                 <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                             </form>
-                        </li>)
+                        </div>)
                 }
-                </ol>
+
 
                 <form>
                     <label>Create List</label>

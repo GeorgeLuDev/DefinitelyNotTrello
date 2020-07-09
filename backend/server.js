@@ -219,16 +219,17 @@ app.put('/api/UpdateUser', async (req,res) =>
         _id: ObjectId(_id)
     };
 
+    var objForUpdate = {};
+
+    if (req.body.firstName) objForUpdate.firstName = req.body.firstName;
+    if (req.body.lastName) objForUpdate.lastName = req.body.lastName;
+    if (req.body.email) objForUpdate.email = req.body.email;
+    if (req.body.password) objForUpdate.password = req.body.password;
+    if (req.body.emailVerification) objForUpdate.emailVerification = req.body.emailVerification;
+
     var newValues = 
     {
-        $set:
-        {
-            firstName : firstName,
-            lastName : lastName,
-            email : email,
-            password : password,
-            emailVerification : emailVerification
-        }
+        $set : objForUpdate
     };
 
     var result = await db.collection('Users').updateOne(query,newValues);
@@ -501,8 +502,6 @@ app.put('/api/UpdateBoard', async (req,res) =>
     if (req.body.index) objForUpdate.index = req.body.index;
     if (req.body.parentUsers) objForUpdate.parentUsers = req.body.parentUsers;
 
-    console.log(objForUpdate);
-
     var newValues = 
     {
         $set : objForUpdate
@@ -630,15 +629,16 @@ app.put('/api/UpdateList', async (req,res) =>
     { 
         _id: ObjectId(_id)
     };
+
+    var objForUpdate = {};
+
+    if (req.body.listName) objForUpdate.listName = req.body.listName;
+    if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.parentBoard) objForUpdate.parentBoard = req.body.parentBoard;
     
     var newValues = 
     {
-        $set:
-        {
-            listName : listName,
-            index : index,
-            parentBoard : parentBoard
-        }
+        $set : objForUpdate
     };
     
     // Database search and update.
@@ -759,14 +759,15 @@ app.put('/api/UpdateCard', async(req,res) =>
         _id: ObjectId(_id)
     };
 
+    var objForUpdate = {};
+
+    if (req.body.cardName) objForUpdate.cardName = req.body.cardName;
+    if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.parentList) objForUpdate.parentList = req.body.parentList;
+    
     var newValues = 
     {
-        $set:
-        {
-            cardName : cardName,
-            index : index,
-            parentList : parentList
-        }
+        $set : objForUpdate
     };
 
     var result = await db.collection('Cards').updateOne(query,newValues);
@@ -867,17 +868,15 @@ if (process.env.NODE_ENV === 'production')
 
     for (var i=0;i<listResult.length;i++)
     {
-        console.log("i:" + i);
         listString.push(listResult[i].listName);
         query = 
         { 
             parentList: listResult[i]._id.toString()
         };
         
-        console.log(query);
         var cardResult = await db.collection('Cards').find(query).sort(sort).toArray(); // fail not returning anything
         cardString[i] = cardResult;
-        console.log(cardResult);
+
         // for (var j = 0; j < cardResult.length;j++)
         // {
         //     console.log("j:" + j);

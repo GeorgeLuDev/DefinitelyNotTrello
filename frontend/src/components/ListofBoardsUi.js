@@ -55,7 +55,7 @@ class ListofBoardsUi extends Component
         console.log("submmiting create board");
 
         var user = JSON.parse(localStorage.getItem('user_data'));
-        var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":[' + '"' + user.id + '"' +']}';
+        var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":["' + user.id + '"]}';
 
         console.log(js);
 
@@ -114,7 +114,7 @@ class ListofBoardsUi extends Component
     handleUpdate = async (event, id) =>
     {
         var temp;
-        if (event.target.innerHTML == "Edit")
+        if (event.target.innerHTML === "Edit")
         {
             event.target.innerHTML = "Update";
 

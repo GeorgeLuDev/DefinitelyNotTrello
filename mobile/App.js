@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View, Button} from 'react-native';
+import { Platform, StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 
 import Login from './src/components/Authentication/Login/Login';
 import Signup from './src/components/Authentication/Signup/Signup'
@@ -10,6 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { create } from 'react-test-renderer';
 import AuthenticationScreen from './src/components/Authentication/AuthenticationScreen';
 import BoardList from './src/components/Boards/BoardList';
+import { Entypo } from '@expo/vector-icons'; 
 
 
 const Stack = createStackNavigator();
@@ -18,7 +19,7 @@ export default function App() {
   return (
 
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Auth">
+        <Stack.Navigator initialRouteName="BoardList">
         <Stack.Screen name="Auth" component={AuthenticationScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
@@ -26,11 +27,14 @@ export default function App() {
         options={{
           title: 'Boards',
           headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title="Info"
-              color="#fff"
-            />
+            <TouchableOpacity
+              style={{
+                marginRight: 20
+              }}
+              onPress={() => alert('This is a button!')}>
+
+            <Entypo name="plus" size={34} color="white" />
+              </TouchableOpacity>
           ),
           headerStyle: {
             backgroundColor: '#4b414a',
@@ -38,9 +42,8 @@ export default function App() {
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
-            fontWeight: 'bold',
             alignSelf: 'center'
-          },
+          }
         }} />
       </Stack.Navigator>
     </NavigationContainer>

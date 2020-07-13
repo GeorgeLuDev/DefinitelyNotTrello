@@ -43,3 +43,9 @@ body
 {
   width: 15rem;
 }
+
+.dragging
+{
+  opacity: .5;
+  background-color: green;
+}

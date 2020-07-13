@@ -11,7 +11,9 @@ class BoardUi extends Component
             cards: [],
             cardName: '',
             lists: [],
-            listName: ''
+            listName: '',
+            listindex: -1,
+            cardindex: -1
         }
     }
     
@@ -241,37 +243,51 @@ class BoardUi extends Component
         this.setState({listName: event.target.value});
     }
 
-    dragStartList = event =>
+    dragStart = event =>
     {
-        console.log("start drag on List");
+        event.target.className = "card dragging";
     }
 
-    dragOverList = event =>
+    dragOver = event =>
     {
         event.preventDefault();
-        console.log(Math.floor(event.clientX / 313));
+        var card = document.querySelector('.dragging');
+       if (event.target.className === "list")
+       {
+            //    event.target.getAttribute("data-listindex")
+            //    event.target.parentNode.childNodes[event.target.getAttribute("data-listindex")].appendChild(card);   
+            //      console.log(event.target.childNodes);
+            var afterElement = this.getDragAfterElement(event.target, event.clientY);
+
+            if (afterElement == null)
+            {
+                afterElement = event.target.querySelector('.addCard');
+                event.target.insertBefore(card, afterElement);
+            } 
+            else
+            {
+                event.target.insertBefore(card, afterElement);
+            }
+       }
     }
 
-    dragEndList = event =>
-    {
-        console.log("drag end on List");
-    }
+    getDragAfterElement = (container, y) => {
+        const draggableElements = [...container.querySelectorAll('.card:not(.dragging)')]
+      
+        return draggableElements.reduce((closest, child) => {
+          const box = child.getBoundingClientRect()
+          const offset = y - box.top - box.height / 2
+          if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child }
+          } else {
+            return closest
+          }
+        }, { offset: Number.NEGATIVE_INFINITY }).element
+      }
 
-    dragStartCard = event =>
+    dragEnd = event =>
     {
-        console.log("start drag on Card");
-    }
-
-    dragOverCard = event =>
-    {
-        event.preventDefault();
-        console.log(event.target.innerHTML);
-        // console.log([Math.floor(event.clientX / 313), Math.floor((event.clientY - 115) / 75)]);
-    }
-
-    dragEndCard = event =>
-    {
-        console.log("drag end on Card");
+        event.target.className = "card";
     }
 
     render()
@@ -280,23 +296,23 @@ class BoardUi extends Component
             <div className="board">
                 {
                     this.state.lists.map(list =>
-                        <div className="list" key={list._id} draggable="true" onDragStart={(e) => this.dragStartList(e)} onDragOver={(e) => this.dragOverList(e)} onDragEnd={(e) => this.dragEndList(e)}>
-                            <div className="listContainer">
-                                <div className="listName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
-                                <button onClick={(e) => this.handledeleteList(e,list._id)}>
+                        <div className="list" data-type={"list"} data-listindex={list.index} key={list._id} onDragOver={(e) => this.dragOver(e)}>
+                            <div className="listContainer" data-type={"list"} data-listindex={list.index}>
+                                <div className="listName" data-type={"list"} data-listindex={list.index} contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                                <button data-type={"list"} data-listindex={list.index} onClick={(e) => this.handledeleteList(e,list._id)}>
                                     Delete List
                                 </button>
                             </div>
                             {
                                 this.state.cards[list.index].map(card =>
-                                    <div className="card" key={card._id} draggable="true" onDragStart={(e) => this.dragStartCard(e)} onDragOver={(e) => this.dragOverCard(e)} onDragEnd={(e) => this.dragEndCard(e)}>
-                                        <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</div>
-                                        <button onClick={(e) => this.handledeleteCard(e,card._id)}>
+                                    <div className="card" data-listindex={list.index} data-type={"card"} data-cardindex={card.index} data-index={[list.index,card.index]} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                        <div className="cardName" data-type={"card"} data-listindex={list.index} data-cardindex={card.index} contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</div>
+                                        <button data-type={"card"} data-listindex={list.index} data-cardindex={card.index} onClick={(e) => this.handledeleteCard(e,card._id)}>
                                             Delete Card
                                         </button>
                                     </div>)
                             }
-                            <form>
+                            <form className="addCard">
                                 <label>Create Card</label>
                                 <input type="text" id="listName" placeholder="Name of new Card"/><br/>
                                 <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
@@ -305,7 +321,7 @@ class BoardUi extends Component
                 }
 
 
-                <form>
+                <form className="addList">
                     <label>Create List</label>
                     <input type="text" id="listName" placeholder="Name of new List" value={this.state.listName} onChange={this.handleListNameChange}/><br/>
                     <input type="submit" value="Create" onClick={this.handleCreateList}/><br/>

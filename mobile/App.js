@@ -11,6 +11,7 @@ import { create } from 'react-test-renderer';
 import AuthenticationScreen from './src/components/Authentication/AuthenticationScreen';
 import BoardList from './src/components/Boards/BoardList';
 import { Entypo } from '@expo/vector-icons'; 
+import PasswordRecovery from './src/components/Authentication/PasswordRecovery';
 
 
 const Stack = createStackNavigator();
@@ -23,6 +24,7 @@ export default function App() {
         <Stack.Screen name="Auth" component={AuthenticationScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} />
         <Stack.Screen name="BoardList" component={BoardList}
         options={{
           title: 'Boards',

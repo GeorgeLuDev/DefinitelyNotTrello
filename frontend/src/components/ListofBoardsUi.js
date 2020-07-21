@@ -24,11 +24,11 @@ class ListofBoardsUi extends Component
         {
             const response = await fetch(url,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
-            console.log("calling get boards api");
+            // console.log("calling get boards api");
 
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
             this.setState
             (
@@ -39,7 +39,7 @@ class ListofBoardsUi extends Component
             
             this.handleUpdate = this.handleUpdate.bind(this);
 
-            console.log(this.state.boards);
+            // console.log(this.state.boards);
         }
         catch(e)
         {

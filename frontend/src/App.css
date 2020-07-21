@@ -1,6 +1,10 @@
 body
 {
   margin: 0;
+  /* background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
+  background-color: #222222;
+
 }
 
 .board
@@ -10,25 +14,69 @@ body
   grid-gap: 10px;
   padding: 10px;
   grid-auto-flow : column;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
+
+.board::-webkit-scrollbar {
+  display: none;
+}
+
+/* .board
+{
+    position: relative;
+    top: 68px;
+    height: calc(100% - 108px);
+    width: calc(100% - 40px);
+    display: flex;
+    padding: 20px 0;
+    margin: 0 20px;
+    overflow: auto;
+} */
 
 .list
 {
-  background-color: lightgray;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: rgb(238, 237, 237);
   padding: 1rem;
-  margin-top: 1rem;
-  overflow-y: auto;
+  /* margin: 0.1rem; */
+  /* height: auto; */
+  max-height: 39rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  cursor: move;
+  /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
+}
+
+.list::-webkit-scrollbar {
+  display: none;
 }
 
 .listContainer
 {
+  display: flex;
   padding: 1rem;
-  background-color: white;
 }
 
 .listName
 {
-  width: 15rem;
+  display: flex;
+  flex-wrap: wrap;
+  cursor: text;
+  width: 10rem;
+}
+
+.listButton
+{
+  float: right;
+}
+
+.addList
+{
+  margin-top: 1rem;
 }
 
 .card
@@ -36,16 +84,38 @@ body
   padding: 1rem;
   background-color: white;
   border: 1px solid black;
-  margin : 1rem 0rem;
+  margin : 0.5rem 0rem;
+  cursor: move;
 }
 
 .cardName
 {
-  width: 15rem;
+  display: inline-block;
+  cursor: text;
+  width: 10rem;
+}
+
+.cardButton
+{
+  display: inline-block;
+}
+
+.addCard
+{
+  display: inline;
+}
+
+.cardInput
+{
+  display: inline;
+}
+
+.createcardbutton
+{
+  display: inline;
 }
 
 .dragging
 {
   opacity: .5;
-  background-color: green;
 }

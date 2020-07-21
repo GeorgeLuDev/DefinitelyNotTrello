@@ -4,8 +4,7 @@ import React from 'react';
 function Header()
 {
     return(
-        <div>  
-            <h1>Testing different pages</h1>
+        <div>
             <a href="/">Root/Sign In</a><br />
             <a href="/ForgotPassword">ForgotPassword</a><br />
             <a href="/SignUp">SignUp</a><br />

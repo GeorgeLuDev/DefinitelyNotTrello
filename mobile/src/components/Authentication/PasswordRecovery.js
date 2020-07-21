@@ -1,37 +1,27 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
 
-export default class LoginForm extends Component {
+export default class PasswordRecovery extends Component {
  
   render() {
     return (
       <View style={styles.container}>
 
+        <Text style={styles.text1}>Can't log in?</Text>
+        
+        <View style={styles.text2}>
+          <Text >We'll send a recovery link to</Text>
+       </View>
         <TextInput 
           style={styles.input}
-          placeholder="Username"
+          placeholder="Email"
           placeholderTextColor="rgba(255, 255, 255, 0.7)"
-        />
-
-        <TextInput
-           style={styles.input}
-           placeholder="Password"
-           placeholderTextColor="rgba(255, 255, 255, 0.7)"
-          />
-
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('PasswordRecovery')}>
-          <Text style={styles.forgotPass}>
-          Forgot Password
-          </Text>
-        </TouchableOpacity>
-      
+        />      
 
 
         <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Signup')}>
                   <Text style={styles.buttonText}>
-                    Log In
+                    Send Recovery Link
                   </Text>
         </TouchableOpacity>
 
@@ -43,19 +33,24 @@ export default class LoginForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#3498db',
     flexDirection: 'column', 
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'stretch', 
     padding: 15
 
   }, 
   input: {
-    height: 40, 
+    height: 45, 
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginBottom:  10, 
     marginTop: 2,
     color: '#fff', 
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    borderWidth: 3, 
+    borderRadius: 3,
+    borderColor: '#2980b9'
+
     
   }, 
   buttonContainer: {
@@ -77,9 +72,13 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: '700'
   }, 
-  forgotPass: {
-    paddingHorizontal: 5,
-    color: '#FFFFFF',
-    textDecorationLine: 'underline'
+  text1: {
+    alignSelf: 'center',
+    fontSize: 22,
+    marginBottom: 30
+  }, 
+  text2: { 
+    marginLeft: 2,
+    marginBottom: 5,
   }
 })

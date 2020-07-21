@@ -58,7 +58,7 @@ export default class SignupForm extends Component {
             // const response = await fetch('localhost:5000/api/SignUp',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
       try{
              alert("calling Sign Up api");
-            const response = await fetch(' 172.16.117.226:5000/api/test',{method:'GET'});
+            const response = await fetch('3.17.45.57/api/test',{method:'GET'});
 
             
 

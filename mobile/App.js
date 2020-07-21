@@ -20,7 +20,11 @@ export default function App() {
   return (
 
     <NavigationContainer>
+<<<<<<< HEAD
         <Stack.Navigator initialRouteName="Auth">
+=======
+        <Stack.Navigator initialRouteName="Signup">
+>>>>>>> mobile-Camry
         <Stack.Screen name="Auth" component={AuthenticationScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />

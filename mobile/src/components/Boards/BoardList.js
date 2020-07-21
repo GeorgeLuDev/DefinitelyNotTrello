@@ -16,7 +16,7 @@ export default class BoardList extends Component {
     this.fetchData();
   }
   fetchData = async () => {
-    const response = await fetch("https://randomuser.me/api?results=10");
+    const response = await fetch("http://3.17.45.57/api/test");
     const json = await response.json();
     this.setState({data: json.results});
 

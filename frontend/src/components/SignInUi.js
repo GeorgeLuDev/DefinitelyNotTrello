@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Form,Button } from 'react-bootstrap';
 
 function SignInUi()
 {
@@ -62,14 +62,30 @@ function SignInUi()
     return(
         <div>  
             <h1>This is the Sign in page</h1>
-            <form>
+            <Form>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" ref={(c) => loginEmail = c}/>
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" ref={(c) => loginPassword = c}/>
+                </Form.Group>
+
+                <Button variant="primary" type="submit" onClick={doLogin}>
+                    Submit
+                </Button>
+                <span id="loginResult">{message}</span>
+            </Form>
+            {/* <form>
                 <label>Email</label>
                 <input type="text" placerholder="Email" ref={(c) => loginEmail = c}/><br/>
                 <label>Password</label>
                 <input type="text" placerholder="Password" ref={(c) => loginPassword = c}/><br/>
                 <input type="submit" onClick={doLogin}/><br/>
                 <span id="loginResult">{message}</span>
-            </form>
+            </form> */}
         </div>
     );
 };

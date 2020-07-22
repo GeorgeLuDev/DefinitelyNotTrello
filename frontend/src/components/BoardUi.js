@@ -426,22 +426,19 @@ class BoardUi extends Component
     replaceVerticalScrollByHorizontal = event => {
         if (event.target.className === "board")
         {
-            console.log("1");
             this.board.current.scrollLeft += event.deltaY;
         }
         else if (event.target.className === "list" && !(event.target.scrollHeight > event.target.clientHeight))
         {
-            console.log("2");
             this.board.current.scrollLeft += event.deltaY;
         }
         else if (event.target.className === "card" && !(event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
         {
-            console.log("3");
             this.board.current.scrollLeft += event.deltaY;
         }
         else
         {
-            console.log("4");
+
             // console.log(event.target.scrollHeight > event.target.clientHeight);
         }
     }
@@ -470,7 +467,7 @@ class BoardUi extends Component
                                     </div>)
                             }
                             <form className="addCard">
-                                <input type="text" placeholder="Name of new Card"/><span></span>
+                                <input type="text" placeholder="Add a Card..."/><span></span>
                                 <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                             </form>
                         </div>)
@@ -478,7 +475,7 @@ class BoardUi extends Component
 
 
                 <form className="addList">
-                    <input className="cardInput" type="text" placeholder="Name of new List" value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                    <input className="cardInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
                     <input className="createcardbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
                 </form>
             </div>

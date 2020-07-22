@@ -82,7 +82,7 @@ export default class LoginForm extends Component {
       
 
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogIn()}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogin()}>
                   <Text style={styles.buttonText}>
                     Log In
                   </Text>

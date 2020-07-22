@@ -14,7 +14,7 @@ function Header()
                 </Nav>
                 <Navbar.Brand className="m-auto" href="/ListOfBoards">
                     <img src="/trelloicon.png" alt="alternatetext"></img>
-                    Definetly Not Trello</Navbar.Brand>
+                    Definitely Not Trello</Navbar.Brand>
                 <Nav className="ml-auto">
                     <Nav.Link href="/SignIn">Log Out</Nav.Link>
                 </Nav>

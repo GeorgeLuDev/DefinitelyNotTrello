@@ -361,7 +361,7 @@ class BoardUi extends Component
         }, { offset: Number.NEGATIVE_INFINITY }).element
     }
 
-      getDragAfterElementList = (container, x) => {
+    getDragAfterElementList = (container, x) => {
         const draggableElements = [...container.querySelectorAll('.list:not(.dragging)')]
       
         return draggableElements.reduce((closest, child) => {
@@ -474,48 +474,47 @@ class BoardUi extends Component
 
     render()
     {
-        return(
-          <div id="boardGridContainer">
-            <div id="boardMenuHeader"><p>{this.state.boardName}</p></div>
-            <div className="board" style={{backgroundImage: "url(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg)"}} onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
-                
-                {
-                    this.state.lists.map(list =>
-                        <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >
-                              <div className="listContainer">
-                                  <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
-                                  <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
-                                      Delete List
-                                  </button>
-                              </div>
-                              {
-                                  this.state.cards[list.index].map(card =>
-                                      <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
-                                          <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
-                                            
-                                              {card.cardName}
-                                            
-                                          </div>
-                                          <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
-                                              X
-                                          </button>
-                                      </div>)
-                              }
-                              <form className="addCard">
-                                  <input type="text" placeholder="Add a Card..."/><br />
-                                  <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
-                              </form>
-                        </div>)
-                }
+      return(
+        <div id="boardGridContainer">
+          <div id="boardMenuHeader"><p>{this.state.boardName}</p></div>
+          <div className="board" style={{backgroundImage: "url(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg)"}} onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
+              {
+                  this.state.lists.map(list =>
+                      <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >
+                            <div className="listContainer">
+                                <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                                <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
+                                    Delete List
+                                </button>
+                            </div>
+                            {
+                                this.state.cards[list.index].map(card =>
+                                    <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                        <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
+                                          
+                                            {card.cardName}
+                                          
+                                        </div>
+                                        <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
+                                            X
+                                        </button>
+                                    </div>)
+                            }
+                            <form className="addCard">
+                                <input type="text" placeholder="Add a Card..."/><br />
+                                <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
+                            </form>
+                      </div>)
+              }
 
 
-                <form className="addList">
-                    <input className="cardInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
-                    <input className="createcardbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
-                </form>
-            </div>
-        </div>
-        )
+              <form className="addList">
+                  <input className="cardInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                  <input className="createcardbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
+              </form>
+          </div>
+      </div>
+      )
     }
 };
 

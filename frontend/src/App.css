@@ -35,6 +35,13 @@ body
   border-radius: 3px;
   text-decoration: none;
 }
+
+#boardGridContainer
+{
+  display: grid;
+  grid-template-rows:3rem;
+}
+
 .board
 {
   display: grid;
@@ -45,7 +52,7 @@ body
   overflow-x: scroll;
   overflow-y: hidden;
   scrollbar-width: none;
-  height: 54.7rem;
+  height: 50rem;
   /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
   /* background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"); */
   /* background-size: 120rem 60rem; */
@@ -103,10 +110,7 @@ body
 #boardMenuHeader
 {
   background: tomato;
-  height: 4rem;
-  position: fixed;
   width: 100%;
-  padding: 1rem;
 }
 
 .list
@@ -118,7 +122,6 @@ body
   border-radius: 3px;
   padding: 1rem;
   margin: 0 4px;
-  margin-top: 5rem;
   width: 272px;
   max-height: 50rem;
   overflow-y: scroll;
@@ -129,11 +132,10 @@ body
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
 
   width: 272px;
-    height: 100%;
-    box-sizing: border-box;
-    display: inline-block;
-    vertical-align: top;
-    white-space: nowrap;
+  height: auto;
+  box-sizing: border-box;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .list::-webkit-scrollbar {
@@ -161,7 +163,7 @@ body
 
 .card
 {
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: white;
   border: 1px solid black;
   margin : 0.5rem 0rem;
@@ -170,10 +172,14 @@ body
 
 .cardName
 {
+  white-space: normal;
   display: inline-block;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  line-break: strict;
   cursor: text;
-  word-wrap: break-word;
-  width: 10rem;
+  width: 11rem;
+  hyphens: auto;
 }
 
 .cardButton
@@ -208,7 +214,8 @@ body
 
 .card:hover .deleteCard
 {
-  float: right;
+  position: absolute;
+  right: 1rem;
   background-color: white;
   display: block;
   text-align: center;

@@ -10,6 +10,7 @@ import BoardPage from './pages/BoardPage';
 import UpdatePasswordPage from './pages/UpdatePasswordPage';
 import EmailVerifiedPage from './pages/EmailVerifiedPage';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {

@@ -8,6 +8,7 @@ class BoardUi extends Component
         this.board = React.createRef();
         this.state = 
         {
+            boardName: '',
             cards: [],
             cardName: '',
             lists: [],
@@ -46,6 +47,30 @@ class BoardUi extends Component
                 {
                     lists: res.listString,
                     cards: res.cardString,
+                }
+            )
+
+        }
+        catch
+        {
+            console.log("there was an error")
+        }
+
+        url = 'http://localhost:5000/api/ReadBoard/' + boardId;
+        try
+        {
+            const response = await fetch(url,{method:'GET', headers:{'Content-Type': 'application/json'}});
+
+            // console.log("Getting cards and lists");
+
+            res = JSON.parse(await response.text());
+
+            //console.log(res);
+
+            this.setState
+            (
+                {
+                    boardName: res.result.boardName
                 }
             )
 
@@ -451,6 +476,8 @@ class BoardUi extends Component
     {
         return(
             <div className="board" style={{backgroundImage: "url(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg)"}} onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
+                <div id="boardMenuHeader"><p>{this.state.boardName}</p></div>
+                
                 {
                     this.state.lists.map(list =>
                         <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >
@@ -464,7 +491,7 @@ class BoardUi extends Component
                                 this.state.cards[list.index].map(card =>
                                     <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
                                         <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</div>
-                                        <button class="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
+                                        <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
                                             X
                                         </button>
                                     </div>)

@@ -40,7 +40,7 @@ body
   display: grid;
   grid-auto-columns: max-content;
   grid-gap: 10px;
-  padding-top: 10px;
+  padding-top: 20px + 40rem;
   grid-auto-flow : column;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -99,6 +99,16 @@ body
   width: 15rem;
 }
 
+
+#boardMenuHeader
+{
+  background: tomato;
+  height: 4rem;
+  position: fixed;
+  width: 100%;
+  padding: 1rem;
+}
+
 .list
 {
   display: flex;
@@ -108,6 +118,7 @@ body
   border-radius: 3px;
   padding: 1rem;
   margin: 0 4px;
+  margin-top: 5rem;
   width: 272px;
   max-height: 50rem;
   overflow-y: scroll;
@@ -118,7 +129,6 @@ body
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
 
   width: 272px;
-    margin: 0 4px;
     height: 100%;
     box-sizing: border-box;
     display: inline-block;

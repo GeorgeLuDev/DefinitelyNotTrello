@@ -20,7 +20,7 @@ export default function App() {
   return (
 
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Signup">
+        <Stack.Navigator initialRouteName="Auth">
         <Stack.Screen name="Auth" component={AuthenticationScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />

@@ -5,20 +5,67 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 export default class LoginForm extends Component {
  
+  constructor() {
+    super();
+    this.state = {
+        email: '', 
+        password: ''
+    }
+  }
+
+  setEmail = (email) => {
+    this.setState({'email' : email})
+  }
+
+  setPassword = (password) => {
+    this.setState({'password' : password})
+  }
+
+  doLogin = async () =>
+  {
+    var js = '{"email":"' + this.state.email.toString() + '","password":"' + this.state.password.toString() + '"}';
+    console.log(js);
+    try
+    {
+      alert("calling Sign In api");
+      const response = await fetch('http://3.17.45.57/api/SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+  
+      var resJSON = await response.json();
+  
+      if (resJSON.error === "")
+      {
+        alert("Sign In successful");
+      }
+      else
+      {
+        alert(resJSON.error);
+      }
+    } 
+    catch(e)
+    {
+      alert("there was an error");
+      alert(e.toString());
+      return;
+    }
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
 
         <TextInput 
           style={styles.input}
-          placeholder="Username"
+          placeholder="email"
           placeholderTextColor="rgba(255, 255, 255, 0.7)"
+          onChangeText={(email) => this.setEmail(email)}
         />
 
         <TextInput
            style={styles.input}
            placeholder="Password"
            placeholderTextColor="rgba(255, 255, 255, 0.7)"
+           onChangeText={(password) => this.setPassword(password)}
           />
 
         <TouchableOpacity onPress={() => this.props.navigation.navigate('PasswordRecovery')}>
@@ -29,7 +76,7 @@ export default class LoginForm extends Component {
       
 
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Signup')}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogin()}>
                   <Text style={styles.buttonText}>
                     Log In
                   </Text>

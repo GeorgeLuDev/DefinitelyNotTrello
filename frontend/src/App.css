@@ -20,7 +20,7 @@ body
   overflow-y: hidden;
   scrollbar-width: none;
   height: 54.7rem;
-  background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg");
+  /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
   /* background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"); */
   /* background-size: 120rem 60rem; */
   background-size: 120rem 60rem;

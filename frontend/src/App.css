@@ -7,6 +7,32 @@ body
 
 }
 
+#root
+{
+  display: block;
+  height: 80%;
+  overflow: hidden;
+}
+
+#header
+{
+  width: 100%;
+  height: 10%;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+#header a
+{
+  display: inline-block;
+  float: left;
+  border: 1px black;
+  background-color: white;
+  padding: 5px;
+  margin-right: 1rem;
+  border-radius: 3px;
+  text-decoration: none;
+}
 .board
 {
   display: grid;
@@ -92,6 +118,7 @@ body
 {
   display: inline-block;
   cursor: text;
+  word-wrap: break-word;
   width: 10rem;
 }
 
@@ -118,4 +145,19 @@ body
 .dragging
 {
   opacity: .5;
+} 
+
+.deleteCard
+{
+  display: none;
+}
+
+.card:hover .deleteCard
+{
+  float: right;
+  background-color: white;
+  display: block;
+  text-align: center;
+  width: 2rem;
+  border: none;
 }

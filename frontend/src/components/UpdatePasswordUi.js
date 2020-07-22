@@ -11,8 +11,8 @@ function UpdatePasswordUi()
         event.preventDefault();
         console.log("doResetPassword called.");
 
-        console.log(window.location.pathname.slice(15));
-        var js = '{"_id":"'+window.location.pathname.slice(16)+'","password":"'+loginPassword.value+'"}';
+        console.log(window.location.pathname.slice(-24));
+        var js = '{"_id":"'+window.location.pathname.slice(-24)+'","password":"'+loginPassword.value+'"}';
 
 
         console.log(js);

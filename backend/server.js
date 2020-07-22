@@ -289,7 +289,8 @@ app.put('/api/EmailVerification', async (req,res) =>
 
     // do stuff with database
     const db = client.db();
-
+    console.log(_id);
+    
     var query = 
     { 
         _id: ObjectId(_id)

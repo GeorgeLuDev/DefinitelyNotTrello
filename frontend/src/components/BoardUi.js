@@ -22,7 +22,7 @@ class BoardUi extends Component
     async componentDidMount()
     {
 
-        var boardId = window.location.pathname.slice(11);
+        var boardId = window.location.pathname.slice(-24);
 
         // console.log(boardId);
 
@@ -64,7 +64,7 @@ class BoardUi extends Component
         event.preventDefault();
         // console.log("calling create list");
 
-        var js = '{"listName":"'+ this.state.listName + '","index":' + this.state.lists.length + ',"parentBoard":"' + window.location.pathname.slice(11) + '"}';
+        var js = '{"listName":"'+ this.state.listName + '","index":' + this.state.lists.length + ',"parentBoard":"' + window.location.pathname.slice(-24) + '"}';
 
         // console.log(js);
 
@@ -396,7 +396,7 @@ class BoardUi extends Component
 
             console.log(event.target.getAttribute("data-_id"));
 
-            js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldlistindex + '","newIndex":"' + Array.prototype.indexOf.call(event.target.parentNode.children, event.target) + '","parentBoard":"' + window.location.pathname.slice(11) + '"}';
+            js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldlistindex + '","newIndex":"' + Array.prototype.indexOf.call(event.target.parentNode.children, event.target) + '","parentBoard":"' + window.location.pathname.slice(-24) + '"}';
 
             console.log(js);
 
@@ -464,8 +464,8 @@ class BoardUi extends Component
                                 this.state.cards[list.index].map(card =>
                                     <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
                                         <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>{card.cardName}</div>
-                                        <button className="cardButton" onClick={(e) => this.handledeleteCard(e,card._id)}>
-                                            Delete Card
+                                        <button class="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
+                                            X
                                         </button>
                                     </div>)
                             }

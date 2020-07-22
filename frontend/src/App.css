@@ -189,7 +189,6 @@ body
 .dragging
 {
   opacity: .5;
-<<<<<<< HEAD
 } 
 
 .deleteCard
@@ -205,7 +204,6 @@ body
   text-align: center;
   width: 2rem;
   border: none;
-=======
 }
 
 .trelloicon
@@ -219,5 +217,4 @@ body
   position: absolute;
   top: 6px;
   width: 18px;
->>>>>>> database-George
 }

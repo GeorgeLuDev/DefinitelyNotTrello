@@ -7,7 +7,7 @@ function Header()
     return(
 
         
-        <div>
+        <div id = "headernavbar">
             <Navbar bg="primary" variant="dark">
                 <Nav className="mr-auto">
                     <Nav.Link href="/ListOfBoards">Home</Nav.Link>

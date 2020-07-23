@@ -40,13 +40,22 @@ class BoardUi extends Component
 
             var res = JSON.parse(await response.text());
 
-            // console.log(res);
+            var windowHeight = window.screen.height;
+            var headerNavHeight = document.getElementById("headernavbar").offsetHeight;
+            var boardMenuHeight = document.getElementById("boardMenuHeader").offsetHeight;
+            var bgHeight = (windowHeight-headerNavHeight- boardMenuHeight).toString();
+            console.log("HEIGHT TEST: " + bgHeight);
+
+
+            document.body.style.backgroundImage =  "url(\"" + res.boardBackground + "\")";
+            
 
             this.setState
             (
                 {
                     boardName : res.boardString,
                     boardBackground : ( "url(" + res.boardBackground + ")"),
+                    boardBackgroundHeight: bgHeight,
                     lists: res.listString,
                     cards: res.cardString,
                 }
@@ -149,7 +158,8 @@ class BoardUi extends Component
             return;
         }
 
-        this.componentDidMount();
+        //this.componentDidMount();
+        event.target.remove();
     }
 
     handledeleteCard = async (event,cardId) =>
@@ -179,7 +189,8 @@ class BoardUi extends Component
             return;
         }
 
-        this.componentDidMount();
+        //this.componentDidMount();
+        event.target.remove();
     }
 
     handleUpdateList = async (event,ListId) =>
@@ -308,21 +319,21 @@ class BoardUi extends Component
                 currentList.children[0].insertBefore(element, afterElement);
             }
        }
-       else if ((event.target.className === "list"  || event.target.className === "listContainer" || event.target.className === "listName" || event.target.className === "listButton") && element.className === "listHolder dragging")
+       else if (element.className === "listHolder dragging")
        {
-            // console.log("list");
+          // console.log("list");
 
-            afterElement = this.getDragAfterElementList(currentList.parentNode, event.clientX);
+          afterElement = this.getDragAfterElementList(currentList.parentNode, event.clientX);
 
-            if (afterElement == null)
-            {
-                afterElement = currentList.parentNode.querySelector('.addList');
-                currentList.parentNode.insertBefore(element, afterElement);
-            }
-            else
-            {
-                currentList.parentNode.insertBefore(element, afterElement);
-            }
+          if (afterElement == null)
+          {
+              afterElement = currentList.parentNode.querySelector('.addList');
+              currentList.parentNode.insertBefore(element, afterElement);
+          }
+          else
+          {
+              currentList.parentNode.insertBefore(element, afterElement);
+          }
        }
     }
 
@@ -453,9 +464,9 @@ class BoardUi extends Component
     render()
     {
       return(
-        <div id="boardGridContainer" style={{backgroundImage : this.state.boardBackground}}>
+        <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
           <div id="boardMenuHeader"><p>{this.state.boardName}</p><span id="editBGButton"><p>Edit Image</p></span></div>
-          <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
+          <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
               {
                   this.state.lists.map(list =>
                       <div className="listHolder" id={list._id} data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>

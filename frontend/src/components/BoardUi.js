@@ -45,6 +45,8 @@ class BoardUi extends Component
             this.setState
             (
                 {
+                    boardName : res.boardString,
+                    boardBackground : ( "url(" + res.boardBackground + ")"),
                     lists: res.listString,
                     cards: res.cardString,
                 }
@@ -56,35 +58,6 @@ class BoardUi extends Component
             console.log("there was an error")
         }
 
-        url = 'http://localhost:5000/api/ReadBoard/' + boardId;
-        try
-        {
-            const response = await fetch(url,{method:'GET', headers:{'Content-Type': 'application/json'}});
-
-            // console.log("Getting cards and lists");
-
-            res = JSON.parse(await response.text());
-
-            //console.log(res);
-
-            this.setState
-            (
-                {
-                    boardName: res.result.boardName
-                }
-            )
-
-        }
-        catch
-        {
-            console.log("there was an error")
-        }
-
-    }
-
-    async componentDidUpdate()
-    {
-        return;
     }
 
     handleCreateList = async event =>
@@ -480,9 +453,9 @@ class BoardUi extends Component
     render()
     {
       return(
-        <div id="boardGridContainer">
+        <div id="boardGridContainer" style={{backgroundImage : this.state.boardBackground}}>
           <div id="boardMenuHeader"><p>{this.state.boardName}</p><span id="editBGButton"><p>Edit Image</p></span></div>
-          <div className="board" onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
+          <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
               {
                   this.state.lists.map(list =>
                       <div className="listHolder" id={list._id} data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>

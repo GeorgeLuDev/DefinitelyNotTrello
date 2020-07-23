@@ -431,6 +431,7 @@ app.post('/api/CreateBoard', async (req,res) =>
     {
         boardName : boardName,
         index : index,
+        boardBackground : "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg",
         parentUsers : parentUsers
     }
 
@@ -490,7 +491,7 @@ app.put('/api/UpdateBoard', async (req,res) =>
     var error = '';
 
     // get incoming json
-    const { _id, boardName, index, parentUsers } = req.body;
+    const { _id, boardName, index, boardBackground, parentUsers } = req.body;
 
     // do stuff with database
     var query = 
@@ -502,6 +503,7 @@ app.put('/api/UpdateBoard', async (req,res) =>
 
     if (req.body.boardName) objForUpdate.boardName = req.body.boardName;
     if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.boardBackground) objForUpdate.boardBackground = req.body.boardBackground;
     if (req.body.parentUsers) objForUpdate.parentUsers = req.body.parentUsers;
 
     var newValues = 
@@ -1254,10 +1256,16 @@ app.get('/api/Board/:id', async (req,res) =>
     { 
         parentBoard: req.params.id
     };
+    var query1 = 
+    { 
+        _id: ObjectId(req.params.id)
+    };
     var sort = { index: 1 };
 
     // do stuff with database
     const db = client.db();
+
+    var boardResult = await db.collection('Boards').findOne(query1);
 
     // given a board return all Lists and Cards associated with that board
 if (process.env.NODE_ENV === 'production')
@@ -1291,6 +1299,8 @@ if (process.env.NODE_ENV === 'production')
     // send result back
     var ret = 
     {
+        boardString: boardResult.boardName,
+        boardBackground: boardResult.boardBackground,
         listString: listResult,
         cardString: cardString,
         error: error

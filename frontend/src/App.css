@@ -2,6 +2,12 @@
 body
 {
   margin: 0;
+  background: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  
   /* background-color: #8EC5FC;
   background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
   /* background-color: white; */
@@ -39,9 +45,8 @@ body
 #boardGridContainer
 {
   display: grid;
-  grid-template-rows:3rem;
+  grid-template-rows:4rem;
 }
-
 .board
 {
   display: grid;
@@ -54,7 +59,6 @@ body
   scrollbar-width: none;
   height: 50rem;
   /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
-  /* background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"); */
   /* background-size: 120rem 60rem; */
   background-size: 120rem 60rem;
 }
@@ -109,9 +113,27 @@ body
 
 #boardMenuHeader
 {
-  background: tomato;
+  background-color: rgba(0,0,0,0);
   width: 100%;
+  color: white;
+  font-weight: bold;
+  padding:0.5rem;
+  font-size: 2rem;
 }
+
+#editBGButton
+{
+  font-size: 1rem;
+  position: absolute;
+  display:block;
+  top:4.5rem;
+  right:1rem;
+  background: slategray;
+  padding:0.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+}
+
 
 .list
 {
@@ -130,7 +152,6 @@ body
   /* margin: 0.1rem; */
   /* height: auto; */
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
-
   width: 272px;
   height: auto;
   box-sizing: border-box;
@@ -234,4 +255,5 @@ body
   position: absolute;
   top: 6px;
   width: 18px;
+  padding-right: 2rem;
 }

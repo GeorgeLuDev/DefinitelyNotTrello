@@ -476,8 +476,8 @@ class BoardUi extends Component
     {
       return(
         <div id="boardGridContainer">
-          <div id="boardMenuHeader"><p>{this.state.boardName}</p></div>
-          <div className="board" style={{backgroundImage: "url(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg)"}} onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
+          <div id="boardMenuHeader"><p>{this.state.boardName}</p><span id="editBGButton"><p>Edit Image</p></span></div>
+          <div className="board" onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
               {
                   this.state.lists.map(list =>
                       <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >

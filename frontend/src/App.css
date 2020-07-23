@@ -46,6 +46,7 @@ body
 {
   display: grid;
   grid-template-rows:4rem;
+  background-size: 120rem 70rem;
 }
 .board
 {
@@ -57,10 +58,9 @@ body
   overflow-x: scroll;
   overflow-y: hidden;
   scrollbar-width: none;
-  height: 48rem;
+  height: 50.7rem;
   /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
   /* background-size: 120rem 60rem; */
-  background-size: 120rem 60rem;
 }
 
 .board::-webkit-scrollbar {

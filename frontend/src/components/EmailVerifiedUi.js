@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Form } from 'react-bootstrap';
 
 function EmailVerifiedUI()
 {
@@ -7,7 +7,7 @@ function EmailVerifiedUI()
     {
         console.log("doEmailVerified called");
 
-        var js = '{"_id":"'+ window.location.pathname.slice(16) + '"}';
+        var js = '{"_id":"'+ window.location.pathname.slice(-24) + '"}';
 
         console.log(js);
 
@@ -21,8 +21,9 @@ function EmailVerifiedUI()
 
             console.log(res);
 
-            // window.location.href = '/';
-
+            setTimeout(() => {
+                window.location.href = '/SignIn';
+              }, 3000);
         }
         catch(e)
         {
@@ -34,7 +35,10 @@ function EmailVerifiedUI()
     doEmailVerified();
     return(
         <div>
-            <h1>YOUR EMAIL HAS BEEN VERIFIED, ROUTING TO HOME PAGE</h1>
+            <Form className="signinform">
+                <div className="signinlabel">Email Verified</div>
+                <div className="signinlabel">Returning to home page</div>
+            </Form>
         </div>
     );
 };

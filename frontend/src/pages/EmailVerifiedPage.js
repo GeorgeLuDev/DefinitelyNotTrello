@@ -8,7 +8,6 @@ const EmailVerifiedPage = () =>
     return(
         <div>
             <Header />
-            <h1>Email Verified Page</h1>
             <EmailVerifiedUi components={EmailVerifiedUi}/>
         </div>
     );

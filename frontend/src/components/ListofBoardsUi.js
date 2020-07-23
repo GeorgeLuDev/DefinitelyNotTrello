@@ -164,8 +164,8 @@ class ListofBoardsUi extends Component
             this.setState
             (
                 {
-                    newboardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1),
-                    oldboardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1)
+                    newboardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)),
+                    oldboardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target))
                 }
             )
         }
@@ -218,12 +218,12 @@ class ListofBoardsUi extends Component
             console.log("old index of board");
             console.log(this.state.oldboardindex);
             console.log("new index of board");
-            console.log((Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1));
+            console.log((Array.prototype.indexOf.call(event.target.parentNode.children, event.target)));
             // call move boards api
 
             var user = JSON.parse(localStorage.getItem('user_data'));
 
-            var js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldboardindex + '","newIndex":"' + (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1) + '","parentUsers":"' + user.id + '"}';
+            var js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldboardindex + '","newIndex":"' + (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)) + '","parentUsers":"' + user.id + '"}';
 
             console.log(js);
             try

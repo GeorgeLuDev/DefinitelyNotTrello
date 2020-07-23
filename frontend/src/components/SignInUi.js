@@ -61,22 +61,25 @@ function SignInUi()
 
     return(
         <div>  
-            <h1>This is the Sign in page</h1>
-            <Form>
+            <Form className="signinform">
+                <div className="signinlabel">Log in to DNT</div>
                 <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" ref={(c) => loginEmail = c}/>
+                    <Form.Control className="signinemail" type="email" placeholder="Enter email" ref={(c) => loginEmail = c}/>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" ref={(c) => loginPassword = c}/>
+                    <Form.Control className="signinemail" type="password" placeholder="Enter password" ref={(c) => loginPassword = c}/>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={doLogin}>
-                    Submit
+                <Button className="signinbutton" variant="primary" type="submit" onClick={doLogin}>
+                    Log in
                 </Button>
                 <span id="loginResult">{message}</span>
+                <hr></hr>
+                <div className="linktootherpage">
+                    <a href="/ForgotPassword">Can't log in?</a>
+                    <a href="/SignUp" className="link">Sign up for an account</a>
+                </div>
             </Form>
             {/* <form>
                 <label>Email</label>

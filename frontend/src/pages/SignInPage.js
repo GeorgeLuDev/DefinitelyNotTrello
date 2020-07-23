@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import NavBarUi from '../components/NavBarUi';
 import SignInUi from '../components/SignInUi';
 
 const SignInPage = () =>
 {
     return(
         <div>
-            <Header />
+            <NavBarUi />
             <SignInUi />
         </div>
     );

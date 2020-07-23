@@ -215,7 +215,7 @@ body
   margin-bottom:10px;
 }
 
-.list::-webkit-scrollbar {
+.listHolder::-webkit-scrollbar {
   display: none;
 }
 
@@ -365,11 +365,6 @@ body
 .signinemail:focus
 {
   background: white;
-}
-
-.link::before
-{
-  content: " | ";
 }
 
 .linktootherpage

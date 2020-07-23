@@ -18,6 +18,11 @@ class ListofBoardsUi extends Component
     async componentDidMount()
     {
         var user = JSON.parse(localStorage.getItem('user_data'));
+        if (user === null)
+        {
+            window.location.href = '/';
+            return;
+        }
         // var js = '{"email":"'+ user.id + '"}';
         // console.log(js);
         var url = 'http://localhost:5000/api/User/' + user.id;

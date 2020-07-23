@@ -1,29 +1,20 @@
 import React from 'react';
 import { Navbar,Nav } from 'react-bootstrap';
 
-function Header()
+function NavBarUi()
 {
-
-    const doLogOut = event =>
-    {
-	    event.preventDefault();
-        localStorage.removeItem("user_data")
-        window.location.href = '/';
-    }
 
     return(
 
         
         <div id = "headernavbar">
             <Navbar bg="primary" variant="dark">
-                <Nav className="mr-auto">
-                    <Nav.Link href="/ListOfBoards">Home</Nav.Link>
-                </Nav>
-                <Navbar.Brand id="logoheader" className="m-auto" href="/ListOfBoards">
+                <Navbar.Brand id="logoheader" className="mr-auto">
                     <img id="headerlogo" src="/dntlogo.png" alt="alternatetext"></img>
                     Definitely Not Trello</Navbar.Brand>
                 <Nav className="ml-auto">
-                    <Nav.Link href="/SignIn" onClick={doLogOut}>Log Out</Nav.Link>
+                    <Nav.Link href="/SignIn">Log in</Nav.Link>
+                    <Nav.Link href="/SignUp">Sign Up</Nav.Link>
                 </Nav>
             </Navbar>
             {/* <a href="/">Root/Sign In</a><br />
@@ -38,4 +29,4 @@ function Header()
     );
 };
 
-export default Header;
+export default NavBarUi;

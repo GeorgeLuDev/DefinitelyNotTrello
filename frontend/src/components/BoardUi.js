@@ -158,8 +158,8 @@ class BoardUi extends Component
             return;
         }
 
-        //this.componentDidMount();
-        event.target.remove();
+        this.componentDidMount();
+        //event.target.remove();
     }
 
     handledeleteCard = async (event,cardId) =>
@@ -189,8 +189,8 @@ class BoardUi extends Component
             return;
         }
 
-        //this.componentDidMount();
-        event.target.remove();
+        this.componentDidMount();
+        //event.target.remove();
     }
 
     handleUpdateList = async (event,ListId) =>
@@ -400,6 +400,12 @@ class BoardUi extends Component
                 console.log(e.toString());
                 return;
             }
+
+            this.setState(
+            {
+              lists:[],
+              cards:[]
+            });
         }
         else if (event.target.className === "listHolder dragging")
         {
@@ -437,7 +443,7 @@ class BoardUi extends Component
             //-----------
         }
         // console.log(event.target);
-        // this.componentDidMount();
+        this.componentDidMount();
     }
 
     replaceVerticalScrollByHorizontal = event => {

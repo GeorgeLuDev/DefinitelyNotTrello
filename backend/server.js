@@ -432,7 +432,8 @@ app.post('/api/CreateBoard', async (req,res) =>
       "https://images.unsplash.com/photo-1546767426-7e015e14c229?ixlib=rb-1.2.1&auto=format&fit=crop&w=564&q=80",
       "https://images.unsplash.com/photo-1509652839609-d94a8ad572db?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
       "https://images.unsplash.com/photo-1555679486-e341a3e7b6de?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
-      "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg"
+      "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg",
+      "https://images.unsplash.com/photo-1552372910-bd19f8ec2c9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1868&q=80"
     ];
 
     // get incoming json and format

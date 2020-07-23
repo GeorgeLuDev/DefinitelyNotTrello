@@ -7,13 +7,13 @@ function Header()
     return(
 
         
-        <div>
+        <div id = "headernavbar">
             <Navbar bg="primary" variant="dark">
                 <Nav className="mr-auto">
                     <Nav.Link href="/ListOfBoards">Home</Nav.Link>
                 </Nav>
-                <Navbar.Brand className="m-auto" href="/ListOfBoards">
-                    <img src="/trelloicon.png" alt="alternatetext"></img>
+                <Navbar.Brand id="logoheader" className="m-auto" href="/ListOfBoards">
+                    <img id="headerlogo" src="/dntlogo.png" alt="alternatetext"></img>
                     Definitely Not Trello</Navbar.Brand>
                 <Nav className="ml-auto">
                     <Nav.Link href="/SignIn">Log Out</Nav.Link>

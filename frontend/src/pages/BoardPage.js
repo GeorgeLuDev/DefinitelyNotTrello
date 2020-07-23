@@ -6,7 +6,7 @@ import BoardUI from '../components/BoardUi';
 const BoardPage = () =>
 {
     return(
-        <div>
+        <div id="dumbBoardContainer">
             <Header />
             <BoardUI />
         </div>

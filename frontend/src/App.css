@@ -1,18 +1,11 @@
-body
-{
-  font-size: 16px;
-  margin: 0;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size:cover;
-  background-position-y: top;
-  /* background-color: #8EC5FC;
-  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
-  /* background-color: white; */
-  
-}
 
+@font-face {
+  font-family: 'robotoregular';
+  src: url('roboto-regular-webfont.woff2') format('woff2'),
+       url('roboto-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @font-face {
   font-family: 'pacificoregular';
@@ -22,10 +15,46 @@ body
   font-style: normal;
 }
 
+html
+{
+  height: 100%;
+  font-family: 'robotoregular' !important;
+}
+
+body
+{
+  font-family: 'robotoregular' !important;
+  font-size: 16px;
+  margin: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size:cover;
+  background-position-y: center;
+  height: 100%;
+  /* background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
+  /* background-color: white; */
+  
+}
+
+
 #headerlogo
 {
   height: 2.5rem;
   margin-right: 1rem;
+}
+
+a.nav-link
+{
+  font-family: 'robotoregular' !important;
+  font-weight: bold;
+  color: white !important;
+  opacity: 100% !important;
+}
+
+.navbar{
+  background-color: #24a9ae !important;
 }
 
 .navbar-brand
@@ -36,7 +65,7 @@ body
 #root
 {
   display: block;
-  height: 80%;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -60,11 +89,17 @@ body
   text-decoration: none;
 }
 
+#dumbBoardContainer
+{
+  height: 100%;
+}
+
 #boardGridContainer
 {
   display: grid;
   grid-template-rows:4rem;
   background-size: 120rem 70rem;
+  height: 100%;
 }
 
 .board
@@ -77,6 +112,7 @@ body
   overflow-x: scroll;
   overflow-y: hidden;
   scrollbar-width: none;
+  height: 100%;
   /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
   /* background-size: 120rem 60rem; */
 }
@@ -104,9 +140,8 @@ body
 
 #boardsTitle
 {
+  font-family: 'robotoregular' !important;
   margin-top: 30px;
-  font-family: sans-serif;
-  font-weight:bold;
 }
 
 .boards
@@ -120,7 +155,7 @@ body
   width: 14rem;
   cursor: move;
   background-size: 100%;
-  background-position: top;
+  background-position: center;
   border-radius: 10px;
   position: relative;
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
@@ -169,6 +204,25 @@ body
   font-size: 2rem;
 }
 
+#boardMenuHeader span
+{
+  float: left;
+}
+
+.boardMenuDivider
+{
+  height: 2rem;
+  border-left: 2px solid white;
+  margin: 0.5rem 1rem;
+}
+
+.passwordMenuDivider
+{
+  height: 2rem;
+  border-left: 2px solid #007bff;
+  margin: 0.5rem 1rem;
+}
+
 #editBGButton
 {
   font-size: 1rem;
@@ -197,7 +251,7 @@ body
   /* height: auto; */
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
   width: 272px;
-  height: auto;
+  height: 100%;
   box-sizing: border-box;
   display: inline-block;
   white-space: nowrap;
@@ -210,7 +264,7 @@ body
   background-color: #ebecf0;
   border-radius: 5px;
   padding: 1rem;
-  margin-left: 0 4px;
+  margin: 0 4px;
   box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
   margin-bottom:10px;
 }

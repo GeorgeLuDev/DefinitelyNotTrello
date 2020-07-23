@@ -14,22 +14,22 @@ body
   
 }
 
+
 @font-face {
   font-family: 'pacificoregular';
-  src: url('/frontend/public/pacificofont/pacifico-regular-webfont.woff2') format('woff2'),
-       url('/frontend/public/pacificofont/pacifico-regular-webfont.woff') format('woff');
+  src: url('pacifico-regular-webfont.woff2') format('woff2'),
+       url('pacifico-regular-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-
 }
 
 #headerlogo
 {
-  height: 2rem;
+  height: 2.5rem;
   margin-right: 1rem;
 }
 
-.m-auto
+.navbar-brand
 {
   font-family: 'pacificoregular';
 }

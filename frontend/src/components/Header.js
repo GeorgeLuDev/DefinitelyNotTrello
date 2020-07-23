@@ -12,7 +12,7 @@ function Header()
                 <Nav className="mr-auto">
                     <Nav.Link href="/ListOfBoards">Home</Nav.Link>
                 </Nav>
-                <Navbar.Brand className="m-auto" href="/ListOfBoards">
+                <Navbar.Brand id="logoheader" className="m-auto" href="/ListOfBoards">
                     <img id="headerlogo" src="/dntlogo.png" alt="alternatetext"></img>
                     Definitely Not Trello</Navbar.Brand>
                 <Nav className="ml-auto">

@@ -480,30 +480,32 @@ class BoardUi extends Component
           <div className="board" onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
               {
                   this.state.lists.map(list =>
-                      <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >
-                            <div className="listContainer">
-                                <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
-                                <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
-                                    Delete List
-                                </button>
-                            </div>
-                            {
-                                this.state.cards[list.index].map(card =>
-                                    <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
-                                        <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
-                                          
-                                            {card.cardName}
-                                          
-                                        </div>
-                                        <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
-                                            X
-                                        </button>
-                                    </div>)
-                            }
-                            <form className="addCard">
-                                <input type="text" placeholder="Add a Card..."/><br />
-                                <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
-                            </form>
+                      <div className="listHolder">
+                        <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >
+                          <div className="listContainer">
+                              <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                              <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
+                                  Delete List
+                              </button>
+                          </div>
+                          {
+                              this.state.cards[list.index].map(card =>
+                                  <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                      <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
+                                        
+                                          {card.cardName}
+                                        
+                                      </div>
+                                      <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
+                                          X
+                                      </button>
+                                  </div>)
+                          }
+                          <form className="addCard">
+                              <input type="text" placeholder="Add a Card..."/><br />
+                              <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
+                          </form>
+                        </div>
                       </div>)
               }
 

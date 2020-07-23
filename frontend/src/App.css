@@ -57,7 +57,7 @@ body
   overflow-x: scroll;
   overflow-y: hidden;
   scrollbar-width: none;
-  height: 50rem;
+  height: 48rem;
   /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
   /* background-size: 120rem 60rem; */
   background-size: 120rem 60rem;
@@ -110,7 +110,6 @@ body
   width: 15rem;
 }
 
-
 #boardMenuHeader
 {
   background-color: rgba(0,0,0,0);
@@ -135,17 +134,13 @@ body
 }
 
 
-.list
+.listHolder
 {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  background-color: #ebecf0;
-  border-radius: 3px;
-  padding: 1rem;
-  margin: 0 4px;
   width: 272px;
-  max-height: 50rem;
+  max-height: 48rem;
   overflow-y: scroll;
   scrollbar-width: none;
   cursor: move;
@@ -157,6 +152,16 @@ body
   box-sizing: border-box;
   display: inline-block;
   white-space: nowrap;
+}
+
+.list
+{
+
+  background-color: #ebecf0;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0 4px;
+  box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
 }
 
 .list::-webkit-scrollbar {

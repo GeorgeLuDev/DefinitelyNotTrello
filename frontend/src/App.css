@@ -1,10 +1,29 @@
+
+@font-face {
+  font-family: 'robotoregular';
+  src: url('roboto-regular-webfont.woff2') format('woff2'),
+       url('roboto-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'pacificoregular';
+  src: url('pacifico-regular-webfont.woff2') format('woff2'),
+       url('pacifico-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html
 {
   height: 100%;
+  font-family: 'robotoregular' !important;
 }
 
 body
 {
+  font-family: 'robotoregular' !important;
   font-size: 16px;
   margin: 0;
   -webkit-background-size: cover;
@@ -19,13 +38,6 @@ body
   
 }
 
-@font-face {
-  font-family: 'pacificoregular';
-  src: url('pacifico-regular-webfont.woff2') format('woff2'),
-       url('pacifico-regular-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
 
 #headerlogo
 {
@@ -33,8 +45,16 @@ body
   margin-right: 1rem;
 }
 
+a.nav-link
+{
+  font-family: 'robotoregular' !important;
+  font-weight: bold;
+  color: white !important;
+  opacity: 100% !important;
+}
+
 .navbar{
-  background-color: #00DDD5 !important;
+  background-color: #24a9ae !important;
 }
 
 .navbar-brand
@@ -120,9 +140,8 @@ body
 
 #boardsTitle
 {
+  font-family: 'robotoregular' !important;
   margin-top: 30px;
-  font-family: sans-serif;
-  font-weight:bold;
 }
 
 .boards

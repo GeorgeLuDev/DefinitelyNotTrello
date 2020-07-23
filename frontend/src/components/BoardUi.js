@@ -471,7 +471,16 @@ class BoardUi extends Component
     {
       return(
         <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
-          <div id="boardMenuHeader"><p>{this.state.boardName}</p><span id="editBGButton"><p>Edit Image</p></span></div>
+          <div id="boardMenuHeader">
+            <span>{this.state.boardName}</span>
+            <span class="boardMenuDivider"></span>
+            <span id="addUserButton">
+              <p>Add user by email</p>
+            </span>
+            <span id="editBGButton">
+              <p>Edit Image</p>
+            </span>
+          </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
               {
                   this.state.lists.map(list =>

@@ -280,69 +280,75 @@ class BoardUi extends Component
 
     dragStart = event =>
     {
+        // console.log(event.target);
         if (event.target.className === "card")
         {
             event.target.className = "card dragging";
+            // console.log("old index of card is: " + (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1) + " | old index of list is: " + Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode) + " | listid: " + event.target.parentNode.parentNode.getAttribute("data-_id"))
             this.setState
             (
                 {
                     newcardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1),
-                    newlistindex: (Array.prototype.indexOf.call(event.target.parentNode.parentNode.children, event.target.parentNode)),
                     oldcardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1),
-                    oldlistindex: (Array.prototype.indexOf.call(event.target.parentNode.parentNode.children, event.target.parentNode)),
-                    oldparentList: event.target.parentNode.getAttribute("data-_id")
+                    newlistindex: (Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode)),
+                    oldlistindex: (Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode)),
+                    oldparentList: event.target.parentNode.parentNode.getAttribute("data-_id")
                 }
             )
         }
-        else if (event.target.className === "list")
+        else if (event.target.className === "listHolder")
         {
-            event.target.className = "list dragging";
-
+            event.target.className = "listHolder dragging";
+            // console.log("old index of list is: " + Array.prototype.indexOf.call(event.target.parentNode.children, event.target))
             this.setState
             (
                 {
-                    newlistindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)),
-                    oldlistindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target))
-                    // (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1)
+                    newlistindex: Array.prototype.indexOf.call(event.target.parentNode.children, event.target),
+                    oldlistindex: Array.prototype.indexOf.call(event.target.parentNode.children, event.target)
                 }
             )
         }
-        // console.log(event.target);
+        return;
     }
 
-    dragOver = event =>
+    dragOver = (event,listid) =>
     {
+        // abc is the current list we are hovering over
         event.preventDefault();
         var element = document.querySelector('.dragging');
-
+        var currentList = document.getElementById(listid);
         var afterElement;
-       if (event.target.className === "list" && element.className === "card dragging")
+       if (event.target.className === "card" && element.className === "card dragging")
        {    
-            afterElement = this.getDragAfterElementCard(event.target, event.clientY);
+        //    console.log("card");
+
+            afterElement = this.getDragAfterElementCard(currentList.children[0], event.clientY);
 
 
             if (afterElement == null)
             {
-                afterElement = event.target.querySelector('.addCard');
-                event.target.insertBefore(element, afterElement);
+                afterElement = currentList.children[0].querySelector('.addCard');
+                currentList.children[0].insertBefore(element, afterElement);
             } 
             else
             {
-                event.target.insertBefore(element, afterElement);
+                currentList.children[0].insertBefore(element, afterElement);
             }
-
        }
-       else if (event.target.className === "list" && element.className === "list dragging")
+       else if ((event.target.className === "list"  || event.target.className === "listContainer" || event.target.className === "listName" || event.target.className === "listButton") && element.className === "listHolder dragging")
        {
-            afterElement = this.getDragAfterElementList(event.target.parentNode, event.clientX);
+            // console.log("list");
+
+            afterElement = this.getDragAfterElementList(currentList.parentNode, event.clientX);
+
             if (afterElement == null)
             {
-                afterElement = event.target.parentNode.querySelector('.addList');
-                event.target.parentNode.insertBefore(element, afterElement);
-            } 
+                afterElement = currentList.parentNode.querySelector('.addList');
+                currentList.parentNode.insertBefore(element, afterElement);
+            }
             else
             {
-                event.target.parentNode.insertBefore(element, afterElement);
+                currentList.parentNode.insertBefore(element, afterElement);
             }
        }
     }
@@ -362,7 +368,7 @@ class BoardUi extends Component
     }
 
     getDragAfterElementList = (container, x) => {
-        const draggableElements = [...container.querySelectorAll('.list:not(.dragging)')]
+        const draggableElements = [...container.querySelectorAll('.listHolder:not(.dragging)')]
       
         return draggableElements.reduce((closest, child) => {
           const box = child.getBoundingClientRect();
@@ -386,7 +392,7 @@ class BoardUi extends Component
             console.log("old index of card");
             console.log([this.state.oldlistindex,this.state.oldcardindex]);
             console.log("new index of card");
-            console.log([(Array.prototype.indexOf.call(event.target.parentNode.parentNode.children, event.target.parentNode)),(Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1)]);
+            console.log([Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode),(Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1)]);
             // call move card api
 
             js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldcardindex + '","newIndex":"' + (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1) + '","oldparentList":"' + this.state.oldparentList + '","newparentList":"' + event.target.parentNode.getAttribute("data-_id") + '"}';
@@ -411,22 +417,21 @@ class BoardUi extends Component
                 return;
             }
         }
-        else if (event.target.className === "list dragging")
+        else if (event.target.className === "listHolder dragging")
         {
-            event.target.className = "list";
+            event.target.className = "listHolder";
             // update index of list
             console.log("old index of list");
             console.log(this.state.oldlistindex);
             console.log("new index of list");
-            // console.log(this.state.newlistindex);
             console.log(Array.prototype.indexOf.call(event.target.parentNode.children, event.target));
             // call move list api
 
-            console.log(event.target.getAttribute("data-_id"));
+            // console.log(event.target.getAttribute("data-_id"));
 
             js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldlistindex + '","newIndex":"' + Array.prototype.indexOf.call(event.target.parentNode.children, event.target) + '","parentBoard":"' + window.location.pathname.slice(-24) + '"}';
 
-            console.log(js);
+            // console.log(js);
 
             try
             {
@@ -480,8 +485,8 @@ class BoardUi extends Component
           <div className="board" onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} >
               {
                   this.state.lists.map(list =>
-                      <div className="listHolder">
-                        <div className="list" data-_id={list._id} key={list._id} scrollable="true" draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e)} >
+                      <div className="listHolder" id={list._id} data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>
+                        <div className="list" data-_id={list._id} key={list._id} scrollable="true">
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>

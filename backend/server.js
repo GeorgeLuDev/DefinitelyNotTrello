@@ -1132,7 +1132,7 @@ app.put('/api/MoveCard', async (req,res) =>
 
         var result = await db.collection('Cards').updateMany(query1, newValues);
         // var result = await db.collection('Cards').find(query1).toArray();
-        console.log(result);
+        // console.log(result);
 
         query1 = { 
             parentList: newparentList,

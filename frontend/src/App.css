@@ -1,8 +1,8 @@
 
 body
 {
+  font-size: 16px;
   margin: 0;
-  background: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -230,6 +230,7 @@ body
 
 .dragging
 {
+  background: green;
   opacity: .5;
 } 
 
@@ -261,4 +262,67 @@ body
   top: 6px;
   width: 18px;
   padding-right: 2rem;
+}
+
+.signinlabel
+{
+  text-align: center;
+  color: #5E6C84;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.signinform
+{
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  padding: 25px 40px;
+  border-radius: 3px;
+  width: 400px;
+  height: 500px;
+  background: white;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.signinbutton
+{
+  background: rgb(52, 175, 52);
+  width: 100%;
+}
+
+.signinemail
+{
+  font-size: 14px;
+  background-color: #FAFBFC;
+  border: 2px solid #DFE1E6;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 3px;
+  height: 44px;
+  -webkit-transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+  transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+  background: rgb(248, 248, 248);
+  width: 100%;
+}
+
+.signinemail:focus
+{
+  background: white;
+}
+
+.link::before
+{
+  content: " | ";
+}
+
+.linktootherpage
+{
+  width: 100%;
+  text-align: center;
 }

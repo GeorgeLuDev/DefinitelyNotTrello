@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Form,Button } from 'react-bootstrap';
 
 function ForgotPasswordUi()
 {
@@ -42,13 +43,30 @@ function ForgotPasswordUi()
 
     return (
         <div>
-            <h1>Forget password Page</h1>
-            <form>
+            {/* <h1>Forget password Page</h1> */}
+            {/* <form>
                 <label>Email Address</label>
                 <input type="text" placeholder="Email" ref={(c) => loginEmail = c}/><br/>
                 <input type="submit" onClick={doForgotPassword}/>
                 <span id="forgotPasswordResult">{message}</span>
-            </form>
+            </form> */}
+            
+            <Form className="signinform">
+                <div className="signinlabel">Can't Log in?</div>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Control className="signinemail" type="email" placeholder="Enter email" ref={(c) => loginEmail = c}/>
+                </Form.Group>
+
+                <Button className="signinbutton" variant="primary" type="submit" onClick={doForgotPassword}>
+                    Send recovery link
+                </Button>
+                <span id="forgotPasswordResult">{message}</span>
+                <hr></hr>
+                <div className="linktootherpage">
+                    <a href="/SignIn">Return to log in</a>
+                </div>
+            </Form>
+
         </div>
     )
 }

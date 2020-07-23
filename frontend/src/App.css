@@ -6,6 +6,7 @@ body
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size:cover;
+  background-position-y: top;
   /* background-color: #8EC5FC;
   background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
   /* background-color: white; */
@@ -95,6 +96,18 @@ body
     margin: 0 20px;
     overflow: auto;
 } */
+#boardsContainer
+{
+  width: 76rem;
+  margin: auto;
+}
+
+#boardsTitle
+{
+  margin-top: 30px;
+  font-family: sans-serif;
+  font-weight:bold;
+}
 
 .boards
 {
@@ -102,12 +115,15 @@ body
   align-items: center;
   flex-direction: column;
   padding: 1rem;
-  margin: 0.1rem;
+  margin: 0.5rem;
   height: 10rem;
-  width: 15rem;
+  width: 14rem;
   cursor: move;
+  background-size: 100%;
+  background-position: top;
+  border-radius: 10px;
+  position: relative;
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
-  background-size: 16rem 10rem;
   /*background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg");
   */
 }
@@ -119,6 +135,19 @@ body
     text-align: left;
     cursor: text;
     width: 10rem;
+}
+
+.boardDelete
+{
+  display:none;
+}
+
+.boardDelete:hover, .boards:hover .boardDelete, .boards:hover .boardDelete:hover 
+{
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
 }
 
 .addBoard

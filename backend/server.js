@@ -425,13 +425,23 @@ app.post('/api/CreateBoard', async (req,res) =>
     console.log('CreateBoard api hit');
     var error = '';
 
+    var bgs = [
+      "https://images.unsplash.com/photo-1595323397978-65433d24fc23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
+      "https://images.unsplash.com/photo-1590440048050-764e709d3380?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+      "https://images.unsplash.com/photo-1556031970-26f08a4b18ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80",
+      "https://images.unsplash.com/photo-1546767426-7e015e14c229?ixlib=rb-1.2.1&auto=format&fit=crop&w=564&q=80",
+      "https://images.unsplash.com/photo-1509652839609-d94a8ad572db?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+      "https://images.unsplash.com/photo-1555679486-e341a3e7b6de?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+      "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg"
+    ];
+
     // get incoming json and format
     const { boardName, index, parentUsers } = req.body;
     const newBoard =
     {
         boardName : boardName,
         index : index,
-        boardBackground : "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg",
+        boardBackground : bgs[Math.floor(Math.random(0) * bgs.length)],
         parentUsers : parentUsers
     }
 
@@ -1232,6 +1242,7 @@ app.get('/api/User/:id', async (req,res) =>
     // Database search.
     const db = client.db();
     var result = await db.collection('Boards').find(query).sort(sort).toArray();
+
 
     // Return result.
     var ret = 

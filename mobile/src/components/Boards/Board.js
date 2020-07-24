@@ -6,9 +6,14 @@ import { AsyncStorage } from 'react-native';
  
 
 export default class BoardList extends Component {
-
-  constructor() {
-    super();
+  static navigationOption = ({ navigation }) => 
+  {     
+      return {
+               id: navigation.getParam('id', null)     
+             }
+  }
+  constructor(props) {
+    super(props);
     this.state = {
         boards: [], 
         boardName: '',
@@ -16,7 +21,9 @@ export default class BoardList extends Component {
         oldboardindex: '',
         isVisible: false,
         lists: [],
-        cards: []
+        cards: [],
+        boardId: props.route.params.id
+
 
     };
     
@@ -24,29 +31,30 @@ export default class BoardList extends Component {
 
   componentDidMount() {
     this.fetchData();
+    console.log(this.state.boardId);
   }
 
   fetchData = async () => {
 
-    try 
-    {
-      var value = await AsyncStorage.getItem("board");
-      if (value !== null)
-      {
-        value = JSON.parse(value);
-        // console.log(value.id);
-      }
-    } 
-    catch (e) 
-    {
-      console.log("Something went wrong in fetching the boards data");
-    }
+    // try 
+    // {
+    //   var value = await AsyncStorage.getItem("board");
+    //   if (value !== null)
+    //   {
+    //     value = JSON.parse(value);
+    //     // console.log(value.id);
+    //   }
+    // } 
+    // catch (e) 
+    // {
+    // //   console.log("Something went wrong in fetching the boards data");
+    // }
 
 
-    console.log("http://3.17.45.57/api/Board/" + value.id);
-    const response = await fetch("http://3.17.45.57/api/Board/" + value.id , {method:'GET',headers:{'Content-Type': 'application/json'}});
+    // console.log("http://3.17.45.57/api/Board/" + value.id);
+    const response = await fetch("http://3.17.45.57/api/Board/" + this.state.boardId , {method:'GET',headers:{'Content-Type': 'application/json'}});
     var res = JSON.parse(await response.text());
-    console.log(res);
+    // console.log(res);
     this.setState(
         {
             lists: res.listString,

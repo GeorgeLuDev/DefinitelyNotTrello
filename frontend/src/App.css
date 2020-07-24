@@ -271,7 +271,7 @@ a.nav-link
   max-height: 48rem;
   overflow-y: scroll;
   scrollbar-width: none;
-  cursor: move;
+  cursor: default;
   /* margin: 0.1rem; */
   /* height: auto; */
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
@@ -292,6 +292,7 @@ a.nav-link
   margin: 0 4px;
   box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
   margin-bottom:10px;
+  cursor: move;
 }
 
 .listHolder::-webkit-scrollbar {
@@ -310,6 +311,7 @@ a.nav-link
   flex-wrap: wrap;
   cursor: text;
   width: 10rem;
+  font-weight: bold;
 }
 
 .listButton

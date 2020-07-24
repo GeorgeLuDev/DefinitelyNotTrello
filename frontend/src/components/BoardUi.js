@@ -44,7 +44,7 @@ class BoardUi extends Component
             var headerNavHeight = document.getElementById("headernavbar").offsetHeight;
             var boardMenuHeight = document.getElementById("boardMenuHeader").offsetHeight;
             var bgHeight = (windowHeight-headerNavHeight- boardMenuHeight).toString();
-            console.log("HEIGHT TEST: " + bgHeight);
+            // console.log("HEIGHT TEST: " + bgHeight);
 
 
             document.body.style.backgroundImage =  "url(\"" + res.boardBackground + "\")";
@@ -257,6 +257,39 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
+    
+    handleUpdateBoard = async (event) =>
+    {
+        console.log("calling update board");
+
+        // event.preventDefault();
+        // // console.log(event);
+
+        // var js = '{"_id":"'+ cardId + '","cardName":"' + event.target.innerText + '"}';
+
+        // // console.log(js);
+
+        // try
+        // {
+        //     const response = await fetch('http://localhost:5000/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+        //     // console.log("calling Update Card api");
+
+        //     var res = JSON.parse(await response.text());
+
+        //     console.log(res);
+
+        // }
+        // catch(e)
+        // {
+        //     console.log("there was an error");
+        //     console.log(e.toString());
+        //     return;
+        // }
+
+        // this.componentDidMount();
+    }
+
     handleListNameChange = event =>
     {
         this.setState({listName: event.target.value});
@@ -446,7 +479,8 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
-    replaceVerticalScrollByHorizontal = event => {
+    replaceVerticalScrollByHorizontal = event => 
+    {
         // if (event.target.className === "board" && !(event.target.scrollHeight > event.target.clientHeight))
         // {
         //     console.log(event.target.scrollHeight > event.target.clientHeight);
@@ -503,13 +537,81 @@ class BoardUi extends Component
         // }
     }
 
+    searchList = event => 
+    {
+        // console.log("searching list");
+        // console.log(event.target.value);
+        var i,j;
+        document.getElementById("searchcard").value = "";
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            for (j=0;j<this.state.cards[i].length;j++)
+            {
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+            }
+        }
+        var query = new RegExp(event.target.value, 'g');
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            if (event.target.value === "")
+            {
+                document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+                continue;
+            }
+            // console.log(this.state.lists[i]);
+            document.getElementById(this.state.lists[i]._id).style.opacity = 0.5;
+            if (this.state.lists[i].listName.match(query) !== null)
+            {
+                // console.log("got into for loop");
+                // console.log(this.state.lists[i]._id);
+                document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+            }
+        }
+    }
+
+    searchCard = event => 
+    {
+        // console.log("searching list");
+        // console.log(event.target.value);
+        var i,j;
+        document.getElementById("searchlist").value = "";
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+        }
+        var query = new RegExp(event.target.value, 'g');
+        // console.log(this.state.lists.length);
+        // console.log(this.state.cards.length);
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            for (j=0;j<this.state.cards[i].length;j++)
+            {
+                // console.log([i,j]);
+                console.log(this.state.cards[i][j].cardName);
+                if (event.target.value === "")
+                {
+                    document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+                    continue;
+                }
+                // console.log(this.state.lists[i]);
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                if (this.state.cards[i][j].cardName.match(query) !== null)
+                {
+                    console.log("got into for loop");
+                    // console.log(this.state.lists[i]._id);
+                    document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+                }
+            }
+        }
+
+    }
 
     render()
     {
       return(
         <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
           <div id="boardMenuHeader">
-            <span>{this.state.boardName}</span>
+            <span contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
             <span id="addUserButton">
               <form>
@@ -522,8 +624,8 @@ class BoardUi extends Component
                 <p>Edit Image</p>
               </div>
               <form>
-                <input name="searchList" placeholder="Search Lists"></input>
-                <input name="searchCard" placeholder="Search Cards"></input>
+                <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.searchList(e)}></input>
+                <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.searchCard(e)}></input>
               </form>
             </div>
           </div>
@@ -540,7 +642,7 @@ class BoardUi extends Component
                           </div>
                           {
                               this.state.cards[list.index].map(card =>
-                                  <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
                                       <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
                                         
                                           {card.cardName}

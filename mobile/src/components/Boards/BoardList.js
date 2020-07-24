@@ -143,8 +143,8 @@ export default class BoardList extends Component {
                 placeholderTextColor="rgba(255, 255, 255, 0.7)"
 
               />
-              {this.state.boards.map(board =>
-                <Text>{board.boardName}</Text>) }
+              {/* {this.state.boards.map(board =>
+                <Text>{board.boardName}</Text>) } */}
               <View style={styles.overlayButtonContainer}>
 
                 <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false)}>
@@ -169,17 +169,17 @@ export default class BoardList extends Component {
         <View >
 
           <View>
-
+            {console.log("printing this.state.boards HERE:")}
+            {console.log(this.state.boards)}
             <FlatList
-              // data={this.state.boards}
+              data={this.state.boards}
               keyExtractor={(x, i) => i.toString()}
-              // renderItem={({ board }) =>
-                // <ListItem
-                  
-                //   title={`${board.boardName}`}
-                //   bottomDivider
-                // />}
-              // ListHeaderComponent={this.renderHeader}
+              renderItem={( board ) =>
+                <ListItem
+                  title={board.boardName}
+                  bottomDivider
+                />}
+              ListHeaderComponent={this.renderHeader}
 
             />
                           {this.state.boards.map(board =>

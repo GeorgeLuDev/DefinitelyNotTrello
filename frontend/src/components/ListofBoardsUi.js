@@ -256,13 +256,13 @@ class ListofBoardsUi extends Component
         return(
           <div id="boardsContainer">
             <h2 id="boardsTitle">My Boards</h2>
-            <div onDragOver={(e) => this.dragOver(e)}>  
+            <div id="boardsList" onDragOver={(e) => this.dragOver(e)}>  
                 {/* <h1>WELCOME This is the list of boards page</h1> */}
                 {
                     this.state.boards.map(board =>
                         <div className="boards" style={{backgroundImage: "url(\"" + board.boardBackground + "\")"}}  onClick={(e) => this.handleGotoPage(e, board._id)} data-_id={board._id} key={board._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
                             <div className="boardsname" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e,board._id)}>{board.boardName}</div>
-                            <button className="boardDelete" onClick = {(e) => this.handleDelete(e,board._id)}>X</button>
+                            <button className="boardDelete" onClick = {(e) => this.handleDelete(e,board._id)}>&times;</button>
                         </div>)
                 }
                 <form className="addBoard">

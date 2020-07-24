@@ -131,10 +131,23 @@ a.nav-link
     margin: 0 20px;
     overflow: auto;
 } */
+
+#boardsPageContainer
+{
+  height: 100%;
+}
 #boardsContainer
 {
   width: 76rem;
   margin: auto;
+  height: 90%;
+  overflow-y: scroll;
+  padding-bottom:90px;
+}
+
+#boardsList
+{
+  margin-bottom:0px;
 }
 
 #boardsTitle
@@ -143,7 +156,7 @@ a.nav-link
   margin-top: 30px;
 }
 
-.boards
+.boards, .addBoard
 {
   display: inline-flex;
   align-items: center;
@@ -160,6 +173,11 @@ a.nav-link
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
   /*background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg");
   */
+}
+
+.addBoard
+{
+  background-color: rgba(36,169,174,0.3);
 }
 
 .boardsname
@@ -183,13 +201,6 @@ a.nav-link
   position: absolute;
   right: 0px;
   bottom: 0px;
-}
-
-.addBoard
-{
-  margin-top: 1rem;
-  display: block;
-  width: 15rem;
 }
 
 #boardMenuHeader

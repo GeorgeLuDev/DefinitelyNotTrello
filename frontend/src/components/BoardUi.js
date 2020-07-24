@@ -626,8 +626,8 @@ class BoardUi extends Component
                 <p>Edit Image</p>
               </div>
               <form>
-                <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.searchList(e)}></input>
-                <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.searchCard(e)}></input>
+                <input id="searchlist" name="searchList" placeholder="Highlight Lists" onChange={(e) => this.searchList(e)}></input>
+                <input id="searchcard" name="searchCard" placeholder="Highlight Cards" onChange={(e) => this.searchCard(e)}></input>
               </form>
             </div>
           </div>
@@ -670,8 +670,17 @@ class BoardUi extends Component
               </form>
           </div>
 
-          <div id="editsBgMenu">
-            <h3>Select a new background image</h3>
+          <div id="editBgModal" class="modal">
+            <div id="editBgModalContent">
+              <h3>Select a new background image</h3>
+              <span class="closeBgModal">&times;</span>
+              <p>Check out these sweet backgrounds</p>
+              <div id="bgpreviewcontainer">
+                <div class="bgoption">
+                  <img></img>
+                </div>
+              </div>
+            </div>
           </div>
       </div>
       )

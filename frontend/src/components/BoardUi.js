@@ -668,15 +668,32 @@ class BoardUi extends Component
               </form>
           </div>
 
-          <div id="editBgModal" class="modal">
+          <div id="editBgModal" class="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
-              <span class="closeBgModal">&times;</span>
+              <span id="closeBgModal">&times;</span>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
-                <div class="bgoption">
-                  <img></img>
-                </div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
+                <div class="bgoption"></div>
               </div>
             </div>
           </div>

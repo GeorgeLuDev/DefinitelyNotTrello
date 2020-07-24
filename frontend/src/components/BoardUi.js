@@ -22,7 +22,6 @@ class BoardUi extends Component
     
     async componentDidMount()
     {
-		console.log(process.env.REACT_APP_URL);
         // var element = document.querySelector('.board');
         // var imgUrl = "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"
         // element.style = {backgroundImage: 'url(' + imgUrl + ')'};
@@ -81,7 +80,7 @@ class BoardUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/CreateList',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'CreateList',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Create List api");
 
@@ -114,7 +113,7 @@ class BoardUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/CreateCard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'CreateCard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Create Card api");
 
@@ -143,7 +142,7 @@ class BoardUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/DeleteList',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'DeleteList',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Delete List api");
 
@@ -174,7 +173,7 @@ class BoardUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/DeleteCard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'DeleteCard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Delete Card api");
 
@@ -207,7 +206,7 @@ class BoardUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Update List api");
 
@@ -239,7 +238,7 @@ class BoardUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Update Card api");
 
@@ -419,7 +418,7 @@ class BoardUi extends Component
 
             try
             {
-                const response = await fetch('http://localhost:5000/api/MoveCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+                const response = await fetch(process.env.REACT_APP_URL + 'MoveCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
                 // console.log("calling Move Card api");
 
@@ -459,7 +458,7 @@ class BoardUi extends Component
 
             try
             {
-                const response = await fetch('http://localhost:5000/api/MoveList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+                const response = await fetch(process.env.REACT_APP_URL + 'MoveList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
                 // console.log("calling Move List api");
 

@@ -363,6 +363,7 @@ a.nav-link
   display: inline-block;
   white-space: nowrap;
   margin-left: 20px;
+  position: relative;
 }
 
 .list
@@ -390,10 +391,14 @@ a.nav-link
 .listName
 {
   display: flex;
-  flex-wrap: wrap;
+  margin-left: 1.5rem;
+  white-space: normal;
+  display: inline-block;
   cursor: text;
   width: 10rem;
-  font-weight: bold;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .listButton
@@ -459,6 +464,15 @@ a.nav-link
   position: absolute;
   left: 0.5rem;
   top: 10px;
+  background-color: tomato;
+  border: none;
+}
+
+.completeList
+{
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
   background-color: tomato;
   border: none;
 }

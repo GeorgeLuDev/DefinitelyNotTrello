@@ -636,9 +636,12 @@ class BoardUi extends Component
                         <div className="list" data-_id={list._id} key={list._id} scrollable="true">
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                              
+                              <input className="completeList" type="checkbox"></input>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
                                   &times;
                               </button>
+                              
                           </div>
                           {
                               this.state.cards[list.index].map(card =>

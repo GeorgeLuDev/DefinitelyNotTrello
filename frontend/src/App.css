@@ -80,7 +80,6 @@ a.nav-link
 #header a
 {
   display: inline-block;
-  float: left;
   border: 1px black;
   background-color: white;
   padding: 5px;
@@ -153,7 +152,7 @@ a.nav-link
   margin: 0.5rem;
   height: 7rem;
   width: 14rem;
-  cursor: move;
+  cursor: default;
   background-size: 100%;
   background-position: center;
   border-radius: 10px;
@@ -209,6 +208,17 @@ a.nav-link
   float: left;
 }
 
+#addUserButton
+{
+  padding:0.5rem 0;
+  font-size:1rem;
+}
+
+#addUserButton input
+{
+  margin-left: 5px;
+}
+
 .boardMenuDivider
 {
   height: 2rem;
@@ -223,13 +233,28 @@ a.nav-link
   margin: 0.5rem 1rem;
 }
 
+#boardMenuRightside
+{
+  font-size:1rem;
+  right:1rem;
+  position: absolute;
+  width: 100%;
+}
+#boardMenuRightside form
+{
+  margin-top: 0.5rem;
+  float: right;
+}
+
+#boardMenuRightside form input
+{
+  margin-right: 1rem;
+}
+
 #editBGButton
 {
+  float: right;
   font-size: 1rem;
-  position: absolute;
-  display:block;
-  top:4.5rem;
-  right:1rem;
   background: slategray;
   padding:0.5rem;
   height: 2.5rem;
@@ -246,7 +271,7 @@ a.nav-link
   max-height: 48rem;
   overflow-y: scroll;
   scrollbar-width: none;
-  cursor: move;
+  cursor: default;
   /* margin: 0.1rem; */
   /* height: auto; */
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
@@ -267,6 +292,7 @@ a.nav-link
   margin: 0 4px;
   box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
   margin-bottom:10px;
+  cursor: move;
 }
 
 .listHolder::-webkit-scrollbar {
@@ -276,7 +302,7 @@ a.nav-link
 .listContainer
 {
   display: flex;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .listName
@@ -285,6 +311,7 @@ a.nav-link
   flex-wrap: wrap;
   cursor: text;
   width: 10rem;
+  font-weight: bold;
 }
 
 .listButton
@@ -320,7 +347,8 @@ a.nav-link
 
 .addCard
 {
-  display: inline;
+  width: 100%;
+  margin: 0px;
 }
 
 .cardInput
@@ -425,9 +453,4 @@ a.nav-link
 {
   width: 100%;
   text-align: center;
-}
-
-#editBackgroundMenu
-{
-
 }

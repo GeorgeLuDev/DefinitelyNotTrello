@@ -13,10 +13,11 @@ class BoardUi extends Component
             cardName: '',
             lists: [],
             listName: '',
-            newlistindex: -1,
-            newcardindex: -1,
-            oldlistindex: -1,
-            oldcardindex: -1
+            newlistindex: null,
+            newcardindex: null,
+            oldlistindex: null,
+            oldcardindex: null,
+            thumbnails: []
         }
     }
     
@@ -351,7 +352,7 @@ class BoardUi extends Component
         var element = document.querySelector('.dragging');
         var currentList = document.getElementById(listid);
         var afterElement;
-       if (event.target.className === "card" && element.className === "card dragging")
+       if (element.className === "card dragging")
        {    
         //    console.log("card");
 
@@ -637,16 +638,19 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
-    getpictures = async (event) =>
+    getpictures = async () =>
     {
         try
         {
-            const response = await fetch("https://api.unsplash.com/photos?query=nature&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&per_page=25",{method:'GET',headers:{'Content-Type': 'application/json'}});
+            const response = await fetch("https://api.unsplash.com/photos/random?query=death&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
 
             res.map(res => console.log(res.urls.thumb));
 
+            this.setState({
+                thumbnails : res
+            });
         }
         catch(e)
         {
@@ -654,7 +658,44 @@ class BoardUi extends Component
             console.log(e.toString());
             return;
         }
-        // this.componentDidMount();
+    }
+
+    handleModal = (event) =>
+    {
+        var modal = document.getElementById("editBgModal");
+        if (modal.className === "modalbg modalHider")
+        {
+            this.getpictures();
+            modal.className = "modalbg";
+        }
+        else
+        {
+            modal.className = "modalbg modalHider";
+        }
+    }
+
+    updateBoardBackground = async (event,url) =>
+    {
+        try
+        {
+            var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","boardBackground":"' + url + '"}';
+
+            const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+            var res = JSON.parse(await response.text());
+
+            this.setState({
+                thumbnails : []
+            });
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.handleModal();
+        this.componentDidMount();
     }
 
     render()
@@ -672,7 +713,7 @@ class BoardUi extends Component
             </span>
             <div id="boardMenuRightside">
               <div id="editBGButton">
-                <p>Edit Image</p>
+                <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
               </div>
               <form>
                 <input id="searchlist" name="searchList" placeholder="Highlight Lists" onChange={(e) => this.searchList(e)}></input>
@@ -722,9 +763,17 @@ class BoardUi extends Component
           <div id="editBgModal" className="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
-              <span id="closeBgModal">&times;</span>
+              <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
+                {
+                    this.state.thumbnails.map(thumbnail => 
+                        <div key={thumbnail.id} className="bgoption" onClick={(e) => this.updateBoardBackground(e,thumbnail.urls.regular)} style={{backgroundImage : "url(" + thumbnail.urls.thumb +")"}}></div>)
+                }
+
+                {/* {console.log(this.state.thumbnails)} */}
+
+                {/* <div className="bgoption"></div>
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
@@ -743,8 +792,7 @@ class BoardUi extends Component
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
-                <div className="bgoption"></div>
-                <div className="bgoption"></div>
+                <div className="bgoption"></div> */}
               </div>
             </div>
           </div>

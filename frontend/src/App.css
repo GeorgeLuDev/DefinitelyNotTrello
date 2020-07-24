@@ -194,6 +194,11 @@ a.nav-link
     width: 10rem;
 }
 
+#choosebackground
+{
+  cursor: pointer;
+}
+
 .boardDelete
 {
   display:none;
@@ -324,12 +329,12 @@ a.nav-link
   margin: 0.5rem;
   height: 7rem;
   width: 14rem;
-  cursor: default;
+  cursor: pointer;
   background-size: 100%;
   background-position: center;
   border-radius: 10px;
   position: relative;
-  background-image: url("https://images.unsplash.com/photo-1595323397978-65433d24fc23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80")
+  /* background-image: url("https://images.unsplash.com/photo-1595323397978-65433d24fc23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80") */
 }
 
 #closeBgModal
@@ -343,6 +348,7 @@ a.nav-link
   padding: auto;
   right: 5px;
   top:5px;
+  cursor: pointer;
 }
 
 .listHolder

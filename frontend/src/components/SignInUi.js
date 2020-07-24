@@ -78,6 +78,7 @@ function SignInUi()
                 <hr></hr>
                 <div className="linktootherpage">
                     <a href="/ForgotPassword">Can't log in?</a>
+                    <span class="passwordMenuDivider"></span>
                     <a href="/SignUp" className="link">Sign up for an account</a>
                 </div>
             </Form>

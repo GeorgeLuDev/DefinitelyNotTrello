@@ -87,8 +87,7 @@ function SignInUi()
                 <span id="loginResult">{message}</span>
                 <hr></hr>
                 <div className="linktootherpage">
-                    <a href="/ForgotPassword">Can't log in?</a>
-                    <a href="/SignUp" className="link">Sign up for an account</a>
+                    <a href="/SignIn" className="link">Already have an account? Log in</a>
                 </div>
             </Form>
         </div>

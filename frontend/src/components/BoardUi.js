@@ -22,6 +22,12 @@ class BoardUi extends Component
     
     async componentDidMount()
     {
+        var user = JSON.parse(localStorage.getItem('user_data'));
+        if (user === null)
+        {
+            window.location.href = '/';
+            return;
+        }
         // var element = document.querySelector('.board');
         // var imgUrl = "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"
         // element.style = {backgroundImage: 'url(' + imgUrl + ')'};
@@ -471,7 +477,16 @@ class BoardUi extends Component
     {
       return(
         <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
-          <div id="boardMenuHeader"><p>{this.state.boardName}</p><span id="editBGButton"><p>Edit Image</p></span></div>
+          <div id="boardMenuHeader">
+            <span>{this.state.boardName}</span>
+            <span class="boardMenuDivider"></span>
+            <span id="addUserButton">
+              <p>Add user by email</p>
+            </span>
+            <span id="editBGButton">
+              <p>Edit Image</p>
+            </span>
+          </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
               {
                   this.state.lists.map(list =>

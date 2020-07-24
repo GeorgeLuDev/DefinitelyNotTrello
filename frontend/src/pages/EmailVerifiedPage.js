@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import NavBarUi from '../components/NavBarUi';
 import EmailVerifiedUi from '../components/EmailVerifiedUi';
 
 const EmailVerifiedPage = () =>
 {
     return(
         <div>
-            <Header />
+            <NavBarUi />
             <EmailVerifiedUi components={EmailVerifiedUi}/>
         </div>
     );

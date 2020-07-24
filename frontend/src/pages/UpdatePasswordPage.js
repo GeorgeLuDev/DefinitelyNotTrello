@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import NavBarUi from '../components/NavBarUi';
 import UpdatePasswordUi from '../components/UpdatePasswordUi';
 
 const UpdatePasswordPage = () =>
 {
     return(
         <div>
-            <Header />
+            <NavBarUi />
             <UpdatePasswordUi />
         </div>
     );

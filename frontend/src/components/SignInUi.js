@@ -27,7 +27,7 @@ function SignInUi()
 
             console.log(res);
 
-            if (res.id === -1)
+            if (res.id === "-1")
             {
                 setMessage("User/Password combination incorrect");
             }

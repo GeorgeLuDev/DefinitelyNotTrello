@@ -7,6 +7,7 @@ const PORT = process.env.port || 5000;
 
 // mailing stuff
 const nodemailer = require('nodemailer');
+const { connect } = require('mongodb');
 var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -219,16 +220,17 @@ app.put('/api/UpdateUser', async (req,res) =>
         _id: ObjectId(_id)
     };
 
+    var objForUpdate = {};
+
+    if (req.body.firstName) objForUpdate.firstName = req.body.firstName;
+    if (req.body.lastName) objForUpdate.lastName = req.body.lastName;
+    if (req.body.email) objForUpdate.email = req.body.email;
+    if (req.body.password) objForUpdate.password = req.body.password;
+    if (req.body.emailVerification) objForUpdate.emailVerification = req.body.emailVerification;
+
     var newValues = 
     {
-        $set:
-        {
-            firstName : firstName,
-            lastName : lastName,
-            email : email,
-            password : password,
-            emailVerification : emailVerification
-        }
+        $set : objForUpdate
     };
 
     var result = await db.collection('Users').updateOne(query,newValues);
@@ -287,7 +289,8 @@ app.put('/api/EmailVerification', async (req,res) =>
 
     // do stuff with database
     const db = client.db();
-
+    console.log(_id);
+    
     var query = 
     { 
         _id: ObjectId(_id)
@@ -422,12 +425,24 @@ app.post('/api/CreateBoard', async (req,res) =>
     console.log('CreateBoard api hit');
     var error = '';
 
+    var bgs = [
+      "https://images.unsplash.com/photo-1595323397978-65433d24fc23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
+      "https://images.unsplash.com/photo-1590440048050-764e709d3380?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+      "https://images.unsplash.com/photo-1556031970-26f08a4b18ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80",
+      "https://images.unsplash.com/photo-1546767426-7e015e14c229?ixlib=rb-1.2.1&auto=format&fit=crop&w=564&q=80",
+      "https://images.unsplash.com/photo-1509652839609-d94a8ad572db?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+      "https://images.unsplash.com/photo-1555679486-e341a3e7b6de?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+      "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg",
+      "https://images.unsplash.com/photo-1552372910-bd19f8ec2c9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1868&q=80"
+    ];
+
     // get incoming json and format
     const { boardName, index, parentUsers } = req.body;
     const newBoard =
     {
         boardName : boardName,
         index : index,
+        boardBackground : bgs[Math.floor(Math.random(0) * bgs.length)],
         parentUsers : parentUsers
     }
 
@@ -487,7 +502,7 @@ app.put('/api/UpdateBoard', async (req,res) =>
     var error = '';
 
     // get incoming json
-    const { _id, boardName, index, parentUsers } = req.body;
+    const { _id, boardName, index, boardBackground, parentUsers } = req.body;
 
     // do stuff with database
     var query = 
@@ -499,9 +514,8 @@ app.put('/api/UpdateBoard', async (req,res) =>
 
     if (req.body.boardName) objForUpdate.boardName = req.body.boardName;
     if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.boardBackground) objForUpdate.boardBackground = req.body.boardBackground;
     if (req.body.parentUsers) objForUpdate.parentUsers = req.body.parentUsers;
-
-    console.log(objForUpdate);
 
     var newValues = 
     {
@@ -522,6 +536,98 @@ app.put('/api/UpdateBoard', async (req,res) =>
 
 });
 
+// MoveBoard API
+app.put('/api/MoveBoard', async (req,res) => 
+{
+    console.log('MoveBoard API hit.');
+    var error = '';
+
+    // Retrieve JSON.
+    const { _id, oldIndex, newIndex, parentUsers } = req.body;
+
+    // Get the ID to query the database.
+    var query1;
+
+    var query2 = 
+    { 
+        _id: ObjectId(_id)
+    };
+
+    var newValues;
+    const db = client.db();
+
+    if (oldIndex == newIndex)
+    {
+        // do nothing
+    }
+    else if (oldIndex > newIndex)
+    {
+        // shift things down
+        query1 = { 
+            parentUsers: parentUsers,
+            index: {$in: [...Array(parseInt(oldIndex - parseInt(newIndex) + 1))].map((_, index) => index + parseInt(newIndex))}
+        };
+
+        newValues = 
+        {
+            $inc:
+            {
+                index: 1
+            }
+        }
+
+        var result = await db.collection('Boards').updateMany(query1, newValues);
+        // var result = await db.collection('Lists').find(query1).toArray();
+        // console.log(result);
+        newValues = 
+        {
+            $set:
+            {
+                index: parseInt(newIndex)
+            }
+        }
+        var result = await db.collection('Boards').updateOne(query2, newValues);
+        // console.log(result);
+    }
+    else if (oldIndex < newIndex)
+    {
+        // shift things up
+        query1 = { 
+            parentUsers: parentUsers,
+            index: {$in: [...Array(parseInt(newIndex - parseInt(oldIndex) + 1))].map((_, index) => index + parseInt(oldIndex))}
+        };
+
+        newValues = 
+        {
+            $inc:
+            {
+                index: -1
+            }
+        }
+
+        var result = await db.collection('Boards').updateMany(query1, newValues);
+        // var result = await db.collection('Lists').find(query1).toArray();
+        // console.log(result);
+        newValues = 
+        {
+            $set:
+            {
+                index: parseInt(newIndex)
+            }
+        }
+        var result = await db.collection('Boards').updateOne(query2, newValues);
+        // console.log(result);
+    }
+
+    var ret = 
+    {
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
 // delete board api
 app.delete('/api/DeleteBoard', async (req,res) => 
 {
@@ -530,16 +636,51 @@ app.delete('/api/DeleteBoard', async (req,res) =>
 
     // get incoming json
     const { _id } = req.body;
-
+    const db = client.db();
     // do stuff with database
     
-    var query = 
+    var query1 = 
     { 
         _id: ObjectId(_id)
     };
     
-    const db = client.db();
-    var result = await db.collection('Boards').deleteOne(query);
+    var result = await db.collection('Boards').findOne(query1);
+
+    var query2 = 
+    { 
+        parentUsers: result.parentUsers[0],
+        index: {$gte: parseInt(result.index)}
+    };
+
+    newValues = 
+    {
+        $inc:
+        {
+            index: -1
+        }
+    }
+
+    var query3 = 
+    { 
+        parentBoard: _id
+    };
+    var result = await db.collection('Boards').updateMany(query2, newValues);
+
+    var result = await db.collection('Lists').find(query3).toArray();
+
+    for (i=0;i<result.length;i++)
+    {
+        var query4 =
+        {
+            parentList: result[i]._id.toString()
+        }
+        console.log(result[i]._id);
+        var result1 = await db.collection('Cards').deleteMany(query4);
+    }
+
+    var result = await db.collection('Lists').deleteMany(query3);
+
+    var result = await db.collection('Boards').deleteOne(query1);
 
     // send result back
     var ret = 
@@ -630,15 +771,16 @@ app.put('/api/UpdateList', async (req,res) =>
     { 
         _id: ObjectId(_id)
     };
+
+    var objForUpdate = {};
+
+    if (req.body.listName) objForUpdate.listName = req.body.listName;
+    if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.parentBoard) objForUpdate.parentBoard = req.body.parentBoard;
     
     var newValues = 
     {
-        $set:
-        {
-            listName : listName,
-            index : index,
-            parentBoard : parentBoard
-        }
+        $set : objForUpdate
     };
     
     // Database search and update.
@@ -656,6 +798,102 @@ app.put('/api/UpdateList', async (req,res) =>
 
 });
 
+// MoveList API
+app.put('/api/MoveList', async (req,res) => 
+{
+    console.log('MoveList API hit.');
+    var error = '';
+
+    // Retrieve JSON.
+    const { _id, oldIndex, newIndex, parentBoard } = req.body;
+
+    // Get the ID to query the database.
+    var query1;
+
+    var query2 = 
+    { 
+        _id: ObjectId(_id)
+    };
+
+    var newValues;
+    const db = client.db();
+    // console.log(_id);
+    // console.log(oldIndex);
+    // console.log(newIndex);
+    // console.log(parentBoard);
+
+    if (oldIndex == newIndex)
+    {
+        // do nothing
+    }
+    else if (oldIndex > newIndex)
+    {
+        // shift things down
+        query1 = { 
+            parentBoard: parentBoard,
+            index: {$in: [...Array(parseInt(oldIndex - parseInt(newIndex) + 1))].map((_, index) => index + parseInt(newIndex))}
+        };
+
+        newValues = 
+        {
+            $inc:
+            {
+                index: 1
+            }
+        }
+
+        var result = await db.collection('Lists').updateMany(query1, newValues);
+        // var result = await db.collection('Lists').find(query1).toArray();
+        // console.log(result);
+        newValues = 
+        {
+            $set:
+            {
+                index: parseInt(newIndex)
+            }
+        }
+        var result = await db.collection('Lists').updateOne(query2, newValues);
+        // console.log(result);
+    }
+    else if (oldIndex < newIndex)
+    {
+        // shift things up
+        query1 = { 
+            parentBoard: parentBoard,
+            index: {$in: [...Array(parseInt(newIndex - parseInt(oldIndex) + 1))].map((_, index) => index + parseInt(oldIndex))}
+        };
+
+        newValues = 
+        {
+            $inc:
+            {
+                index: -1
+            }
+        }
+
+        var result = await db.collection('Lists').updateMany(query1, newValues);
+        // var result = await db.collection('Lists').find(query1).toArray();
+        // console.log(result);
+        newValues = 
+        {
+            $set:
+            {
+                index: parseInt(newIndex)
+            }
+        }
+        var result = await db.collection('Lists').updateOne(query2, newValues);
+        // console.log(result);
+    }
+
+    var ret = 
+    {
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
 // DeleteList API
 app.delete('/api/DeleteList', async (req,res) => 
 {
@@ -665,16 +903,37 @@ app.delete('/api/DeleteList', async (req,res) =>
     // Retrieve JSON.
     const { _id } = req.body;
 
+    const db = client.db();
 
     // Get the ID to query the database.
-    var query = 
+    var query1 = 
     { 
         _id: ObjectId(_id)
     };
-    
-    // Database search and delete.
-    const db = client.db();
-    var result = await db.collection('Lists').deleteOne(query);
+
+    var result = await db.collection('Lists').findOne(query1);
+
+    var query2 = 
+    { 
+        parentBoard: result.parentBoard,
+        index: {$gte: parseInt(result.index)}
+    };
+
+    newValues = 
+    {
+        $inc:
+        {
+            index: -1
+        }
+    }
+
+    var query3 = 
+    { 
+        parentList: _id
+    };
+    var result = await db.collection('Lists').updateMany(query2, newValues);
+    var result = await db.collection('Cards').deleteMany(query3);
+    var result = await db.collection('Lists').deleteOne(query1);
 
     // Return result.
     var ret = 
@@ -759,14 +1018,15 @@ app.put('/api/UpdateCard', async(req,res) =>
         _id: ObjectId(_id)
     };
 
+    var objForUpdate = {};
+
+    if (req.body.cardName) objForUpdate.cardName = req.body.cardName;
+    if (req.body.index) objForUpdate.index = req.body.index;
+    if (req.body.parentList) objForUpdate.parentList = req.body.parentList;
+    
     var newValues = 
     {
-        $set:
-        {
-            cardName : cardName,
-            index : index,
-            parentList : parentList
-        }
+        $set : objForUpdate
     };
 
     var result = await db.collection('Cards').updateOne(query,newValues);
@@ -781,21 +1041,179 @@ app.put('/api/UpdateCard', async(req,res) =>
     res.status(200).json(ret);
 });
 
+// Move card api
+app.put('/api/MoveCard', async (req,res) => 
+{
+    console.log('MoveCard API hit.');
+    var error = '';
+
+    // Retrieve JSON.
+    const { _id, oldIndex, newIndex, oldparentList, newparentList } = req.body;
+
+    // Get the ID to query the database.
+    var query1;
+
+    var query2 = 
+    { 
+        _id: ObjectId(_id)
+    };
+
+    var newValues;
+    const db = client.db();
+
+    if (oldparentList == newparentList)
+    {
+        if (oldIndex == newIndex)
+        {
+            // do nothing
+        }
+        else if (oldIndex > newIndex)
+        {
+            // shift things down
+            query1 = { 
+                parentList: oldparentList,
+                index: {$in: [...Array(parseInt(oldIndex - parseInt(newIndex) + 1))].map((_, index) => index + parseInt(newIndex))}
+            };
+    
+            newValues = 
+            {
+                $inc:
+                {
+                    index: 1
+                }
+            }
+    
+            var result = await db.collection('Cards').updateMany(query1, newValues);
+            // var result = await db.collection('Lists').find(query1).toArray();
+            // console.log(result);
+            newValues = 
+            {
+                $set:
+                {
+                    index: parseInt(newIndex)
+                }
+            }
+            var result = await db.collection('Cards').updateOne(query2, newValues);
+            // console.log(result);
+        }
+        else if (oldIndex < newIndex)
+        {
+            // shift things up
+            query1 = { 
+                parentList: oldparentList,
+                index: {$in: [...Array(parseInt(newIndex - parseInt(oldIndex) + 1))].map((_, index) => index + parseInt(oldIndex))}
+            };
+    
+            newValues = 
+            {
+                $inc:
+                {
+                    index: -1
+                }
+            }
+    
+            var result = await db.collection('Cards').updateMany(query1, newValues);
+            // var result = await db.collection('Lists').find(query1).toArray();
+            // console.log(result);
+            newValues = 
+            {
+                $set:
+                {
+                    index: parseInt(newIndex)
+                }
+            }
+            var result = await db.collection('Cards').updateOne(query2, newValues);
+            // console.log(result);
+        }
+    }
+    else
+    {
+        console.log("moving card to different list");
+        // card moving to a different list
+        query1 = { 
+            parentList: oldparentList,
+            index: {$gt: parseInt(oldIndex)}
+        };
+
+        newValues = 
+        {
+            $inc:
+            {
+                index: -1
+            }
+        }
+
+        var result = await db.collection('Cards').updateMany(query1, newValues);
+        // var result = await db.collection('Cards').find(query1).toArray();
+        // console.log(result);
+
+        query1 = { 
+            parentList: newparentList,
+            index: {$gte: parseInt(newIndex)}
+        };
+
+        newValues = 
+        {
+            $inc:
+            {
+                index: 1
+            }
+        }
+
+        var result = await db.collection('Cards').updateMany(query1, newValues);
+        newValues = 
+        {
+            $set:
+            {
+                index: parseInt(newIndex),
+                parentList: newparentList
+            }
+        }
+        var result = await db.collection('Cards').updateOne(query2, newValues);
+        // console.log(result);
+    }
+
+    var ret = 
+    {
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
+
 // delete card api
 app.delete('/api/DeleteCard', async(req,res) =>
 {
-    console.log('UpdateCard api hit');
+    console.log('DeleteCard api hit');
     var error = '';
     const { _id } = req.body;
     // do stuff with database
     const db = client.db();
 
-    var query = 
+    var query1 = 
     { 
         _id: ObjectId(_id)
     };
 
-    var result = await db.collection('Cards').deleteOne(query);
+    var result = await db.collection('Cards').findOne(query1);
+
+    var query2 = 
+    { 
+        parentList: result.parentList,
+        index: {$gte: parseInt(result.index)}
+    };
+
+    newValues = 
+    {
+        $inc:
+        {
+            index: -1
+        }
+    }
+    var result = await db.collection('Cards').updateMany(query2, newValues);
+
+    var result = await db.collection('Cards').deleteOne(query1);
 
     // send result back
     var ret = 
@@ -826,6 +1244,7 @@ app.get('/api/User/:id', async (req,res) =>
     const db = client.db();
     var result = await db.collection('Boards').find(query).sort(sort).toArray();
 
+
     // Return result.
     var ret = 
     {
@@ -849,10 +1268,16 @@ app.get('/api/Board/:id', async (req,res) =>
     { 
         parentBoard: req.params.id
     };
+    var query1 = 
+    { 
+        _id: ObjectId(req.params.id)
+    };
     var sort = { index: 1 };
 
     // do stuff with database
     const db = client.db();
+
+    var boardResult = await db.collection('Boards').findOne(query1);
 
     // given a board return all Lists and Cards associated with that board
 if (process.env.NODE_ENV === 'production')
@@ -867,27 +1292,28 @@ if (process.env.NODE_ENV === 'production')
 
     for (var i=0;i<listResult.length;i++)
     {
-        console.log("i:" + i);
         listString.push(listResult[i].listName);
         query = 
         { 
             parentList: listResult[i]._id.toString()
         };
         
-        console.log(query);
         var cardResult = await db.collection('Cards').find(query).sort(sort).toArray(); // fail not returning anything
-        console.log(cardResult);
-        for (var j = 0; j < cardResult.length;j++)
-        {
-            console.log("j:" + j);
-            cardString[i].push(cardResult[j].cardName);
-        }
+        cardString[i] = cardResult;
+
+        // for (var j = 0; j < cardResult.length;j++)
+        // {
+        //     console.log("j:" + j);
+        //     cardString[i].push(cardResult[j].cardName);
+        // }
     }
 
     // send result back
     var ret = 
     {
-        listString: listString,
+        boardString: boardResult.boardName,
+        boardBackground: boardResult.boardBackground,
+        listString: listResult,
         cardString: cardString,
         error: error
     };

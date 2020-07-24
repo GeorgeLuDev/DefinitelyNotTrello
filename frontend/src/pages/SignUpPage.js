@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Header from '../components/Header';
+import NavBarUi from '../components/NavBarUi';
 import SignUpUi from '../components/SignUpUi';
 
 const SignUpPage = () =>
 {
     return(
         <div>
-            <Header />
+            <NavBarUi />
             <SignUpUi />
         </div>
     );

@@ -1,38 +1,456 @@
-.App {
-  text-align: center;
+
+@font-face {
+  font-family: 'robotoregular';
+  src: url('roboto-regular-webfont.woff2') format('woff2'),
+       url('roboto-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'pacificoregular';
+  src: url('pacifico-regular-webfont.woff2') format('woff2'),
+       url('pacifico-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html
+{
+  height: 100%;
+  font-family: 'robotoregular' !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+body
+{
+  font-family: 'robotoregular' !important;
+  font-size: 16px;
+  margin: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size:cover;
+  background-position-y: center;
+  height: 100%;
+  /* background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
+  /* background-color: white; */
+  
+}
+
+
+#headerlogo
+{
+  height: 2.5rem;
+  margin-right: 1rem;
+}
+
+a.nav-link
+{
+  font-family: 'robotoregular' !important;
+  font-weight: bold;
+  color: white !important;
+  opacity: 100% !important;
+}
+
+.navbar{
+  background-color: #24a9ae !important;
+}
+
+.navbar-brand
+{
+  font-family: 'pacificoregular';
+}
+
+#root
+{
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+
+#header
+{
+  width: 100%;
+  height: 10%;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+#header a
+{
+  display: inline-block;
+  border: 1px black;
+  background-color: white;
+  padding: 5px;
+  margin-right: 1rem;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+#dumbBoardContainer
+{
+  height: 100%;
+}
+
+#boardGridContainer
+{
+  display: grid;
+  grid-template-rows:4rem;
+  background-size: 120rem 70rem;
+  height: 100%;
+}
+
+.board
+{
+  display: grid;
+  grid-auto-columns: max-content;
+  grid-gap: 0px;
+  padding-top: 20px + 40rem;
+  grid-auto-flow : column;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  height: 100%;
+  /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
+  /* background-size: 120rem 60rem; */
+}
+
+.board::-webkit-scrollbar {
+  display: none;
+}
+
+/* .board
+{
+    position: relative;
+    top: 68px;
+    height: calc(100% - 108px);
+    width: calc(100% - 40px);
+    display: flex;
+    padding: 20px 0;
+    margin: 0 20px;
+    overflow: auto;
+} */
+#boardsContainer
+{
+  width: 76rem;
+  margin: auto;
+}
+
+#boardsTitle
+{
+  font-family: 'robotoregular' !important;
+  margin-top: 30px;
+}
+
+.boards
+{
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-direction: column;
+  padding: 1rem;
+  margin: 0.5rem;
+  height: 7rem;
+  width: 14rem;
+  cursor: default;
+  background-size: 100%;
+  background-position: center;
+  border-radius: 10px;
+  position: relative;
+  /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
+  /*background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg");
+  */
+}
+
+.boardsname
+{
+    display: inline-block;
+    color: white;
+    text-align: left;
+    cursor: text;
+    width: 10rem;
+}
+
+.boardDelete
+{
+  display:none;
+}
+
+.boardDelete:hover, .boards:hover .boardDelete, .boards:hover .boardDelete:hover 
+{
+  display: inline-block;
+  background: white;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+.addBoard
+{
+  margin-top: 1rem;
+  display: block;
+  width: 15rem;
+}
+
+#boardMenuHeader
+{
+  background-color: rgba(0,0,0,0);
+  width: 100%;
   color: white;
+  font-weight: bold;
+  padding:0.5rem;
+  padding-left: 3rem;
+  font-size: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+#boardMenuHeader span
+{
+  float: left;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#addUserButton
+{
+  padding:0.5rem 0;
+  font-size:1rem;
+}
+
+#addUserButton input
+{
+  margin-left: 5px;
+}
+
+.boardMenuDivider
+{
+  height: 2rem;
+  border-left: 2px solid white;
+  margin: 0.5rem 1rem;
+}
+
+.passwordMenuDivider
+{
+  height: 2rem;
+  border-left: 2px solid #007bff;
+  margin: 0.5rem 1rem;
+}
+
+#boardMenuRightside
+{
+  font-size:1rem;
+  right:1rem;
+  position: absolute;
+  width: 100%;
+}
+#boardMenuRightside form
+{
+  margin-top: 0.5rem;
+  float: right;
+}
+
+#boardMenuRightside form input
+{
+  margin-right: 1rem;
+}
+
+#editBGButton
+{
+  float: right;
+  font-size: 1rem;
+  background: slategray;
+  padding:0.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+}
+
+
+.listHolder
+{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 272px;
+  max-height: 48rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  cursor: default;
+  /* margin: 0.1rem; */
+  /* height: auto; */
+  /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
+  width: 272px;
+  height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.list
+{
+
+  background-color: #ebecf0;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0 4px;
+  box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
+  margin-bottom:10px;
+  cursor: move;
+}
+
+.listHolder::-webkit-scrollbar {
+  display: none;
+}
+
+.listContainer
+{
+  display: flex;
+  padding: 0.5rem;
+}
+
+.listName
+{
+  display: flex;
+  flex-wrap: wrap;
+  cursor: text;
+  width: 10rem;
+  font-weight: bold;
+}
+
+.listButton
+{
+  float: right;
+}
+
+.card
+{
+  padding: 0.5rem;
+  background-color: #fff;
+  box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
+  margin : 0.5rem 0rem;
+  cursor: move;
+}
+
+.cardName
+{
+  white-space: normal;
+  display: inline-block;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+  cursor: text;
+  width: 11rem;
+  hyphens: auto;
+}
+
+.cardButton
+{
+  float: right;
+}
+
+.addCard
+{
+  width: 100%;
+  margin: 0px;
+}
+
+.cardInput
+{
+  display: inline;
+}
+
+.createcardbutton
+{
+  display: inline;
+}
+
+.dragging
+{
+  background: green;
+  opacity: .5;
+} 
+
+.deleteCard
+{
+  display: none;
+}
+
+.card:hover .deleteCard
+{
+  position: absolute;
+  right: 1rem;
+  background-color: white;
+  display: block;
+  text-align: center;
+  width: 2rem;
+  border: none;
+}
+
+.trelloicon
+{
+  background-image: url(https://a.trellocdn.com/prgb/dist/images/header-loading-logo.d731590….gif);
+  background-size: 18px 18px;
+  display: inline-block;
+  opacity: 0;
+  height: 18px;
+  right: 59px;
+  position: absolute;
+  top: 6px;
+  width: 18px;
+  padding-right: 2rem;
+}
+
+.signinlabel
+{
+  text-align: center;
+  color: #5E6C84;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.signinform
+{
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  padding: 25px 40px;
+  border-radius: 3px;
+  width: 400px;
+  height: 500px;
+  background: white;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.signinbutton
+{
+  background: rgb(52, 175, 52);
+  width: 100%;
+}
+
+.signinemail
+{
+  font-size: 14px;
+  background-color: #FAFBFC;
+  border: 2px solid #DFE1E6;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 3px;
+  height: 44px;
+  -webkit-transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+  transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+  background: rgb(248, 248, 248);
+  width: 100%;
+}
+
+.signinemail:focus
+{
+  background: white;
+}
+
+.linktootherpage
+{
+  width: 100%;
+  text-align: center;
 }

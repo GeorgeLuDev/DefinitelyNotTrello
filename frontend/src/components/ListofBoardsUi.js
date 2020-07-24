@@ -9,13 +9,20 @@ class ListofBoardsUi extends Component
         this.state = 
         {
             boards: [],
-            boardName: ''
+            boardName: '',
+            newboardindex: '',
+            oldboardindex: ''
         }
     }
 
     async componentDidMount()
     {
         var user = JSON.parse(localStorage.getItem('user_data'));
+        if (user === null)
+        {
+            window.location.href = '/';
+            return;
+        }
         // var js = '{"email":"'+ user.id + '"}';
         // console.log(js);
         var url = 'http://localhost:5000/api/User/' + user.id;
@@ -24,7 +31,7 @@ class ListofBoardsUi extends Component
         {
             const response = await fetch(url,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
-            console.log("calling get boards api");
+            // console.log("calling get boards api");
 
             var res = JSON.parse(await response.text());
 
@@ -39,7 +46,7 @@ class ListofBoardsUi extends Component
             
             this.handleUpdate = this.handleUpdate.bind(this);
 
-            console.log(this.state.boards);
+            // console.log(this.state.boards);
         }
         catch(e)
         {
@@ -55,7 +62,7 @@ class ListofBoardsUi extends Component
         console.log("submmiting create board");
 
         var user = JSON.parse(localStorage.getItem('user_data'));
-        var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":[' + '"' + user.id + '"' +']}';
+        var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":["' + user.id + '"]}';
 
         console.log(js);
 
@@ -78,6 +85,38 @@ class ListofBoardsUi extends Component
         }
 
         this.setState({boardName: ''});
+
+        this.componentDidMount();
+    }
+
+    handleUpdateBoard = async (event,boardId) =>
+    {
+        // console.log("calling update list");
+
+        event.preventDefault();
+        // console.log(event);
+
+        var js = '{"_id":"'+ boardId + '","boardName":"' + event.target.innerText + '"}';
+
+        // console.log(js);
+
+        try
+        {
+            const response = await fetch('http://localhost:5000/api/UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+            // console.log("calling Update Board api");
+
+            var res = JSON.parse(await response.text());
+
+            console.log(res);
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
 
         this.componentDidMount();
     }
@@ -111,34 +150,92 @@ class ListofBoardsUi extends Component
         this.componentDidMount();
     }
 
-    handleUpdate = async (event, id) =>
+    handleGotoPage = (event, boardId) =>
     {
-        var temp;
-        if (event.target.innerHTML == "Edit")
-        {
-            event.target.innerHTML = "Update";
+        if (event.target.className === "boards")
+            window.location.href = '/BoardPage/' + boardId;
+    }
 
-            temp = document.createElement('input');
-            temp.value = event.target.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML;
-            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
+    handleBoardNameChange = event =>
+    {
+        this.setState({boardName: event.target.value});
+    }
+
+    dragStart = event =>
+    {
+        if (event.target.className === "boards")
+        {
+            event.target.className = "boards dragging";
+            this.setState
+            (
+                {
+                    newboardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)),
+                    oldboardindex: (Array.prototype.indexOf.call(event.target.parentNode.children, event.target))
+                }
+            )
         }
-        else
+    }
+
+    dragOver = event =>
+    {
+        event.preventDefault();
+        var element = document.querySelector('.dragging');
+        var afterElement;
+       if (event.target.className === "boards" && element.className === "boards dragging")
+       {    
+            // console.log(event.target);
+            // console.log(event.clientY);
+            afterElement = this.getDragAfterElementBoard(event.target.parentNode, event.clientX);
+            if (afterElement == null)
+            {
+                // console.log("1");
+                afterElement = event.target.parentNode.querySelector('.addBoard');
+                event.target.parentNode.insertBefore(element, afterElement);
+            } 
+            else
+            {
+                event.target.parentNode.insertBefore(element, afterElement);
+            }
+
+       }
+    }
+
+    getDragAfterElementBoard = (container, x) => {
+        const draggableElements = [...container.querySelectorAll('.boards:not(.dragging)')]
+      
+        return draggableElements.reduce((closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offset = x - box.left - box.width / 2;
+          if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child }
+          } else {
+            return closest
+          }
+        }, { offset: Number.NEGATIVE_INFINITY }).element
+      }
+
+    dragEnd = async event =>
+    {
+        if (event.target.className === "boards dragging")
         {
-            event.target.innerHTML = "Edit";
+            event.target.className = "boards";
+            // update index of card
+            console.log("old index of board");
+            console.log(this.state.oldboardindex);
+            console.log("new index of board");
+            console.log((Array.prototype.indexOf.call(event.target.parentNode.children, event.target)));
+            // call move boards api
 
-            temp = document.createElement('span');
-            temp.innerHTML = event.target.previousSibling.previousSibling.previousSibling.previousSibling.value;
-            temp.onclick = this.handleGotoPage;
-            event.target.parentNode.replaceChild(temp,event.target.previousSibling.previousSibling.previousSibling.previousSibling);
+            var user = JSON.parse(localStorage.getItem('user_data'));
 
-
-            var js = '{"_id":"'+ id + '","boardName":"' + temp.innerHTML + '"}';
+            var js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldboardindex + '","newIndex":"' + (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)) + '","parentUsers":"' + user.id + '"}';
 
             console.log(js);
-
             try
             {
-                const response = await fetch('http://localhost:5000/api/UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+                const response = await fetch('http://localhost:5000/api/MoveBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+                // console.log("calling Move Card api");
 
                 var res = JSON.parse(await response.text());
 
@@ -151,35 +248,30 @@ class ListofBoardsUi extends Component
                 console.log(e.toString());
                 return;
             }
-
-            this.componentDidMount();
         }
-    }
-
-    handleGotoPage = event =>
-    {
-        window.location.href = '/BoardPage';
-    }
-
-    handleBoardNameChange = event =>
-    {
-        this.setState({boardName: event.target.value});
     }
 
     render()
     {
         return(
-            <div>  
-                <h1>WELCOME This is the list of boards page</h1>
+          <div id="boardsContainer">
+            <h2 id="boardsTitle">My Boards</h2>
+            <div onDragOver={(e) => this.dragOver(e)}>  
+                {/* <h1>WELCOME This is the list of boards page</h1> */}
                 {
-                    this.state.boards.map(board => <div key={board._id}> <span onClick={this.handleGotoPage}>{board.boardName}</span> <button onClick = {(e) => this.handleDelete(e,board._id)}>Delete</button> <button onClick = {(e) => this.handleUpdate(e,board._id)}>Edit</button></div>)
+                    this.state.boards.map(board =>
+                        <div className="boards" style={{backgroundImage: "url(\"" + board.boardBackground + "\")"}}  onClick={(e) => this.handleGotoPage(e, board._id)} data-_id={board._id} key={board._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                            <div className="boardsname" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e,board._id)}>{board.boardName}</div>
+                            <button className="boardDelete" onClick = {(e) => this.handleDelete(e,board._id)}>X</button>
+                        </div>)
                 }
-                <form>
-                    <label>Create Board</label>
+                <form className="addBoard">
+                    {/* <label>Create Board</label> */}
                     <input type="text" id="boardName" placeholder="Name of new Board" value={this.state.boardName} onChange={this.handleBoardNameChange}/><br/>
                     <input type="submit" value="Create" onClick={this.handleCreate}/><br/>
                 </form>
             </div>
+          </div>
         );
     }
 };

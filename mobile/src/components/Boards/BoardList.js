@@ -80,6 +80,7 @@ export default class BoardList extends Component {
     this.setState({boards: res.result});
     // this.state.boards.map(boards => json.result);
     // console.log(this.state.boards);
+    
 
   }
 
@@ -118,6 +119,13 @@ export default class BoardList extends Component {
     return <SearchBar placeholder="Type Here..." lightTheme round></SearchBar>
   }
 
+   renderItem = ({ item }) => {
+
+    return (
+      <Text>{item.boardName}</Text>
+    );
+  }
+
   render() {
 
     return (
@@ -127,9 +135,6 @@ export default class BoardList extends Component {
           animationType="slide"
           transparent={true}
           visible={this.state.isVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
         >
           <View style={styles.centeredView}>
 
@@ -173,17 +178,26 @@ export default class BoardList extends Component {
             {console.log(this.state.boards)}
             <FlatList
               data={this.state.boards}
-              keyExtractor={(x, i) => i.toString()}
-              renderItem={( board ) =>
+              extraData={this.state}
+              keyExtractor={(item) => item._id}
+              renderItem={( {item} ) =>
                 <ListItem
-                  title={board.boardName}
-                  bottomDivider
-                />}
+                  title={item.boardName}
+                  bottomDivider 
+                />
+                }
               ListHeaderComponent={this.renderHeader}
 
             />
-                          {this.state.boards.map(board =>
-                <Text>{board.boardName}</Text>) }
+
+      {/* <FlatList
+        data={this.state.boards}
+        renderItem={this.renderItem}
+        keyExtractor={(item) => item}
+      /> */}
+
+              {/* {this.state.boards.map(board =>
+                <Text>{board.boardName}</Text>) } */}
           </View>
         </View>
       </View>

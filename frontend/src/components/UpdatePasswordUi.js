@@ -19,7 +19,7 @@ function UpdatePasswordUi()
         console.log(js);
         try
         {
-            const response = await fetch('http://localhost:5000/api/UpdatePassword',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'UpdatePassword',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             console.log("calling UpdatePassword api");
 

@@ -238,7 +238,7 @@ a.nav-link
   font-size:1rem;
   right:1rem;
   position: absolute;
-  width: 100%;
+  width: 50%;
 }
 #boardMenuRightside form
 {
@@ -261,6 +261,13 @@ a.nav-link
   border-radius: 5px;
 }
 
+#editBgMenu
+{
+  position: absolute;
+  margin: auto;
+  width: 20rem;
+  background-color: white;
+}
 
 .listHolder
 {

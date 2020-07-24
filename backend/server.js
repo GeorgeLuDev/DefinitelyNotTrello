@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 const PORT = process.env.port || 5000;
+require('dotenv').config();
 
 // mailing stuff
 const nodemailer = require('nodemailer');
@@ -27,6 +28,7 @@ var ObjectId = require('mongodb').ObjectID;
 const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/DNTDB';
 const client = new MongoClient(url, {useUnifiedTopology: true});
 client.connect();
+console.log("server.js connected! Email url is " + process.env.EMAIL_URL);
 
 // CORS Headers => Required for cross-origin/ cross-server communication
 app.use((req, res, next) => 
@@ -131,7 +133,7 @@ app.post('/api/SignUp', async (req,res) =>
             subject: 'Verify Account', // Subject line
             text: 'Click the link below to verify your email', // plain text body
             // html: "<a href=\"localhost:3000/EmailVerification/" + result.ops[0]._id + "\">Verify Email</a>" // html body
-            html: `<a href=\"http://localhost:3000/EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
+            html: `<a href=\"${process.env.EMAIL_URL}EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
 
         };
 
@@ -347,7 +349,7 @@ app.post('/api/SentResetPassword', async (req,res) =>
             to: email, // list of receivers
             subject: 'Reset Password', // Subject line
             text: 'Click the link below to reset password', // plain text body
-            html: `<a href=\"http://localhost:3000/UpdatePassword/${result._id}\">Reset Password Link</a>` // html body
+            html: `<a href=\"${process.env.EMAIL_URL}UpdatePassword/${result._id}\">Reset Password Link</a>` // html body
         };
     
         transporter.sendMail(verifyUserEmail, (error, info) => {

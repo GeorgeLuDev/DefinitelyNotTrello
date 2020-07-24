@@ -262,6 +262,13 @@ a.nav-link
   border-radius: 5px;
 }
 
+#editBgMenu
+{
+  position: absolute;
+  right:0;
+  width: 20rem;
+  background-color: white;
+}
 
 .listHolder
 {

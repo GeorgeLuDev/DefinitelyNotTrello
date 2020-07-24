@@ -22,6 +22,8 @@ class BoardUi extends Component
     
     async componentDidMount()
     {
+        // var s = process.env.REACT_APP_NAME;
+        console.log(process.env.REACT_APP_NAME);
         // var element = document.querySelector('.board');
         // var imgUrl = "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"
         // element.style = {backgroundImage: 'url(' + imgUrl + ')'};

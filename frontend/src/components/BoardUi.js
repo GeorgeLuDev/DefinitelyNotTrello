@@ -668,32 +668,32 @@ class BoardUi extends Component
               </form>
           </div>
 
-          <div id="editBgModal" class="modalbg modalHider">
+          <div id="editBgModal" className="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
               <span id="closeBgModal">&times;</span>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
-                <div class="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
+                <div className="bgoption"></div>
               </div>
             </div>
           </div>

@@ -159,6 +159,7 @@ a.nav-link
 {
   font-family: 'robotoregular' !important;
   margin-top: 30px;
+  margin-left: 12rem;
 }
 
 .boards, .addBoard
@@ -390,6 +391,7 @@ a.nav-link
 
 .listName
 {
+  margin-top: -5px;
   display: flex;
   margin-left: 1.5rem;
   white-space: normal;
@@ -403,7 +405,20 @@ a.nav-link
 
 .listButton
 {
-  float: right;
+  display: none;
+}
+
+
+.list:hover .listButton
+{
+  position: absolute;
+  top:1rem;
+  right: 1rem;
+  background-color: rgb(220,220,220);
+  display: block;
+  text-align: center;
+  width: 1.5rem;
+  border: none;
 }
 
 .card
@@ -411,7 +426,7 @@ a.nav-link
   padding: 0.5rem;
   background-color: #fff;
   box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
-  margin : 0.5rem 0rem;
+  margin : 0  0 0.5rem 0rem;
   cursor: move;
 }
 
@@ -441,11 +456,13 @@ a.nav-link
 .cardInput
 {
   display: inline;
+  width: 100%;
 }
 
 .createcardbutton
 {
   display: inline;
+  padding: 0;
 }
 
 .dragging

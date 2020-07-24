@@ -659,7 +659,7 @@ class BoardUi extends Component
                           }
                           <form className="addCard">
                               <input className="cardInput" type="text" placeholder="Add a Card..."/><br />
-                              <input className="createcardbutton" type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
+                              <input className="createcardbutton" type="submit" value="+" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                           </form>
                         </div>
                       </div>)

@@ -208,6 +208,17 @@ a.nav-link
   float: left;
 }
 
+#addUserButton
+{
+  padding:0.5rem 0;
+  font-size:1rem;
+}
+
+#addUserButton input
+{
+  margin-left: 5px;
+}
+
 .boardMenuDivider
 {
   height: 2rem;
@@ -222,13 +233,28 @@ a.nav-link
   margin: 0.5rem 1rem;
 }
 
+#boardMenuRightside
+{
+  font-size:1rem;
+  right:1rem;
+  position: absolute;
+  width: 100%;
+}
+#boardMenuRightside form
+{
+  margin-top: 0.5rem;
+  float: right;
+}
+
+#boardMenuRightside form input
+{
+  margin-right: 1rem;
+}
+
 #editBGButton
 {
+  float: right;
   font-size: 1rem;
-  position: absolute;
-  display:block;
-  top:4.5rem;
-  right:1rem;
   background: slategray;
   padding:0.5rem;
   height: 2.5rem;

@@ -82,7 +82,7 @@ function SignInUi()
                 </Form.Group>
 
                 <Button className="signinbutton" variant="primary" type="submit" onClick={doSignUp}>
-                    Log in
+                    Sign up
                 </Button>
                 <span id="loginResult">{message}</span>
                 <hr></hr>

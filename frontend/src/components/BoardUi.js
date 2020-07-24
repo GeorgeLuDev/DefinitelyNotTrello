@@ -662,7 +662,7 @@ class BoardUi extends Component
       return(
         <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
           <div id="boardMenuHeader">
-            <span contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
+            <span id="boardNameSpan" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
             <span id="addUserButton">
               <form>
@@ -688,7 +688,7 @@ class BoardUi extends Component
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
-                                  Delete List
+                                  &times;
                               </button>
                           </div>
                           {
@@ -700,7 +700,7 @@ class BoardUi extends Component
                                         
                                       </div>
                                       <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
-                                          X
+                                          &times;
                                       </button>
                                   </div>)
                           }

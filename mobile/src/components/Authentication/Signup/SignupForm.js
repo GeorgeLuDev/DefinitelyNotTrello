@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class SignupForm extends Component {
  
@@ -26,36 +27,24 @@ export default class SignupForm extends Component {
     this.setState({'password' : password})
   }
 
+  storeData = async () =>
+   {
+    try {
+      //const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('user_data', this.email);
+    } catch (e) {
+      alert("error saving data");
+    }
+  }
+
   doSignUp = async () =>
     {
-        //alert("doSignUp called");
 
         var js = '{"firstName":"'+ this.state.firstName.toString() + '","lastName":"'+ this.state.lastName.toString() + '","email":"'+ this.state.email.toString() + '","password":"' + this.state.password.toString() +'"}';
 
         console.log(js);
 
-        // const data = js;
-        
-        // const xhr = new XMLHttpRequest()
-        // xhr.withCredentials = true
-        
-        // xhr.addEventListener('readystatechange', function() {
-        //   if (this.readyState === this.DONE) {
-        //     console.log(this.responseText)
-        //   }
-        // })
-        
-        // xhr.open('POST', 'localhost:5000/api/SignUp')
-        // xhr.setRequestHeader('content-type', 'application/json')
-        
-        // xhr.send(data)
-        // console.log(xhr.responseText)
-
-        //alert("calling Sign Up api");
-
-        // try
-        // {
-            // const response = await fetch('localhost:5000/api/SignUp',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+      
       try{
              alert("calling Sign Up api");
             const response = await fetch('http://3.17.45.57/api/SignUp',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
@@ -69,6 +58,8 @@ export default class SignupForm extends Component {
             if (resJSON.error === "")
             {
                 alert("Sign Up Successful");
+                this.storeData();
+                this.props.navigation.navigate('BoardList');
             }
             else
             {
@@ -77,16 +68,10 @@ export default class SignupForm extends Component {
           }
           catch(e){
             alert("there was an error");
-          alert(e.toString());
+             alert(e.toString());
           return;
           }
-        // }
-        // catch(e)
-        // {
-        //     // alert("there was an error");
-        //     // alert(e.toString());
-        //     return;
-        // }
+       
     }
 
   render() {

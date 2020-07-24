@@ -16,39 +16,56 @@ export default class LoginForm extends Component {
   setEmail = (email) => {
     this.setState({'email' : email})
   }
-
   setPassword = (password) => {
     this.setState({'password' : password})
   }
 
-  doLogin = async () =>
-  {
-    var js = '{"email":"' + this.state.email.toString() + '","password":"' + this.state.password.toString() + '"}';
-    console.log(js);
-    try
-    {
-      alert("calling Sign In api");
-      const response = await fetch('http://3.17.45.57/api/SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-  
-      var resJSON = await response.json();
-  
-      if (resJSON.error === "")
-      {
-        alert("Sign In successful");
-      }
-      else
-      {
-        alert(resJSON.error);
-      }
-    } 
-    catch(e)
-    {
-      alert("there was an error");
-      alert(e.toString());
-      return;
+  storeData = async () =>
+   {
+    try {
+      //const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('user_data', this.email);
+    } catch (e) {
+      alert("error saving data");
     }
   }
 
+  doLogIn = async () =>
+    {
+
+        var js = '{"email":"'+ this.state.email.toString() + '","password":"' + this.state.password.toString() +'"}';
+
+        console.log(js);
+
+      
+      try{
+             alert("calling Sign Up api");
+            const response = await fetch('http://3.17.45.57/api/SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+
+            
+
+            var resJSON = await response.json();
+
+            alert(JSON.stringify(resJSON));
+
+            if (resJSON.error === "")
+            {
+                alert("Sign In Successful");
+                this.storeData();
+                this.props.navigation.navigate('BoardList');
+            }
+            else
+            {
+                alert(resJSON.error);
+            }
+          }
+          catch(e){
+            alert("there was an error");
+             alert(e.toString());
+          return;
+          }
+       
+    }
 
   render() {
     return (
@@ -56,7 +73,7 @@ export default class LoginForm extends Component {
 
         <TextInput 
           style={styles.input}
-          placeholder="email"
+          placeholder="Email"
           placeholderTextColor="rgba(255, 255, 255, 0.7)"
           onChangeText={(email) => this.setEmail(email)}
         />
@@ -69,14 +86,14 @@ export default class LoginForm extends Component {
           />
 
         <TouchableOpacity onPress={() => this.props.navigation.navigate('PasswordRecovery')}>
-          <Text style={styles.forgotPass}>
-          Forgot Password
-          </Text>
+                <Text style={styles.forgotPass}>
+                Forgot Password
+                </Text>
         </TouchableOpacity>
       
 
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogin()}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogIn()}>
                   <Text style={styles.buttonText}>
                     Log In
                   </Text>

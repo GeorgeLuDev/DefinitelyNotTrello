@@ -26,27 +26,29 @@ export default function App() {
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} />
         <Stack.Screen name="BoardList" component={BoardList}
-        options={{
-          title: 'Boards',
-          headerRight: () => (
-            <TouchableOpacity
-              style={{
-                marginRight: 20
-              }}
-              onPress={() => alert('This is a button!')}>
+        // options={{
+        //   title: 'Boards',
+        //   headerRight: () => (
+        //     <TouchableOpacity
+        //       style={{
+        //         marginRight: 20
+        //       }}
+        //       onPress={setIsVisible(true)}>
 
-            <Entypo name="plus" size={34} color="white" />
-              </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: '#4b414a',
+        //     <Entypo name="plus" size={34} color="white" />
+        //       </TouchableOpacity>
+        //   ),
+        //   headerStyle: {
+        //     backgroundColor: '#4b414a',
             
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            alignSelf: 'center'
-          }
-        }} />
+        //   },
+        //   headerTintColor: '#fff',
+        //   headerTitleStyle: {
+        //     alignSelf: 'center'
+        //   }
+        // }} 
+        
+        />
       </Stack.Navigator>
     </NavigationContainer>
 

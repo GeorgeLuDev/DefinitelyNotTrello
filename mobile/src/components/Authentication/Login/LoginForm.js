@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class LoginForm extends Component {
  
@@ -44,20 +45,50 @@ export default class LoginForm extends Component {
 
             
 
-            var resJSON = await response.json();
+            // var resJSON = await response.json();
 
-            alert(JSON.stringify(resJSON));
-
-            if (resJSON.error === "")
+            // alert(JSON.stringify(resJSON));
+            // console.log(resJSON);
+            var res = JSON.parse(await response.text());
+            // console.log(res);
+            console.log(res.emailVerification);
+            if (res.id === -1)
             {
-                alert("Sign In Successful");
-                this.storeData();
-                this.props.navigation.navigate('BoardList');
+              alert("User/Password combination is incorrect.");
+            }
+            else if (res.emailVerification === 0)
+            {
+              alert("Please verify your email before signing in.");
             }
             else
             {
-                alert(resJSON.error);
+              var user = {
+                id: res.id,
+                firstName: res.firstName,
+                lastName: res.lastName
+              };
+              try 
+              {
+                await AsyncStorage.setItem(
+                  "user", JSON.stringify(user)
+                );
+                this.props.navigation.navigate("BoardList");
+              } 
+              catch (e) 
+              {
+                alert("Something went wrong");
+              }
             }
+            // if (resJSON.error === "")
+            // {
+            //     alert("Sign In Successful");
+            //     this.storeData();
+            //     this.props.navigation.navigate('BoardList');
+            // }
+            // else
+            // {
+            //     alert(resJSON.error);
+            // }
           }
           catch(e){
             alert("there was an error");

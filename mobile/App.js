@@ -12,6 +12,7 @@ import AuthenticationScreen from './src/components/Authentication/Authentication
 import BoardList from './src/components/Boards/BoardList';
 import { Entypo } from '@expo/vector-icons'; 
 import PasswordRecovery from './src/components/Authentication/PasswordRecovery';
+import Board from './src/components/Boards/Board';
 
 
 const Stack = createStackNavigator();
@@ -20,35 +21,14 @@ export default function App() {
   return (
 
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="BoardList">
+        <Stack.Navigator initialRouteName="Auth">
         <Stack.Screen name="Auth" component={AuthenticationScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} />
-        <Stack.Screen name="BoardList" component={BoardList}
-        // options={{
-        //   title: 'Boards',
-        //   headerRight: () => (
-        //     <TouchableOpacity
-        //       style={{
-        //         marginRight: 20
-        //       }}
-        //       onPress={setIsVisible(true)}>
-
-        //     <Entypo name="plus" size={34} color="white" />
-        //       </TouchableOpacity>
-        //   ),
-        //   headerStyle: {
-        //     backgroundColor: '#4b414a',
-            
-        //   },
-        //   headerTintColor: '#fff',
-        //   headerTitleStyle: {
-        //     alignSelf: 'center'
-        //   }
-        // }} 
+        <Stack.Screen name="BoardList" component={BoardList} />
+        <Stack.Screen name="Board" component={Board} />
         
-        />
       </Stack.Navigator>
     </NavigationContainer>
 

@@ -15,7 +15,7 @@ export default class BoardList extends Component {
         oldboardindex: '',
         isVisible: false,
 
-    }
+    };
     
   }
 
@@ -75,10 +75,9 @@ export default class BoardList extends Component {
     var user = this.getData();
     const response = await fetch("http://3.17.45.57/api/User/" + "5f173bea05435aca02d81909" , {method:'GET',headers:{'Content-Type': 'application/json'}});
     // const json = await response.json();
-    res = JSON.parse(await response.text());
-    console.log(res);
-    console.log(res.result);
-    this.setState({boards: res.result}, console.log(this.state.boards));
+    var res = JSON.parse(await response.text());
+    // console.log(res.result[0]._id);
+    this.setState({boards: res.result});
     // this.state.boards.map(boards => json.result);
     // console.log(this.state.boards);
 
@@ -135,18 +134,17 @@ export default class BoardList extends Component {
           <View style={styles.centeredView}>
 
             <View style={styles.modalView}>
-              {/* {this.state.boards.map(board => 
-                <div>
-                  {board.boardName}
-                </div>)}; */}
               <TextInput
                 style={styles.overlayInput}
+                
+                  // {console.log(this.state.boards)}
                 onChangeText={(name) => this.setBoardName(name)}
                 placeholder="Board Name"
                 placeholderTextColor="rgba(255, 255, 255, 0.7)"
 
               />
-
+              {this.state.boards.map(board =>
+                <Text>{board.boardName}</Text>) }
               <View style={styles.overlayButtonContainer}>
 
                 <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false)}>
@@ -173,17 +171,19 @@ export default class BoardList extends Component {
           <View>
 
             <FlatList
-              data={this.state.boards}
+              // data={this.state.boards}
               keyExtractor={(x, i) => i.toString()}
-              renderItem={({ board }) =>
-                <ListItem
+              // renderItem={({ board }) =>
+                // <ListItem
                   
-                  title={`${board.boardName}`}
-                  bottomDivider
-                />}
-              ListHeaderComponent={this.renderHeader}
+                //   title={`${board.boardName}`}
+                //   bottomDivider
+                // />}
+              // ListHeaderComponent={this.renderHeader}
 
             />
+                          {this.state.boards.map(board =>
+                <Text>{board.boardName}</Text>) }
           </View>
         </View>
       </View>

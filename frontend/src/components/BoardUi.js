@@ -648,6 +648,7 @@ class BoardUi extends Component
                                           {card.cardName}
                                         
                                       </div>
+                                      <input className="completeCard" type="checkbox"></input>
                                       <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
                                           &times;
                                       </button>
@@ -671,6 +672,7 @@ class BoardUi extends Component
           <div id="editBgModal" className="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
+              <span id="closeBgModal">&times;</span>
               <span id="closeBgModal">&times;</span>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">

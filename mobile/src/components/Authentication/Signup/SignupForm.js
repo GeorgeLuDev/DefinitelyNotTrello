@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class SignupForm extends Component {
  
@@ -26,6 +27,16 @@ export default class SignupForm extends Component {
     this.setState({'password' : password})
   }
 
+  storeData = async () =>
+   {
+    try {
+      //const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('user_data', this.email);
+    } catch (e) {
+      alert("error saving data");
+    }
+  }
+
   doSignUp = async () =>
     {
 
@@ -47,6 +58,7 @@ export default class SignupForm extends Component {
             if (resJSON.error === "")
             {
                 alert("Sign Up Successful");
+                this.storeData();
                 this.props.navigation.navigate('BoardList');
             }
             else

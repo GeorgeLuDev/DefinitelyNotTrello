@@ -20,6 +20,16 @@ export default class LoginForm extends Component {
     this.setState({'password' : password})
   }
 
+  storeData = async () =>
+   {
+    try {
+      //const jsonValue = JSON.stringify(this.state)
+      await AsyncStorage.setItem('user_data', this.email);
+    } catch (e) {
+      alert("error saving data");
+    }
+  }
+
   doLogIn = async () =>
     {
 
@@ -41,6 +51,7 @@ export default class LoginForm extends Component {
             if (resJSON.error === "")
             {
                 alert("Sign In Successful");
+                this.storeData();
                 this.props.navigation.navigate('BoardList');
             }
             else
@@ -75,14 +86,14 @@ export default class LoginForm extends Component {
           />
 
         <TouchableOpacity onPress={() => this.props.navigation.navigate('PasswordRecovery')}>
-          <Text style={styles.forgotPass}>
-          Forgot Password
-          </Text>
+                <Text style={styles.forgotPass}>
+                Forgot Password
+                </Text>
         </TouchableOpacity>
       
 
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogin()}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.doLogIn()}>
                   <Text style={styles.buttonText}>
                     Log In
                   </Text>

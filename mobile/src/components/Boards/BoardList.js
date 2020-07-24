@@ -73,12 +73,14 @@ export default class BoardList extends Component {
   fetchData = async () => {
     alert("fetching data");
     var user = this.getData();
-    const response = await fetch("http://3.17.45.57/api/User/" + "angel.ams.8600@gmail.com" , {method:'GET',headers:{'Content-Type': 'application/json'}});
-    const json = await response.json();
-    console.log(json);
-    console.log(json.result);
-    this.setState({boards: json.result});
-    console.log(this.state.boards);
+    const response = await fetch("http://3.17.45.57/api/User/" + "5f173bea05435aca02d81909" , {method:'GET',headers:{'Content-Type': 'application/json'}});
+    // const json = await response.json();
+    res = JSON.parse(await response.text());
+    console.log(res);
+    console.log(res.result);
+    this.setState({boards: res.result}, console.log(this.state.boards));
+    // this.state.boards.map(boards => json.result);
+    // console.log(this.state.boards);
 
   }
 
@@ -91,7 +93,7 @@ export default class BoardList extends Component {
     //   parentUsers: user.email 
     // });
 
-    var js = '{"boardName":"'+ this.state.boardName.toString() + '","index":"'+ this.state.boards.length + '","parentUsers":"'+ "angel.ams.8600@gmail.com" +'"}';
+    var js = '{"boardName":"'+ this.state.boardName.toString() + '","index":"'+ this.state.boards.length + '","parentUsers":"'+ "5f173bea05435aca02d81909" +'"}';
 
     console.log(js);
     try
@@ -133,7 +135,10 @@ export default class BoardList extends Component {
           <View style={styles.centeredView}>
 
             <View style={styles.modalView}>
-
+              {/* {this.state.boards.map(board => 
+                <div>
+                  {board.boardName}
+                </div>)}; */}
               <TextInput
                 style={styles.overlayInput}
                 onChangeText={(name) => this.setBoardName(name)}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, TouchableHighlight } from 'react-native';
+import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, TouchableHighlight, Button } from 'react-native';
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
+import { AsyncStorage } from 'react-native';
  
 
 export default class BoardList extends Component {
@@ -25,6 +26,9 @@ export default class BoardList extends Component {
   }
 
   componentDidMount() {
+    // this.deleteBoard();
+    // this.updateBoard();
+    // this.fetchUserData();
     this.fetchData();
     this.props.navigation.setOptions(
       {
@@ -52,30 +56,50 @@ export default class BoardList extends Component {
     );
   }
 
+
+
   setBoardName = (name) => {
     this.setState({'boardName' : name})
   }
 
-  getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('user_data');
-      if(value !== null) {
-        return value;
-      }
-      else{
-        alert ('user not found');
-      }
-    } catch(e) {
-      // error reading value
-    }
-  }
+  // getData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('user_data');
+  //     if(value !== null) {
+  //       return value;
+  //     }
+  //     else{
+  //       alert ('user not found');
+  //     }
+  //   } catch(e) {
+  //     // error reading value
+  //   }
+  // }
 
   fetchData = async () => {
-    alert("fetching data");
-    var user = this.getData();
-    const response = await fetch("http://3.17.45.57/api/User/" + "5f173bea05435aca02d81909" , {method:'GET',headers:{'Content-Type': 'application/json'}});
+    // alert("fetching data");
+    // var user = this.getData();
+
+    try 
+    {
+      var value = await AsyncStorage.getItem("user");
+      if (value !== null)
+      {
+        value = JSON.parse(value);
+        // console.log(value.id);
+        // return value.id;
+      }
+    } 
+    catch (e) 
+    {
+      console.log("Something went wrong in fetching the users data.");
+    }
+
+    // console.log("http://3.17.45.57/api/User/" + value.id);
+    const response = await fetch("http://3.17.45.57/api/User/" + value.id , {method:'GET',headers:{'Content-Type': 'application/json'}});
     // const json = await response.json();
     var res = JSON.parse(await response.text());
+    // console.log(res);
     // console.log(res.result[0]._id);
     this.setState({boards: res.result});
     // this.state.boards.map(boards => json.result);
@@ -85,21 +109,36 @@ export default class BoardList extends Component {
 
   addBoard = async () => 
   {
-    var user = this.getData();
+    // var user = this.getData();
     // var js = JSON.stringify({
     //   boardName: this.state.boardName.toString, 
     //   index: this.state.boards.length, 
     //   parentUsers: user.email 
     // });
 
-    var js = '{"boardName":"'+ this.state.boardName.toString() + '","index":"'+ this.state.boards.length + '","parentUsers":"'+ "5f173bea05435aca02d81909" +'"}';
+    try 
+    {
+      var value = await AsyncStorage.getItem("user");
+      if (value !== null)
+      {
+        value = JSON.parse(value);
+        // console.log(value.id);
+        // return value.id;
+      }
+    } 
+    catch (e) 
+    {
+      console.log("Something went wrong in fetching the users data.");
+    }
 
-    console.log(js);
+    var js = '{"boardName":"'+ this.state.boardName.toString() + '","index":"'+ this.state.boards.length + '","parentUsers":["'+ value.id +'"]}';
+    
+    // console.log(js);
     try
     {
-      alert("here");
+      // alert("here");
       const response = await fetch('http://3.17.45.57/api/CreateBoard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-      alert("added successfully");
+      // alert("added successfully");
       this.setBoardName("");
       this.setIsVisible(false);
       this.componentDidMount();
@@ -108,9 +147,72 @@ export default class BoardList extends Component {
     {
 
     }
+  }
+
+
+  deleteBoard = async (event,boardId) => 
+  {
+    var js = '{"_id":"'+ boardId + '"}';
+
+    // console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/DeleteBoard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+      // alert("added successfully");
+      // this.setBoardName("");
+      // this.setIsVisible(false);
+      // this.componentDidMount();
+      var res = JSON.parse(await response.text());
+      console.log(res);
     }
+    catch(e)
+    {
+
+    }
+    this.componentDidMount();
+  }
+
+  updateBoard = async () => 
+  {
+    var js = '{"_id":"'+ "5f1b2f3d721f250ef417d283" + '","boardName":"' + "Testerrrr" + '"}';
+
+    // console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+      // alert("added successfully");
+      // this.setBoardName("");
+      // this.setIsVisible(false);
+      // this.componentDidMount();
+      var res = JSON.parse(await response.text());
+      console.log(res);
+    }
+    catch(e)
+    {
+
+    }
+  }
     
-    
+  navigate = async (event,boardId) => 
+  {
+
+    var board = {
+      id: boardId
+    };
+    try 
+    {
+      await AsyncStorage.setItem(
+        "board", JSON.stringify()
+      );
+      this.props.navigation.navigate("Board");
+    } 
+    catch (e) 
+    {
+      alert("Something went wrong");
+    }
+  }
     
   
 
@@ -169,8 +271,8 @@ export default class BoardList extends Component {
         <View >
 
           <View>
-            {console.log("printing this.state.boards HERE:")}
-            {console.log(this.state.boards)}
+            {/* {console.log("printing this.state.boards HERE:")} */}
+            {/* {console.log(this.state.boards)} */}
             <FlatList
               data={this.state.boards}
               keyExtractor={(x, i) => i.toString()}
@@ -182,8 +284,19 @@ export default class BoardList extends Component {
               ListHeaderComponent={this.renderHeader}
 
             />
-                          {this.state.boards.map(board =>
-                <Text>{board.boardName}</Text>) }
+                {this.state.boards.map(board =>
+                <View>
+                    <Text onPress = {(e) => this.navigate(e,board._id)}>
+                      {board.boardName}
+
+                    </Text>
+                    <Button
+                      onPress = {(e) => this.deleteBoard(e,board._id)}
+                      title="Delete"
+                    />
+                    
+                </View>) 
+                }
           </View>
         </View>
       </View>

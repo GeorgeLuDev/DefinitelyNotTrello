@@ -58,8 +58,8 @@ export default class SignupForm extends Component {
             if (resJSON.error === "")
             {
                 alert("Sign Up Successful");
-                this.storeData();
-                this.props.navigation.navigate('BoardList');
+                // this.storeData();
+                this.props.navigation.navigate('Login');
             }
             else
             {

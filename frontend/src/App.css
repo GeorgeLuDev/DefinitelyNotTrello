@@ -143,6 +143,11 @@ a.nav-link
   height: 90%;
   overflow-y: scroll;
   padding-bottom:90px;
+  scrollbar-width: none;
+}
+
+#boardsContainer::-webkit-scrollbar {
+  display: none;
 }
 
 #boardsList

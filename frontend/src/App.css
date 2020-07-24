@@ -209,6 +209,17 @@ a.nav-link
   float: left;
 }
 
+#addUserButton
+{
+  padding:0.5rem 0;
+  font-size:1rem;
+}
+
+#addUserButton input
+{
+  margin-left: 5px;
+}
+
 .boardMenuDivider
 {
   height: 2rem;

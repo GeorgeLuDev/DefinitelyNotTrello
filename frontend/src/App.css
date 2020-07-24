@@ -265,7 +265,7 @@ a.nav-link
 #editBgMenu
 {
   position: absolute;
-  right:0;
+  margin: auto;
   width: 20rem;
   background-color: white;
 }

@@ -527,9 +527,10 @@ class BoardUi extends Component
                   <input className="cardInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
                   <input className="createcardbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
               </form>
-              <div id="editsBgMenu">
-                <h3>Select a new background image</h3>>
-              </div>
+          </div>
+
+          <div id="editsBgMenu">
+            <h3>Select a new background image</h3>
           </div>
       </div>
       )

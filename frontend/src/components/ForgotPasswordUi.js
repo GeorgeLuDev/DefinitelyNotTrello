@@ -63,7 +63,7 @@ function ForgotPasswordUi()
                 <span id="forgotPasswordResult">{message}</span>
                 <hr></hr>
                 <div className="linktootherpage">
-                    <a href="/SignIn">Remember your Email? Return to Log in</a>
+                    <a href="/SignIn">Remember your Password? Return to Log in</a>
                 </div>
             </Form>
 

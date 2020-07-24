@@ -80,7 +80,6 @@ a.nav-link
 #header a
 {
   display: inline-block;
-  float: left;
   border: 1px black;
   background-color: white;
   padding: 5px;
@@ -153,7 +152,7 @@ a.nav-link
   margin: 0.5rem;
   height: 7rem;
   width: 14rem;
-  cursor: move;
+  cursor: default;
   background-size: 100%;
   background-position: center;
   border-radius: 10px;
@@ -279,7 +278,7 @@ a.nav-link
   max-height: 48rem;
   overflow-y: scroll;
   scrollbar-width: none;
-  cursor: move;
+  cursor: default;
   /* margin: 0.1rem; */
   /* height: auto; */
   /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
@@ -300,6 +299,7 @@ a.nav-link
   margin: 0 4px;
   box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
   margin-bottom:10px;
+  cursor: move;
 }
 
 .listHolder::-webkit-scrollbar {
@@ -309,7 +309,7 @@ a.nav-link
 .listContainer
 {
   display: flex;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .listName
@@ -318,6 +318,7 @@ a.nav-link
   flex-wrap: wrap;
   cursor: text;
   width: 10rem;
+  font-weight: bold;
 }
 
 .listButton
@@ -353,7 +354,8 @@ a.nav-link
 
 .addCard
 {
-  display: inline;
+  width: 100%;
+  margin: 0px;
 }
 
 .cardInput
@@ -458,9 +460,4 @@ a.nav-link
 {
   width: 100%;
   text-align: center;
-}
-
-#editBackgroundMenu
-{
-
 }

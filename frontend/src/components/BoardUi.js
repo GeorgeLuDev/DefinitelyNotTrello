@@ -22,6 +22,8 @@ class BoardUi extends Component
     
     async componentDidMount()
     {
+        // var s = process.env.REACT_APP_NAME;
+		console.log(process.env.REACT_APP_URL);
         // var element = document.querySelector('.board');
         // var imgUrl = "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg"
         // element.style = {backgroundImage: 'url(' + imgUrl + ')'};
@@ -44,7 +46,7 @@ class BoardUi extends Component
             var headerNavHeight = document.getElementById("headernavbar").offsetHeight;
             var boardMenuHeight = document.getElementById("boardMenuHeader").offsetHeight;
             var bgHeight = (windowHeight-headerNavHeight- boardMenuHeight).toString();
-            console.log("HEIGHT TEST: " + bgHeight);
+            // console.log("HEIGHT TEST: " + bgHeight);
 
 
             document.body.style.backgroundImage =  "url(\"" + res.boardBackground + "\")";
@@ -257,6 +259,39 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
+    
+    handleUpdateBoard = async (event) =>
+    {
+        console.log("calling update board");
+
+        // event.preventDefault();
+        // // console.log(event);
+
+        // var js = '{"_id":"'+ cardId + '","cardName":"' + event.target.innerText + '"}';
+
+        // // console.log(js);
+
+        // try
+        // {
+        //     const response = await fetch('http://localhost:5000/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+        //     // console.log("calling Update Card api");
+
+        //     var res = JSON.parse(await response.text());
+
+        //     console.log(res);
+
+        // }
+        // catch(e)
+        // {
+        //     console.log("there was an error");
+        //     console.log(e.toString());
+        //     return;
+        // }
+
+        // this.componentDidMount();
+    }
+
     handleListNameChange = event =>
     {
         this.setState({listName: event.target.value});
@@ -446,34 +481,140 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
-    replaceVerticalScrollByHorizontal = event => {
-        if (event.target.className === "board")
+    replaceVerticalScrollByHorizontal = event => 
+    {
+        // if (event.target.className === "board" && !(event.target.scrollHeight > event.target.clientHeight))
+        // {
+        //     console.log(event.target.scrollHeight > event.target.clientHeight);
+        // }
+        if (event.target.className === "listHolder" && !(event.target.scrollHeight > event.target.clientHeight))
         {
             this.board.current.scrollLeft += event.deltaY;
+            // console.log("1.scrolling left or right");
         }
-        else if (event.target.className === "list" && !(event.target.scrollHeight > event.target.clientHeight))
+        else if (event.target.className === "addList" | event.target.className === "ListInput" | event.target.className === "createlistbutton")
         {
             this.board.current.scrollLeft += event.deltaY;
+            // console.log("9.scrolling left or right");
         }
-        else if (event.target.className === "card" && !(event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
+        else if (event.target.className === "list" && !(event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
         {
             this.board.current.scrollLeft += event.deltaY;
+            // console.log("2.scrolling left or right");
         }
-        else
+        else if ((event.target.className === "listContainer" || event.target.className === "card" || event.target.className === "addCard") && !(event.target.parentNode.parentNode.scrollHeight > event.target.parentNode.parentNode.clientHeight))
         {
+            this.board.current.scrollLeft += event.deltaY;
+            // console.log("3.scrolling left or right");
+        }
+        else if ( (event.target.className === "listName" || event.target.className === "listButton" || event.target.className === "cardName" || event.target.className === "deleteCard" || event.target.className === "cardInput" || event.target.className === "createcardbutton") && !(event.target.parentNode.parentNode.parentNode.scrollHeight > event.target.parentNode.parentNode.parentNode.clientHeight))
+        {
+            this.board.current.scrollLeft += event.deltaY;
+            // console.log("4.scrolling left or right");
+        }
+        else 
+        {
+            // console.log("5.scrolling up or down");
+        }
+        // if (event.target.className === "board")
+        // {
+        //     console.log(1);
+        //     this.board.current.scrollLeft += event.deltaY;
+        // }
+        // else if ( (event.target.className === "list" || event.target.className === "listContainer" || event.target.className === "listName" || event.target.className === "listButton") && (event.target.scrollHeight > event.target.clientHeight))
+        // {
+        //     console.log(2);
+        //     this.board.current.scrollLeft += event.deltaY;
+        // }
+        // else if ( (event.target.className === "card" || event.target.className === "cardName" || event.target.className === "deleteCard")&& (event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
+        // {
+        //     console.log(3);
+        //     this.board.current.scrollLeft += event.deltaY;
+        // }
+        // else
+        // {
 
-            // console.log(event.target.scrollHeight > event.target.clientHeight);
+        //     console.log(4);
+        //     // console.log(event.target.scrollHeight > event.target.clientHeight);
+        // }
+    }
+
+    searchList = event => 
+    {
+        // console.log("searching list");
+        // console.log(event.target.value);
+        var i,j;
+        document.getElementById("searchcard").value = "";
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            for (j=0;j<this.state.cards[i].length;j++)
+            {
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+            }
+        }
+        var query = new RegExp(event.target.value, 'g');
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            if (event.target.value === "")
+            {
+                document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+                continue;
+            }
+            // console.log(this.state.lists[i]);
+            document.getElementById(this.state.lists[i]._id).style.opacity = 0.5;
+            if (this.state.lists[i].listName.match(query) !== null)
+            {
+                // console.log("got into for loop");
+                // console.log(this.state.lists[i]._id);
+                document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+            }
         }
     }
 
+    searchCard = event => 
+    {
+        // console.log("searching list");
+        // console.log(event.target.value);
+        var i,j;
+        document.getElementById("searchlist").value = "";
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+        }
+        var query = new RegExp(event.target.value, 'g');
+        // console.log(this.state.lists.length);
+        // console.log(this.state.cards.length);
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            for (j=0;j<this.state.cards[i].length;j++)
+            {
+                // console.log([i,j]);
+                console.log(this.state.cards[i][j].cardName);
+                if (event.target.value === "")
+                {
+                    document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+                    continue;
+                }
+                // console.log(this.state.lists[i]);
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                if (this.state.cards[i][j].cardName.match(query) !== null)
+                {
+                    console.log("got into for loop");
+                    // console.log(this.state.lists[i]._id);
+                    document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+                }
+            }
+        }
+
+    }
 
     render()
     {
       return(
         <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
           <div id="boardMenuHeader">
-            <span>{this.state.boardName}</span>
-            <span class="boardMenuDivider"></span>
+            <span contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
+            <span className="boardMenuDivider"></span>
             <span id="addUserButton">
               <form>
                 <label>Share</label>
@@ -485,8 +626,8 @@ class BoardUi extends Component
                 <p>Edit Image</p>
               </div>
               <form>
-                <input name="searchList" placeholder="Search Lists"></input>
-                <input name="searchCard" placeholder="Search Cards"></input>
+                <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.searchList(e)}></input>
+                <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.searchCard(e)}></input>
               </form>
             </div>
           </div>
@@ -503,7 +644,7 @@ class BoardUi extends Component
                           </div>
                           {
                               this.state.cards[list.index].map(card =>
-                                  <div className="card" data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
                                       <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
                                         
                                           {card.cardName}
@@ -515,8 +656,8 @@ class BoardUi extends Component
                                   </div>)
                           }
                           <form className="addCard">
-                              <input type="text" placeholder="Add a Card..."/><br />
-                              <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
+                              <input className="cardInput" type="text" placeholder="Add a Card..."/><br />
+                              <input className="createcardbutton" type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                           </form>
                         </div>
                       </div>)
@@ -524,8 +665,8 @@ class BoardUi extends Component
 
 
               <form className="addList">
-                  <input className="cardInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
-                  <input className="createcardbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
+                  <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                  <input className="createlistbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
               </form>
           </div>
 

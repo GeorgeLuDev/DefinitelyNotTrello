@@ -477,12 +477,18 @@ class BoardUi extends Component
             <span id="addUserButton">
               <form>
                 <label>Share</label>
-                <input placeholder="User's email"></input>
+                <input name="shareEmail"placeholder="User's email"></input>
               </form>
             </span>
-            <span id="editBGButton">
-              <p>Edit Image</p>
-            </span>
+            <div id="boardMenuRightside">
+              <div id="editBGButton">
+                <p>Edit Image</p>
+              </div>
+              <form>
+                <input name="searchList" placeholder="Search Lists"></input>
+                <input name="searchCard" placeholder="Search Cards"></input>
+              </form>
+            </div>
           </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
               {

@@ -31,7 +31,7 @@ class BoardUi extends Component
 
         // console.log(boardId);
 
-        var url = 'http://localhost:5000/api/Board/' + boardId;
+        var url = process.env.REACT_APP_URL + 'Board/' + boardId;
 
         try
         {

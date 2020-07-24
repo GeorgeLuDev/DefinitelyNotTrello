@@ -25,7 +25,7 @@ class ListofBoardsUi extends Component
         }
         // var js = '{"email":"'+ user.id + '"}';
         // console.log(js);
-        var url = 'http://localhost:5000/api/User/' + user.id;
+        var url = process.env.REACT_APP_URL  + 'User/' + user.id;
 
         try
         {
@@ -46,7 +46,7 @@ class ListofBoardsUi extends Component
             
             this.handleUpdate = this.handleUpdate.bind(this);
 
-            // console.log(this.state.boards);
+            console.log(this.state.boards);
         }
         catch(e)
         {

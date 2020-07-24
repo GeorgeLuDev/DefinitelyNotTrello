@@ -13,7 +13,7 @@ function EmailVerifiedUI()
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/EmailVerification',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'EmailVerification',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             console.log("calling EmailVerification api");
 

@@ -25,7 +25,8 @@ class ListofBoardsUi extends Component
         }
         // var js = '{"email":"'+ user.id + '"}';
         // console.log(js);
-        var url = 'http://localhost:5000/api/User/' + user.id;
+        var url = process.env.REACT_APP_URL  + 'User/' + user.id;
+	console.log(url);
 
         try
         {
@@ -46,7 +47,7 @@ class ListofBoardsUi extends Component
             
             this.handleUpdate = this.handleUpdate.bind(this);
 
-            // console.log(this.state.boards);
+            console.log(this.state.boards);
         }
         catch(e)
         {
@@ -68,7 +69,7 @@ class ListofBoardsUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/CreateBoard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'CreateBoard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             console.log("calling Create Board api");
 
@@ -102,7 +103,7 @@ class ListofBoardsUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Update Board api");
 
@@ -133,7 +134,7 @@ class ListofBoardsUi extends Component
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/DeleteBoard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'DeleteBoard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
 
@@ -233,7 +234,7 @@ class ListofBoardsUi extends Component
             console.log(js);
             try
             {
-                const response = await fetch('http://localhost:5000/api/MoveBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+                const response = await fetch(process.env.REACT_APP_URL + 'MoveBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
                 // console.log("calling Move Card api");
 

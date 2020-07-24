@@ -80,7 +80,6 @@ a.nav-link
 #header a
 {
   display: inline-block;
-  float: left;
   border: 1px black;
   background-color: white;
   padding: 5px;
@@ -153,7 +152,7 @@ a.nav-link
   margin: 0.5rem;
   height: 7rem;
   width: 14rem;
-  cursor: move;
+  cursor: default;
   background-size: 100%;
   background-position: center;
   border-radius: 10px;
@@ -276,7 +275,7 @@ a.nav-link
 .listContainer
 {
   display: flex;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .listName
@@ -320,7 +319,8 @@ a.nav-link
 
 .addCard
 {
-  display: inline;
+  width: 100%;
+  margin: 0px;
 }
 
 .cardInput
@@ -425,9 +425,4 @@ a.nav-link
 {
   width: 100%;
   text-align: center;
-}
-
-#editBackgroundMenu
-{
-
 }

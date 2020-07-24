@@ -453,23 +453,60 @@ class BoardUi extends Component
     }
 
     replaceVerticalScrollByHorizontal = event => {
-        if (event.target.className === "board")
+        // if (event.target.className === "board" && !(event.target.scrollHeight > event.target.clientHeight))
+        // {
+        //     console.log(event.target.scrollHeight > event.target.clientHeight);
+        // }
+        if (event.target.className === "listHolder" && !(event.target.scrollHeight > event.target.clientHeight))
         {
             this.board.current.scrollLeft += event.deltaY;
+            // console.log("1.scrolling left or right");
         }
-        else if (event.target.className === "list" && !(event.target.scrollHeight > event.target.clientHeight))
+        else if (event.target.className === "addList" | event.target.className === "ListInput" | event.target.className === "createlistbutton")
         {
             this.board.current.scrollLeft += event.deltaY;
+            // console.log("9.scrolling left or right");
         }
-        else if (event.target.className === "card" && !(event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
+        else if (event.target.className === "list" && !(event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
         {
             this.board.current.scrollLeft += event.deltaY;
+            // console.log("2.scrolling left or right");
         }
-        else
+        else if ((event.target.className === "listContainer" || event.target.className === "card" || event.target.className === "addCard") && !(event.target.parentNode.parentNode.scrollHeight > event.target.parentNode.parentNode.clientHeight))
         {
+            this.board.current.scrollLeft += event.deltaY;
+            // console.log("3.scrolling left or right");
+        }
+        else if ( (event.target.className === "listName" || event.target.className === "listButton" || event.target.className === "cardName" || event.target.className === "deleteCard" || event.target.className === "cardInput" || event.target.className === "createcardbutton") && !(event.target.parentNode.parentNode.parentNode.scrollHeight > event.target.parentNode.parentNode.parentNode.clientHeight))
+        {
+            this.board.current.scrollLeft += event.deltaY;
+            // console.log("4.scrolling left or right");
+        }
+        else 
+        {
+            // console.log("5.scrolling up or down");
+        }
+        // if (event.target.className === "board")
+        // {
+        //     console.log(1);
+        //     this.board.current.scrollLeft += event.deltaY;
+        // }
+        // else if ( (event.target.className === "list" || event.target.className === "listContainer" || event.target.className === "listName" || event.target.className === "listButton") && (event.target.scrollHeight > event.target.clientHeight))
+        // {
+        //     console.log(2);
+        //     this.board.current.scrollLeft += event.deltaY;
+        // }
+        // else if ( (event.target.className === "card" || event.target.className === "cardName" || event.target.className === "deleteCard")&& (event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
+        // {
+        //     console.log(3);
+        //     this.board.current.scrollLeft += event.deltaY;
+        // }
+        // else
+        // {
 
-            // console.log(event.target.scrollHeight > event.target.clientHeight);
-        }
+        //     console.log(4);
+        //     // console.log(event.target.scrollHeight > event.target.clientHeight);
+        // }
     }
 
 
@@ -479,7 +516,7 @@ class BoardUi extends Component
         <div id="boardGridContainer" /*style={{backgroundImage : this.state.boardBackground}} */ >
           <div id="boardMenuHeader">
             <span>{this.state.boardName}</span>
-            <span class="boardMenuDivider"></span>
+            <span className="boardMenuDivider"></span>
             <span id="addUserButton">
               <p>Add user by email</p>
             </span>
@@ -512,8 +549,8 @@ class BoardUi extends Component
                                   </div>)
                           }
                           <form className="addCard">
-                              <input type="text" placeholder="Add a Card..."/><br />
-                              <input type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
+                              <input className="cardInput" type="text" placeholder="Add a Card..."/><br />
+                              <input className="createcardbutton" type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                           </form>
                         </div>
                       </div>)
@@ -521,8 +558,8 @@ class BoardUi extends Component
 
 
               <form className="addList">
-                  <input className="cardInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
-                  <input className="createcardbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
+                  <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                  <input className="createlistbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
               </form>
           </div>
       </div>

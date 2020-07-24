@@ -29,11 +29,11 @@ function UpdatePasswordUi()
 
             if (res.error === "")
             {
-                setMessage("Reset Password Successful, redirting to sign in");
+                setMessage("Success! Redirecting to sign-in...");
             }
             else
             {
-                setMessage("Reset Password Unsuccessful, redirting to sign in");
+                setMessage("Error resetting password, blame George.");
             }
         }
         catch(e)

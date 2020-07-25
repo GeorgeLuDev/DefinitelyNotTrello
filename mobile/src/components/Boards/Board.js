@@ -32,6 +32,7 @@ export default class Board extends Component {
 
   componentDidMount() {
     // this.addCard("5f1bbdb9b6f43b1c840bdb85",0);
+    // console.log(this.state.lists);
     this.fetchData();
     
 
@@ -111,7 +112,7 @@ export default class Board extends Component {
       // this.setIsVisible(false);
       // this.componentDidMount();
       var res = JSON.parse(await response.text());
-      console.log(res);
+      // console.log(res);
     }
     catch(e)
     {
@@ -134,7 +135,7 @@ export default class Board extends Component {
       // this.setIsVisible(false);
       // this.componentDidMount();
       var res = JSON.parse(await response.text());
-      console.log(res);
+      // console.log(res);
     }
     catch(e)
     {
@@ -165,7 +166,7 @@ export default class Board extends Component {
 
     var js = '{"listName":"'+ this.state.listName.toString() + '","index":"'+ this.state.lists.length + '","parentBoard":["'+ this.state.boardId +'"]}';
     
-    console.log(js);
+    // console.log(js);
     try
     {
       // alert("here");
@@ -173,7 +174,7 @@ export default class Board extends Component {
     //   alert("added successfully");
       // console.log(this.lists[0]);
       this.setListName("");
-    //   this.setIsVisible(false);
+      this.setIsVisible(false);
       this.componentDidMount();
     }
     catch(e)
@@ -204,7 +205,7 @@ export default class Board extends Component {
 
     var js = '{"cardName":"'+ "TEST CARD" + '","index":"'+ listIndex + '","parentList":"'+ listId +'"}';
     
-    console.log(js);
+    // console.log(js);
     try
     {
       // alert("here");
@@ -212,7 +213,7 @@ export default class Board extends Component {
     //   alert("added successfully");
       // console.log(this.lists[0]);
       this.setListName("");
-    //   this.setIsVisible(false);
+      // this.setIsVisible(false);
       this.componentDidMount();
     }
     catch(e)
@@ -223,7 +224,7 @@ export default class Board extends Component {
 
 
   setListName = (name) => {
-    console.log(name);
+    // console.log(name);
     this.setState({'listName' : name})
   }
   
@@ -235,7 +236,7 @@ export default class Board extends Component {
         
         <View>
 
-        {console.log(this.state.lists)}
+        {/* {console.log(this.state.lists)} */}
 <View style={styles.container}>
         <Modal
           animationType="slide"
@@ -286,7 +287,7 @@ export default class Board extends Component {
                 {this.state.lists.map(list =>
                 <View>
                     <Text>
-                        {console.log("CHECKING")}
+                        {/* {console.log("CHECKING")} */}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
                                 
@@ -300,7 +301,7 @@ export default class Board extends Component {
                             )}
                     </Text>
                     <Button
-                    onPress = {(e) => this.addCard("5f1bcb98b6f43b1c840be0e6",0)}
+                    onPress = {(e) => this.addCard(list._id,0)}
                     title="Add Card to List"
                     />
                     <Button

@@ -14,7 +14,7 @@ describe("Test the root path", () => {
     });
 });
 
-describe('insert', () => {
+describe('Unit Tests', () => {
     let connection;
     let db;
 
@@ -41,7 +41,7 @@ describe('insert', () => {
         const mockUser = {firstName: 'John', lastName: 'Doe', email:"test@test.com", password:"12345"};
         await users.insertOne(mockUser);
 
-        const insertedUser = await users.findOne({firstName: 'John', lastName: 'Doe', email:"test@test.com", password:"12345"});
+        const insertedUser = await users.findOne(mockUser);
         expect(insertedUser).toEqual(mockUser);
     });
 
@@ -51,13 +51,14 @@ describe('insert', () => {
     });
 
     it('Deletes a user', async () => {
-        const users = db.collection('users');
+        const users = db.collection('Users');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
+        const mockUser = {firstName: 'John', lastName: 'Doe', email:"test@test.com", password:"12345"};
         await users.insertOne(mockUser);
+        await users.deleteOne(mockUser);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const deletedUser = await users.findOne(mockUser);
+        expect(deletedUser).toEqual(null);
     });
 
     beforeEach(async () => {
@@ -66,13 +67,13 @@ describe('insert', () => {
 
     // --------- Board Tests ---------
     it('Creates a board', async () => {
-        const users = db.collection('users');
+        const boards = db.collection('Boards');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockBoard = {boardName: 'New Board', index: '1', parentUsers: 'test@test.com'};
+        await boards.insertOne(mockBoard);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const insertedBoard = await boards.findOne(mockBoard);
+        expect(insertedBoard).toEqual(mockBoard);
     });
 
     beforeEach(async () => {
@@ -80,13 +81,16 @@ describe('insert', () => {
     });
     
     it('Updates a board', async () => {
-        const users = db.collection('users');
+        const boards = db.collection('Boards');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockBoard = {boardName: 'New Board', index: '1', parentUsers: 'test@test.com'};
+        await boards.insertOne(mockBoard);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const newMockBoard = {boardName: 'New Board', index: '2', parentUsers: 'test@test.com'};
+        await boards.replaceOne(newMockBoard, mockBoard);
+
+        const updatedMockBoard = await boards.findOne(mockBoard);
+        expect(updatedMockBoard).toEqual(mockBoard);
     });
 
     beforeEach(async () => {
@@ -94,13 +98,14 @@ describe('insert', () => {
     });
 
     it('Deletes a board', async () => {
-        const users = db.collection('users');
+        const boards = db.collection('Boards');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockBoard = {boardName: 'New Board', index: '1', parentUsers: 'test@test.com'};
+        await boards.insertOne(mockBoard);
+        await boards.deleteOne(mockBoard);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const deletedBoard = await boards.findOne(mockBoard);
+        expect(deletedBoard).toEqual(null);
     });
 
     beforeEach(async () => {
@@ -109,13 +114,13 @@ describe('insert', () => {
 
     // --------- List Tests ---------
     it('Creates a list', async () => {
-        const users = db.collection('users');
+        const lists = db.collection('Lists');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockList = {listName: 'New List', index: '1', parentBoard: 'Parent Board'};
+        await lists.insertOne(mockList);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const insertedList = await lists.findOne(mockList);
+        expect(insertedList).toEqual(mockList);
     });
 
     beforeEach(async () => {
@@ -123,13 +128,16 @@ describe('insert', () => {
     });
     
     it('Updates a list', async () => {
-        const users = db.collection('users');
+        const lists = db.collection('Lists');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockList = {listName: 'New List', index: '1', parentBoard: 'Parent Board'};
+        await lists.insertOne(mockList);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const newMockList = {listName: 'New List', index: '2', parentBoard: 'Parent Board'};;
+        await lists.replaceOne(newMockList, mockList);
+
+        const updatedMockList = await lists.findOne(mockList);
+        expect(updatedMockList).toEqual(mockList);
     });
 
     beforeEach(async () => {
@@ -138,13 +146,14 @@ describe('insert', () => {
     
 
     it('Deletes a list', async () => {
-        const users = db.collection('users');
+        const lists = db.collection('Lists');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockList = {listName: 'New List', index: '1', parentBoard: 'Parent Board'};
+        await lists.insertOne(mockList);
+        await lists.deleteOne(mockList);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const deletedList = await lists.findOne(mockList);
+        expect(deletedList).toEqual(null);
     });
 
     beforeEach(async () => {
@@ -154,13 +163,13 @@ describe('insert', () => {
     
     // --------- Card Tests ---------
     it('Creates a card', async () => {
-        const users = db.collection('users');
+        const cards = db.collection('Cards');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockCard = {cardName: 'New Card', index: '1', parentList: 'Parent List'};
+        await cards.insertOne(mockCard);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const insertedCard = await cards.findOne(mockCard);
+        expect(insertedCard).toEqual(mockCard);
     });
 
     beforeEach(async () => {
@@ -168,13 +177,16 @@ describe('insert', () => {
     });
     
     it('Updates a card', async () => {
-        const users = db.collection('users');
+        const cards = db.collection('Cards');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockCard = {cardName: 'New List', index: '1', parentList: 'Parent List'};
+        await cards.insertOne(mockCard);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const newMockCard = {cardName: 'New List', index: '1', parentList: 'Parent List'};
+        await cards.replaceOne(newMockCard, mockCard);
+
+        const updatedMockCard = await cards.findOne(mockCard);
+        expect(updatedMockCard).toEqual(mockCard);
     });
 
     beforeEach(async () => {
@@ -182,13 +194,14 @@ describe('insert', () => {
     });
 
     it('Deletes a card', async () => {
-        const users = db.collection('users');
+        const cards = db.collection('Cards');
 
-        const mockUser = {_id: 'some-user-id', name: 'John'};
-        await users.insertOne(mockUser);
+        const mockCard = {cardName: 'New List', index: '1', parentList: 'Parent List'};
+        await cards.insertOne(mockCard);
+        await cards.deleteOne(mockCard);
 
-        const insertedUser = await users.findOne({_id: 'some-user-id'});
-        expect(insertedUser).toEqual(mockUser);
+        const deletedCard = await cards.findOne(mockCard);
+        expect(deletedCard).toEqual(null);
     });
 });
 

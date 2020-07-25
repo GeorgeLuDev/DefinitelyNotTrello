@@ -710,7 +710,8 @@ class BoardUi extends Component
         {
             var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","boardBackground":"' + url + '"}';
 
-            const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            // const response = 
+            await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // var res = JSON.parse(await response.text());
 

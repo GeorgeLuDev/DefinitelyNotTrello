@@ -121,36 +121,53 @@ app.post('/api/SignUp', async (req,res) =>
         emailVerification: 0
     }
 
+    const db = client.db();
+
+    const alreadyin = await db.collection("Users").find({email: email}).toArray();
+
+    // console.log(alreadyin.length);
+
+    if (alreadyin.length === 0)
+    {
+        // console.log("user is not in");
+        // user is not in database
+        // create user
+        try
+        {
+            const result = await db.collection('Users').insertOne(newUser);
+            var verifyUserEmail = {
+                from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: 'Verify Account', // Subject line
+                text: 'Click the link below to verify your email', // plain text body
+                // html: "<a href=\"localhost:3000/EmailVerification/" + result.ops[0]._id + "\">Verify Email</a>" // html body
+                html: `<a href=\"${process.env.EMAIL_URL}EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
     
+            };
+    
+            transporter.sendMail(verifyUserEmail, (error, info) => {
+                if (error) 
+                {
+                    return console.log(error);
+                }
+                // console.log('Message sent: %s', info.messageId);   
+                // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+          
+            });
+        }
+        catch(e)
+        {
+          error = e.toString();
+        }
+    }
+    else
+    {
+        // user is already in database
+        // dont create user
+        // send them to sign in
+        error = "An account is already associated with this email";
+    }
     // do stuff with database
-    try
-    {
-        const db = client.db();
-        const result = await db.collection('Users').insertOne(newUser);
-        var verifyUserEmail = {
-            from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: 'Verify Account', // Subject line
-            text: 'Click the link below to verify your email', // plain text body
-            // html: "<a href=\"localhost:3000/EmailVerification/" + result.ops[0]._id + "\">Verify Email</a>" // html body
-            html: `<a href=\"${process.env.EMAIL_URL}EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
-
-        };
-
-        transporter.sendMail(verifyUserEmail, (error, info) => {
-            if (error) 
-            {
-                return console.log(error);
-            }
-            console.log('Message sent: %s', info.messageId);   
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-      
-        });
-    }
-    catch(e)
-    {
-      error = e.toString();
-    }
 
     // send result back
     var ret = 

@@ -728,9 +728,12 @@ class BoardUi extends Component
                         <div className="list" data-_id={list._id} key={list._id} scrollable="true">
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                              
+                              <input className="completeList" type="checkbox" checked={true}></input>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
                                   &times;
                               </button>
+                              
                           </div>
                           {
                               this.state.cards[list.index].map(card =>
@@ -740,6 +743,7 @@ class BoardUi extends Component
                                           {card.cardName}
                                         
                                       </div>
+                                      <input className="completeCard" type="checkbox"></input>
                                       <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
                                           &times;
                                       </button>
@@ -747,7 +751,7 @@ class BoardUi extends Component
                           }
                           <form className="addCard">
                               <input className="cardInput" type="text" placeholder="Add a Card..."/><br />
-                              <input className="createcardbutton" type="submit" value="Create" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
+                              <input className="createcardbutton" type="submit" value="+" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                           </form>
                         </div>
                       </div>)

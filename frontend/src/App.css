@@ -159,6 +159,7 @@ a.nav-link
 {
   font-family: 'robotoregular' !important;
   margin-top: 30px;
+  margin-left: 12rem;
 }
 
 .boards, .addBoard
@@ -294,30 +295,29 @@ a.nav-link
 
 #editBgModal
 {
-  /*display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.6);
 }
 
 #editBgModalContent
 {
   background-color: #fefefe;
-  margin: 10% auto; /* 15% from the top and centered */
+  margin: 10% auto; 
   padding: 20px;
   border: 1px solid #888;
-  width: 78rem; /* Could be more or less, depending on screen size */
+  width: 78rem; 
   position: relative;
 }
 
 #editBgModalContent h3
 {
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 80%;
 }
 
 .bgoption
@@ -370,6 +370,7 @@ a.nav-link
   display: inline-block;
   white-space: nowrap;
   margin-left: 20px;
+  position: relative;
 }
 
 .list
@@ -396,16 +397,34 @@ a.nav-link
 
 .listName
 {
+  margin-top: -5px;
   display: flex;
-  flex-wrap: wrap;
+  margin-left: 1.5rem;
+  white-space: normal;
+  display: inline-block;
   cursor: text;
   width: 10rem;
-  font-weight: bold;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .listButton
 {
-  float: right;
+  display: none;
+}
+
+
+.list:hover .listButton
+{
+  position: absolute;
+  top:1rem;
+  right: 1rem;
+  background-color: rgb(220,220,220);
+  display: block;
+  text-align: center;
+  width: 1.5rem;
+  border: none;
 }
 
 .card
@@ -413,19 +432,19 @@ a.nav-link
   padding: 0.5rem;
   background-color: #fff;
   box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
-  margin : 0.5rem 0rem;
+  margin : 0  0 0.5rem 0rem;
   cursor: move;
 }
 
 .cardName
 {
+  margin-left: 2rem;
   white-space: normal;
   display: inline-block;
-  word-break: break-all;
-  overflow-wrap: break-word;
-  line-break: strict;
   cursor: text;
-  width: 11rem;
+  width: 10rem;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
   hyphens: auto;
 }
 
@@ -443,11 +462,13 @@ a.nav-link
 .cardInput
 {
   display: inline;
+  width: 100%;
 }
 
 .createcardbutton
 {
   display: inline;
+  padding: 0;
 }
 
 .dragging
@@ -461,10 +482,29 @@ a.nav-link
   display: none;
 }
 
+.completeCard
+{
+  position: absolute;
+  left: 0.5rem;
+  top: 10px;
+  background-color: tomato;
+  border: none;
+}
+
+.completeList
+{
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  background-color: tomato;
+  border: none;
+}
+
 .card:hover .deleteCard
 {
   position: absolute;
-  right: 1rem;
+  top:5px;
+  right: 0;
   background-color: white;
   display: block;
   text-align: center;

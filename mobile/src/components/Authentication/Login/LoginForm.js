@@ -54,7 +54,7 @@ export default class LoginForm extends Component {
             var res = JSON.parse(json);
             console.log(res);
             console.log(res.emailVerification);
-            if (res.id === -1)
+            if (res.id === "-1")
             {
               alert("User/Password combination is incorrect.");
             }

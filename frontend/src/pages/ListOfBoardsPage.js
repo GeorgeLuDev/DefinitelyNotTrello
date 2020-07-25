@@ -6,7 +6,7 @@ import ListofBoardsUi from '../components/ListofBoardsUi';
 const ListOfBoardsPage = () =>
 {
     return(
-        <div>
+        <div id="boardsPageContainer">
             <Header />
             <ListofBoardsUi />
         </div>

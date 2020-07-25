@@ -1,45 +1,624 @@
+
+@font-face {
+  font-family: 'robotoregular';
+  src: url('roboto-regular-webfont.woff2') format('woff2'),
+       url('roboto-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'pacificoregular';
+  src: url('pacifico-regular-webfont.woff2') format('woff2'),
+       url('pacifico-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html
+{
+  height: 100%;
+  font-family: 'robotoregular' !important;
+}
+
 body
 {
+  font-family: 'robotoregular' !important;
+  font-size: 16px;
   margin: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size:cover;
+  background-position-y: center;
+  height: 100%;
+  /* background-color: #8EC5FC;
+  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%); */
+  /* background-color: white; */
+  
+}
+
+
+#headerlogo
+{
+  height: 2.5rem;
+  margin-right: 1rem;
+}
+
+a.nav-link
+{
+  font-family: 'robotoregular' !important;
+  font-weight: bold;
+  color: white !important;
+}
+
+.navbar{
+  background-color: #24a9ae !important;
+}
+
+.navbar-brand
+{
+  font-family: 'pacificoregular';
+}
+
+#root
+{
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}
+
+#header
+{
+  width: 100%;
+  height: 10%;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+#header a
+{
+  display: inline-block;
+  border: 1px black;
+  background-color: white;
+  padding: 5px;
+  margin-right: 1rem;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+#dumbBoardContainer
+{
+  height: 100%;
+}
+
+#boardGridContainer
+{
+  display: grid;
+  grid-template-rows:4rem;
+  background-size: 120rem 70rem;
+  height: 100%;
 }
 
 .board
 {
   display: grid;
   grid-auto-columns: max-content;
-  grid-gap: 10px;
-  padding: 10px;
+  grid-gap: 0px;
+  padding-top: 20px + 40rem;
   grid-auto-flow : column;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  height: 100%;
+  /* background-image: https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/b94205b0dfa528e382d4115b9c9728d3/photo-1590521980958-3dbce60bd778.jpg */
+  /* background-size: 120rem 60rem; */
 }
 
-.list
+.board::-webkit-scrollbar {
+  display: none;
+}
+
+/* .board
 {
-  background-color: lightgray;
+    position: relative;
+    top: 68px;
+    height: calc(100% - 108px);
+    width: calc(100% - 40px);
+    display: flex;
+    padding: 20px 0;
+    margin: 0 20px;
+    overflow: auto;
+} */
+
+#boardsPageContainer
+{
+  height: 100%;
+}
+#boardsContainer
+{
+  width: 78rem;
+  margin: auto;
+  height: 90%;
+  overflow-y: scroll;
+  padding-bottom:90px;
+  scrollbar-width: none;
+}
+
+#boardsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+#boardsList
+{
+  margin-bottom:0px;
+}
+
+#boardsTitle
+{
+  font-family: 'robotoregular' !important;
+  margin-top: 30px;
+  margin-left: 12rem;
+}
+
+.boards, .addBoard
+{
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
   padding: 1rem;
-  margin-top: 1rem;
-  overflow-y: auto;
+  margin: 0.5rem;
+  height: 7rem;
+  width: 14rem;
+  cursor: default;
+  background-size: 100%;
+  background-position: center;
+  border-radius: 10px;
+  position: relative;
+  /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
+  /*background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2366x1600/e3c9ac11f5cd1a47f2eb785d66f64b70/photo-1585245332774-3dd2b177e7fa.jpg");
+  */
+}
+
+.addBoard
+{
+  background-color: rgba(36,169,174,0.3);
+}
+
+.boardsname
+{
+    display: inline-block;
+    color: white;
+    text-align: left;
+    cursor: text;
+    width: 10rem;
+}
+
+#choosebackground
+{
+  cursor: pointer;
+}
+
+#passwordSendNote
+{
+  display: none;
+}
+
+.boardDelete
+{
+  display:none;
+}
+
+.boardDelete:hover, .boards:hover .boardDelete, .boards:hover .boardDelete:hover 
+{
+  display: inline-block;
+  background: rgba(150,150,150,0.5);
+  position: absolute;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  right: 5px;
+  bottom: 5px;
+}
+
+#boardMenuHeader
+{
+  background-color: rgba(0,0,0,0);
+  width: 100%;
+  color: white;
+  font-weight: bold;
+  padding:0.5rem;
+  padding-left: 3rem;
+  font-size: 2rem;
+}
+
+#boardMenuHeader span
+{
+  float: left;
+}
+
+#addUserButton
+{
+  padding:0.5rem 0;
+  font-size:1rem;
+}
+
+#addUserButton input
+{
+  margin-left: 5px;
+}
+
+#boardNameSpan
+{
+  max-width: 50%;
+}
+
+.boardMenuDivider
+{
+  height: 2rem;
+  border-left: 2px solid white;
+  margin: 0.5rem 1rem;
+}
+
+.passwordMenuDivider
+{
+  height: 2rem;
+  border-left: 2px solid #007bff;
+  margin: 0.5rem 1rem;
+}
+
+#boardMenuRightside
+{
+  font-size:1rem;
+  right:1rem;
+  position: absolute;
+  width: 50%;
+}
+#boardMenuRightside form
+{
+  margin-top: 0.5rem;
+  float: right;
+}
+
+#boardMenuRightside form input
+{
+  margin-right: 1rem;
+}
+
+#editBGButton
+{
+  float: right;
+  font-size: 1rem;
+  background: slategray;
+  padding:0.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+}
+
+.modalHider
+{
+  display: none;
+}
+
+#editBgModal
+{
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-y: hidden;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.6);
+}
+
+#editBgModalContent
+{
+  background-color: #fefefe;
+  border-radius: 8px;
+  margin: 10% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 78rem; 
+  position: relative;
+}
+
+#editBgModalContent h3
+{
+  width: 80%;
+}
+
+.bgoption
+{
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  margin: 0.5rem;
+  height: 7rem;
+  width: 14rem;
+  cursor: pointer;
+  background-size: 100%;
+  background-position: center;
+  border-radius: 10px;
+  position: relative;
+  /* background-image: url("https://images.unsplash.com/photo-1595323397978-65433d24fc23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80") */
+}
+
+#closeBgModal
+{
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-color:rgb(200,200,200);
+  border-radius: 3px;
+  padding: auto;
+  right: 5px;
+  top:5px;
+  cursor: pointer;
+}
+
+.listHolder
+{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 272px;
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  cursor: default;
+  /* margin: 0.1rem; */
+  /* height: auto; */
+  /* background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%); */
+  width: 272px;
+  height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: 20px;
+  position: relative;
+}
+
+.list, .addList
+{
+
+  background-color: #ebecf0;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0 4px;
+  box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
+  margin-bottom:100px;
+  cursor: move;
+}
+
+.addList
+{
+  background-color: rgba(150,150,150,0.5);
+}
+
+.listHolder::-webkit-scrollbar {
+  display: none;
 }
 
 .listContainer
 {
-  padding: 1rem;
-  background-color: white;
+  display: flex;
+  padding: 0.5rem;
 }
 
 .listName
 {
-  width: 15rem;
+  margin-top: -5px;
+  display: flex;
+  margin-left: 1.5rem;
+  white-space: normal;
+  display: inline-block;
+  cursor: text;
+  width: 10rem;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.listButton
+{
+  display: none;
+}
+
+
+.list:hover .listButton
+{
+  position: absolute;
+  top:1rem;
+  right: 1rem;
+  background-color: rgb(220,220,220);
+  display: block;
+  text-align: center;
+  width: 1.5rem;
+  border: none;
 }
 
 .card
 {
-  padding: 1rem;
-  background-color: white;
-  border: 1px solid black;
-  margin : 1rem 0rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
+  margin : 0  0 0.5rem 0rem;
+  cursor: move;
 }
 
 .cardName
 {
-  width: 15rem;
+  margin-left: 2rem;
+  white-space: normal;
+  display: inline-block;
+  cursor: text;
+  width: 10rem;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.cardButton
+{
+  float: right;
+}
+
+.addCard
+{
+  width: 100%;
+  margin: 0px;
+}
+
+.cardInput
+{
+  display: inline;
+  width: 75%;
+  float:left;
+}
+.listInput
+{
+
+  display: inline;
+  width: 75%;
+  float:left;
+}
+
+
+.createcardbutton, .createlistbutton
+{
+  float:left;
+  display: inline;
+  text-align: center;
+  margin-left: 0.6rem;
+  margin-top: -1.5rem;
+  padding: 0;
+  width: 20%;
+}
+
+.createlistbutton
+{
+  margin-top: 0;
+}
+
+.dragging
+{
+  background: green;
+  opacity: .5;
+} 
+
+.deleteCard
+{
+  display: none;
+}
+
+.completeCard
+{
+  position: absolute;
+  left: 0.5rem;
+  top: 10px;
+  background-color: tomato;
+  border: none;
+}
+
+.completeList
+{
+  position: absolute;
+  left: 1rem;
+  top: 1.5rem;
+  background-color: tomato;
+  border: none;
+}
+
+.card:hover .deleteCard
+{
+  position: absolute;
+  top:5px;
+  right: 0.5rem;
+  background-color: white;
+  display: block;
+  text-align: center;
+  width: 1rem;
+  border: none;
+}
+
+.trelloicon
+{
+  background-image: url(https://a.trellocdn.com/prgb/dist/images/header-loading-logo.d731590….gif);
+  background-size: 18px 18px;
+  display: inline-block;
+  opacity: 0;
+  height: 18px;
+  right: 59px;
+  position: absolute;
+  top: 6px;
+  width: 18px;
+  padding-right: 2rem;
+}
+
+.signinlabel
+{
+  text-align: center;
+  color: #5E6C84;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.signinform
+{
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  padding: 25px 40px;
+  border-radius: 3px;
+  width: 400px;
+  height: 500px;
+  background: white;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.signinbutton
+{
+  background: rgb(52, 175, 52);
+  width: 100%;
+}
+
+.signinemail
+{
+  font-size: 14px;
+  background-color: #FAFBFC;
+  border: 2px solid #DFE1E6;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 3px;
+  height: 44px;
+  -webkit-transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+  transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
+  background: rgb(248, 248, 248);
+  width: 100%;
+}
+
+.signinemail:focus
+{
+  background: white;
+}
+
+.linktootherpage
+{
+  width: 100%;
+  text-align: center;
+}
+
+.createlistbutton
+{
+  padding: 0;
 }

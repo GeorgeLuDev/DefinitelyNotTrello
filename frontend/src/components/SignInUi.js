@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Form,Button } from 'react-bootstrap';
 
 function SignInUi()
 {
@@ -19,7 +19,7 @@ function SignInUi()
 
         try
         {
-            const response = await fetch('http://localhost:5000/api/SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(process.env.REACT_APP_URL + 'SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             console.log("calling Sign in api");
 
@@ -27,7 +27,7 @@ function SignInUi()
 
             console.log(res);
 
-            if (res.id === -1)
+            if (res.id === "-1")
             {
                 setMessage("User/Password combination incorrect");
             }
@@ -61,15 +61,35 @@ function SignInUi()
 
     return(
         <div>  
-            <h1>This is the Sign in page</h1>
-            <form>
+            <Form className="signinform">
+                <div className="signinlabel">Log in to DNT</div>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Control className="signinemail" type="email" placeholder="Enter email" ref={(c) => loginEmail = c}/>
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Control className="signinemail" type="password" placeholder="Enter password" ref={(c) => loginPassword = c}/>
+                </Form.Group>
+
+                <Button className="signinbutton" variant="primary" type="submit" onClick={doLogin}>
+                    Log in
+                </Button>
+                <span id="loginResult">{message}</span>
+                <hr></hr>
+                <div className="linktootherpage">
+                    <a href="/ForgotPassword">Can't log in?</a>
+                    <span className="passwordMenuDivider"></span>
+                    <a href="/SignUp" className="link">Sign up for an account</a>
+                </div>
+            </Form>
+            {/* <form>
                 <label>Email</label>
                 <input type="text" placerholder="Email" ref={(c) => loginEmail = c}/><br/>
                 <label>Password</label>
                 <input type="text" placerholder="Password" ref={(c) => loginPassword = c}/><br/>
                 <input type="submit" onClick={doLogin}/><br/>
                 <span id="loginResult">{message}</span>
-            </form>
+            </form> */}
         </div>
     );
 };

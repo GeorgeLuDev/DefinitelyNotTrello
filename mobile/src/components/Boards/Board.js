@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
  
 
-export default class BoardList extends Component {
+export default class Board extends Component {
   static navigationOption = ({ navigation }) => 
   {     
       return {
@@ -22,7 +22,8 @@ export default class BoardList extends Component {
         isVisible: false,
         lists: [],
         cards: [],
-        boardId: props.route.params.id
+        boardId: props.route.params.id,
+        listName: ''
 
 
     };
@@ -117,6 +118,48 @@ export default class BoardList extends Component {
     this.componentDidMount();
   }
 
+
+  addList = async () => 
+  {
+
+    try 
+    {
+      var value = await AsyncStorage.getItem("user");
+      if (value !== null)
+      {
+        value = JSON.parse(value);
+        // console.log(value.id);
+        // return value.id;
+      }
+    } 
+    catch (e) 
+    {
+      console.log("Something went wrong in fetching the users data.");
+    }
+
+    var js = '{"listName":"'+ this.state.listName.toString() + '","index":"'+ this.state.lists.length + '","parentBoard":["'+ this.state.boardId +'"]}';
+    
+    console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/CreateList',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+    //   alert("added successfully");
+      // console.log(this.lists[0]);
+      this.setListName("");
+      this.setIsVisible(false);
+      this.componentDidMount();
+    }
+    catch(e)
+    {
+
+    }
+  }
+
+  setListName = (name) => {
+    console.log(name);
+    this.setState({'listName' : name})
+  }
   
 
   render() {
@@ -143,8 +186,8 @@ export default class BoardList extends Component {
                 style={styles.overlayInput}
                 
                   // {console.log(this.state.boards)}
-                onChangeText={(name) => this.setBoardName(name)}
-                placeholder="Board Name"
+                onChangeText={(name) => this.setListName(name)}
+                placeholder="List Name"
                 placeholderTextColor="rgba(255, 255, 255, 0.7)"
 
               />
@@ -160,7 +203,7 @@ export default class BoardList extends Component {
 
                 <View style={{ width: 20 }}></View>
 
-                <TouchableOpacity style={styles.overlayButton} onPress={() => alert("adding List")}>
+                <TouchableOpacity style={styles.overlayButton} onPress={() => this.addList()}>
                   <Text style={styles.overlayButtonText}>
                     Add
                   </Text>
@@ -177,6 +220,7 @@ export default class BoardList extends Component {
                 {this.state.lists.map(list =>
                 <View>
                     <Text>
+                        {console.log("CHECKING")}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
                             

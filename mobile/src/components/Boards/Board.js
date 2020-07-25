@@ -6,9 +6,14 @@ import { AsyncStorage } from 'react-native';
  
 
 export default class BoardList extends Component {
-
-  constructor() {
-    super();
+  static navigationOption = ({ navigation }) => 
+  {     
+      return {
+               id: navigation.getParam('id', null)     
+             }
+  }
+  constructor(props) {
+    super(props);
     this.state = {
         boards: [], 
         boardName: '',
@@ -16,7 +21,9 @@ export default class BoardList extends Component {
         oldboardindex: '',
         isVisible: false,
         lists: [],
-        cards: []
+        cards: [],
+        boardId: props.route.params.id
+
 
     };
     
@@ -24,29 +31,60 @@ export default class BoardList extends Component {
 
   componentDidMount() {
     this.fetchData();
+
+    this.props.navigation.setOptions(
+        {
+            title: 'Lists',
+            headerRight: () => (
+              <TouchableOpacity
+                style={{
+                  marginRight: 20
+                }}
+                onPress={() => this.setIsVisible(true)}>
+  
+              <Entypo name="plus" size={34} color="white" />
+                </TouchableOpacity>
+            ),
+            headerStyle: {
+              backgroundColor: '#4b414a',
+              
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              alignSelf: 'center'
+            }
+          }
+  
+      );
+    
+    // console.log(this.state.boardId);
+  }
+
+  setIsVisible = (bool) => {
+    this.setState({'isVisible' : bool})
   }
 
   fetchData = async () => {
 
-    try 
-    {
-      var value = await AsyncStorage.getItem("board");
-      if (value !== null)
-      {
-        value = JSON.parse(value);
-        // console.log(value.id);
-      }
-    } 
-    catch (e) 
-    {
-      console.log("Something went wrong in fetching the boards data");
-    }
+    // try 
+    // {
+    //   var value = await AsyncStorage.getItem("board");
+    //   if (value !== null)
+    //   {
+    //     value = JSON.parse(value);
+    //     // console.log(value.id);
+    //   }
+    // } 
+    // catch (e) 
+    // {
+    // //   console.log("Something went wrong in fetching the boards data");
+    // }
 
 
-    console.log("http://3.17.45.57/api/Board/" + value.id);
-    const response = await fetch("http://3.17.45.57/api/Board/" + value.id , {method:'GET',headers:{'Content-Type': 'application/json'}});
+    // console.log("http://3.17.45.57/api/Board/" + value.id);
+    const response = await fetch("http://3.17.45.57/api/Board/" + this.state.boardId , {method:'GET',headers:{'Content-Type': 'application/json'}});
     var res = JSON.parse(await response.text());
-    console.log(res);
+    // console.log(res);
     this.setState(
         {
             lists: res.listString,
@@ -56,10 +94,84 @@ export default class BoardList extends Component {
 
   }
 
+  deleteList = async (event,listId) => 
+  {
+    var js = '{"_id":"'+ listId + '"}';
+
+    // console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/DeleteList',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+      // alert("added successfully");
+      // this.setBoardName("");
+      // this.setIsVisible(false);
+      // this.componentDidMount();
+      var res = JSON.parse(await response.text());
+      console.log(res);
+    }
+    catch(e)
+    {
+
+    }
+    this.componentDidMount();
+  }
+
+  
+
   render() {
 
     return (
+
+        
+
         <View>
+
+<View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.isVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+
+            <View style={styles.modalView}>
+              <TextInput
+                style={styles.overlayInput}
+                
+                  // {console.log(this.state.boards)}
+                onChangeText={(name) => this.setBoardName(name)}
+                placeholder="Board Name"
+                placeholderTextColor="rgba(255, 255, 255, 0.7)"
+
+              />
+              {/* {this.state.boards.map(board =>
+                <Text>{board.boardName}</Text>) } */}
+              <View style={styles.overlayButtonContainer}>
+
+                <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false)}>
+                  <Text style={styles.overlayButtonText}>
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+
+                <View style={{ width: 20 }}></View>
+
+                <TouchableOpacity style={styles.overlayButton} onPress={() => alert("adding List")}>
+                  <Text style={styles.overlayButtonText}>
+                    Add
+                  </Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+      </View>
             
                 
                 {this.state.lists.map(list =>
@@ -74,6 +186,10 @@ export default class BoardList extends Component {
                             
                             )}
                     </Text>
+                    <Button
+                    onPress = {(e) => this.deleteList(e,list._id)}
+                    title="Delete"
+                    />
                 </View>)}
                 
         </View>

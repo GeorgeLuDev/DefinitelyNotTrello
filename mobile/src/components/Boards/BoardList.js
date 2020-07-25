@@ -203,17 +203,20 @@ export default class BoardList extends Component {
     var board = {
       id: boardId
     };
-    try 
-    {
-      await AsyncStorage.setItem(
-        "board", JSON.stringify()
-      );
-      this.props.navigation.navigate("Board");
-    } 
-    catch (e) 
-    {
-      alert("Something went wrong");
-    }
+    this.props.navigation.navigate("Board",{
+      id: boardId
+    });
+    // try 
+    // {
+    //   await AsyncStorage.setItem(
+    //     "board", JSON.stringify()
+    //   );
+    //   this.props.navigation.navigate("Board");
+    // } 
+    // catch (e) 
+    // {
+    //   alert("Something went wrong");
+    // }
   }
     
   

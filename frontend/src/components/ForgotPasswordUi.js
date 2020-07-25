@@ -39,7 +39,6 @@ function ForgotPasswordUi()
             return;
         }
 
-        document.getElementsById("passwordSendNote").style.display = "inline";
 
     }
 
@@ -58,8 +57,6 @@ function ForgotPasswordUi()
                 <Form.Group controlId="formBasicEmail">
                     <Form.Control className="signinemail" type="email" placeholder="Enter email" ref={(c) => loginEmail = c}/>
                 </Form.Group>
-
-                <span id="passwordSendNote">If the email you entered is associated with an account, we will send a password reset link to you.</span>
 
                 <Button className="signinbutton" variant="primary" type="submit" onClick={doForgotPassword}>
                     Send recovery link

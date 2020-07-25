@@ -361,6 +361,8 @@ app.post('/api/SentResetPassword', async (req,res) =>
             console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         
         });
+        
+        error = "We are sending a password reset email.";
     }
     else
     {

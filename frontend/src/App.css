@@ -465,6 +465,23 @@ a.nav-link
   width: 75%;
   float:left;
 }
+.listInput
+{
+
+  display: inline;
+  width: 75%;
+  float:left;
+}
+
+.createlistbutton
+{
+  float:left;
+  display: inline;
+  text-align: center;
+  margin-left: 0.6rem;
+  padding: 0;
+  width: 20%;
+}
 
 .createcardbutton
 {

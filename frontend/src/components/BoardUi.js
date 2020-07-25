@@ -759,7 +759,7 @@ class BoardUi extends Component
 
               <div className="listHolder">
                 <form className="addList">
-                    <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                    <input className="listInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
                     <input className="createlistbutton" type="submit" value="+" onClick={this.handleCreateList}/><br/>
                 </form>
               </div>

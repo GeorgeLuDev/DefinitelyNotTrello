@@ -31,8 +31,37 @@ export default class BoardList extends Component {
 
   componentDidMount() {
     this.fetchData();
+
+    this.props.navigation.setOptions(
+        {
+            title: 'Lists',
+            headerRight: () => (
+              <TouchableOpacity
+                style={{
+                  marginRight: 20
+                }}
+                onPress={() => this.setIsVisible(true)}>
+  
+              <Entypo name="plus" size={34} color="white" />
+                </TouchableOpacity>
+            ),
+            headerStyle: {
+              backgroundColor: '#4b414a',
+              
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              alignSelf: 'center'
+            }
+          }
+  
+      );
     
     // console.log(this.state.boardId);
+  }
+
+  setIsVisible = (bool) => {
+    this.setState({'isVisible' : bool})
   }
 
   fetchData = async () => {
@@ -88,12 +117,61 @@ export default class BoardList extends Component {
     this.componentDidMount();
   }
 
+  
+
   render() {
 
     return (
+
+        
+
         <View>
 
-           
+<View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.isVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+
+            <View style={styles.modalView}>
+              <TextInput
+                style={styles.overlayInput}
+                
+                  // {console.log(this.state.boards)}
+                onChangeText={(name) => this.setBoardName(name)}
+                placeholder="Board Name"
+                placeholderTextColor="rgba(255, 255, 255, 0.7)"
+
+              />
+              {/* {this.state.boards.map(board =>
+                <Text>{board.boardName}</Text>) } */}
+              <View style={styles.overlayButtonContainer}>
+
+                <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false)}>
+                  <Text style={styles.overlayButtonText}>
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+
+                <View style={{ width: 20 }}></View>
+
+                <TouchableOpacity style={styles.overlayButton} onPress={() => alert("adding List")}>
+                  <Text style={styles.overlayButtonText}>
+                    Add
+                  </Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+      </View>
             
                 
                 {this.state.lists.map(list =>

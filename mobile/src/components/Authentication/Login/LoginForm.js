@@ -49,8 +49,10 @@ export default class LoginForm extends Component {
 
             // alert(JSON.stringify(resJSON));
             // console.log(resJSON);
-            var res = JSON.parse(await response.text());
-            // console.log(res);
+            var json = await response.text();
+            console.log(json);
+            var res = JSON.parse(json);
+            console.log(res);
             console.log(res.emailVerification);
             if (res.id === -1)
             {

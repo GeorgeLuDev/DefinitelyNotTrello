@@ -45,7 +45,7 @@ export default class BoardList extends Component {
               </TouchableOpacity>
           ),
           headerStyle: {
-            backgroundColor: '#4b414a',
+            backgroundColor: '#24a9ae',
             
           },
           headerTintColor: '#fff',
@@ -284,6 +284,7 @@ export default class BoardList extends Component {
             {/* {console.log(this.state.boards)} */}
             <FlatList
               data={this.state.boards}
+              ListHeaderComponentStyle={{marginBottom: 5}}
               extraData={this.state}
               keyExtractor={(item) => item._id}
               renderItem={( {item} ) =>
@@ -313,27 +314,12 @@ export default class BoardList extends Component {
   subtitleStyle={{ color: 'white' }}
   chevron={{ color: 'white' }}
   onPress = {(e) => this.navigate(e,item._id)}
-  onLongPress={(e) => this.deleteBoard(e,board._id)}
+  onLongPress={(e) => this.deleteBoard(e,item._id)}
 />
                 }
               ListHeaderComponent={this.renderHeader}
 
             />
-
-
-                {this.state.boards.map(board =>
-                <View>
-                    <Text onPress = {(e) => this.navigate(e,board._id)}>
-                      {board.boardName}
-
-                    </Text>
-                    <Button
-                      onPress = {(e) => this.deleteBoard(e,board._id)}
-                      title="Delete"
-                    />
-                    
-                </View>) 
-                }
           </View>
         </View>
       </View>

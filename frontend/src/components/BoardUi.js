@@ -13,10 +13,11 @@ class BoardUi extends Component
             cardName: '',
             lists: [],
             listName: '',
-            newlistindex: -1,
-            newcardindex: -1,
-            oldlistindex: -1,
-            oldcardindex: -1
+            newlistindex: null,
+            newcardindex: null,
+            oldlistindex: null,
+            oldcardindex: null,
+            thumbnails: []
         }
     }
     
@@ -73,6 +74,10 @@ class BoardUi extends Component
     {
         event.preventDefault();
         // console.log("calling create list");
+        if (this.state.listName === "")
+        {
+            return;
+        }
 
         var js = '{"listName":"'+ this.state.listName + '","index":' + this.state.lists.length + ',"parentBoard":"' + window.location.pathname.slice(-24) + '"}';
 
@@ -105,6 +110,10 @@ class BoardUi extends Component
     {
         event.preventDefault();
         // console.log("submmiting create card");
+        if (event.target.previousSibling.previousSibling.value === "")
+        {
+            return;
+        }
 
         // console.log(event.target.previousSibling.previousSibling.value);
         var js = '{"cardName":"'+ event.target.previousSibling.previousSibling.value + '","index":' + this.state.cards[listIndex].length + ',"parentList":"' + listId + '"}';
@@ -199,6 +208,10 @@ class BoardUi extends Component
 
         event.preventDefault();
         // console.log(event);
+        if (event.target.innerText === "")
+        {
+            event.target.innerText = "List";
+        }
 
         var js = '{"_id":"'+ ListId + '","listName":"' + event.target.innerText + '"}';
 
@@ -231,6 +244,10 @@ class BoardUi extends Component
 
         event.preventDefault();
         // console.log(event);
+        if (event.target.innerText === "")
+        {
+            event.target.innerText = "Card";
+        }
 
         var js = '{"_id":"'+ cardId + '","cardName":"' + event.target.innerText + '"}';
 
@@ -335,7 +352,7 @@ class BoardUi extends Component
         var element = document.querySelector('.dragging');
         var currentList = document.getElementById(listid);
         var afterElement;
-       if (event.target.className === "card" && element.className === "card dragging")
+       if (element.className === "card dragging")
        {    
         //    console.log("card");
 
@@ -514,27 +531,6 @@ class BoardUi extends Component
         {
             // console.log("5.scrolling up or down");
         }
-        // if (event.target.className === "board")
-        // {
-        //     console.log(1);
-        //     this.board.current.scrollLeft += event.deltaY;
-        // }
-        // else if ( (event.target.className === "list" || event.target.className === "listContainer" || event.target.className === "listName" || event.target.className === "listButton") && (event.target.scrollHeight > event.target.clientHeight))
-        // {
-        //     console.log(2);
-        //     this.board.current.scrollLeft += event.deltaY;
-        // }
-        // else if ( (event.target.className === "card" || event.target.className === "cardName" || event.target.className === "deleteCard")&& (event.target.parentNode.scrollHeight > event.target.parentNode.clientHeight))
-        // {
-        //     console.log(3);
-        //     this.board.current.scrollLeft += event.deltaY;
-        // }
-        // else
-        // {
-
-        //     console.log(4);
-        //     // console.log(event.target.scrollHeight > event.target.clientHeight);
-        // }
     }
 
     searchList = event => 
@@ -606,6 +602,102 @@ class BoardUi extends Component
 
     }
 
+    handleUpdateBoard = async (event) =>
+    {
+        // console.log("calling update list");
+
+        event.preventDefault();
+        // console.log(event);
+        if (event.target.innerText === "")
+        {
+            event.target.innerText = "Board";
+        }
+
+        var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","boardName":"' + event.target.innerText + '"}';
+
+        // console.log(js);
+
+        try
+        {
+            const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+            // console.log("calling Update Board api");
+
+            var res = JSON.parse(await response.text());
+
+            console.log(res);
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+
+        this.componentDidMount();
+    }
+
+    getpictures = async () =>
+    {
+        try
+        {
+            const response = await fetch("https://api.unsplash.com/photos/random?query=death&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
+
+            var res = JSON.parse(await response.text());
+
+            res.map(res => console.log(res.urls.thumb));
+
+            this.setState({
+                thumbnails : res
+            });
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+    }
+
+    handleModal = (event) =>
+    {
+        var modal = document.getElementById("editBgModal");
+        if (modal.className === "modalbg modalHider")
+        {
+            this.getpictures();
+            modal.className = "modalbg";
+        }
+        else
+        {
+            modal.className = "modalbg modalHider";
+        }
+    }
+
+    updateBoardBackground = async (event,url) =>
+    {
+        try
+        {
+            var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","boardBackground":"' + url + '"}';
+
+            const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+            var res = JSON.parse(await response.text());
+
+            this.setState({
+                thumbnails : []
+            });
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.handleModal();
+        this.componentDidMount();
+    }
+
     render()
     {
       return(
@@ -621,7 +713,7 @@ class BoardUi extends Component
             </span>
             <div id="boardMenuRightside">
               <div id="editBGButton">
-                <p>Edit Image</p>
+                <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
               </div>
               <form>
                 <input id="searchlist" name="searchList" placeholder="Highlight Lists" onChange={(e) => this.searchList(e)}></input>
@@ -675,13 +767,21 @@ class BoardUi extends Component
           <div id="editBgModal" className="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
-              <span id="closeBgModal">&times;</span>
+              <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
               <form>
                 <label>Search for images</label>
                 <input name="imageSearch" placeholder="keywords"></input>
               </form>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
+                {
+                    this.state.thumbnails.map(thumbnail => 
+                        <div key={thumbnail.id} className="bgoption" onClick={(e) => this.updateBoardBackground(e,thumbnail.urls.regular)} style={{backgroundImage : "url(" + thumbnail.urls.thumb +")"}}></div>)
+                }
+
+                {/* {console.log(this.state.thumbnails)} */}
+
+                {/* <div className="bgoption"></div>
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
@@ -700,8 +800,7 @@ class BoardUi extends Component
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
                 <div className="bgoption"></div>
-                <div className="bgoption"></div>
-                <div className="bgoption"></div>
+                <div className="bgoption"></div> */}
               </div>
             </div>
           </div>

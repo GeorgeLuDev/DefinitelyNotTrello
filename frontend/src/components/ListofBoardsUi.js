@@ -60,6 +60,10 @@ class ListofBoardsUi extends Component
     handleCreate = async event =>
     {
         event.preventDefault();
+        if (this.state.boardName === "")
+        {
+            return;
+        }
         console.log("submmiting create board");
 
         var user = JSON.parse(localStorage.getItem('user_data'));
@@ -96,6 +100,10 @@ class ListofBoardsUi extends Component
 
         event.preventDefault();
         // console.log(event);
+        if (event.target.innerText === "")
+        {
+            event.target.innerText = "Board";
+        }
 
         var js = '{"_id":"'+ boardId + '","boardName":"' + event.target.innerText + '"}';
 

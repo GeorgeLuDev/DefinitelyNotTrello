@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, T
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
+import TouchableScale from 'react-native-touchable-scale';
  
 
 export default class BoardList extends Component {
@@ -283,14 +284,40 @@ export default class BoardList extends Component {
               extraData={this.state}
               keyExtractor={(item) => item._id}
               renderItem={( {item} ) =>
+                // <ListItem
+                //   title={item.boardName}
+                //   bottomDivider 
+                // />
+
                 <ListItem
-                  title={item.boardName}
-                  bottomDivider 
-                />
+  Component={TouchableScale}
+  containerStyle={{
+    borderRadius: 10,
+    marginHorizontal: 5,
+    marginBottom: 5
+  }}
+  friction={90} //
+  tension={100} // These props are passed to the parent component (here TouchableScale)
+  activeScale={0.95} //
+  linearGradientProps={{
+    colors: ['#475DC0', '#28A0F6'],
+    start: [1, 0],
+    end: [0.2, 0],
+  }}
+  leftAvatar={{ rounded: true, source: { uri: item.boardBackground } }}
+  title={item.boardName}
+  titleStyle={{ color: 'white', fontWeight: 'bold' }}
+  subtitleStyle={{ color: 'white' }}
+  chevron={{ color: 'white' }}
+  onPress = {(e) => this.navigate(e,item._id)}
+  onLongPress={(e) => this.deleteBoard(e,board._id)}
+/>
                 }
               ListHeaderComponent={this.renderHeader}
 
             />
+
+
                 {this.state.boards.map(board =>
                 <View>
                     <Text onPress = {(e) => this.navigate(e,board._id)}>

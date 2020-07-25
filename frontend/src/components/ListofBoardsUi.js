@@ -66,8 +66,33 @@ class ListofBoardsUi extends Component
         }
         console.log("submmiting create board");
 
+        var query = "nature";
+
+        var imageURL = "";
+
+        try
+        {
+            const response = await fetch("https://api.unsplash.com/photos/random?query="+
+              query +"&client_id=q4WYOaQmdzhlMD70q376IHwswPNmqQePfyeiRw_XGGg&count=1",{method:'GET',headers:{'Content-Type': 'application/json'}});
+
+            res = JSON.parse(await response.text());
+
+            res.map(res => console.log(res.urls.thumb));
+
+            this.setState({
+                thumbnails : res
+            });
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        
+        imageURL = res[0].urls.thumb;
         var user = JSON.parse(localStorage.getItem('user_data'));
-        var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":["' + user.id + '"]}';
+        var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":["' + user.id + '"],"background":"' + imageURL + '"}';
 
         console.log(js);
 

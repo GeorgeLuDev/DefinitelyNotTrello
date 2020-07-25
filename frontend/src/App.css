@@ -192,6 +192,7 @@ a.nav-link
     text-align: left;
     cursor: text;
     width: 10rem;
+    text-shadow: 2px 2px 2px #000;
 }
 
 #choosebackground

@@ -5,6 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 const PORT = process.env.port || 5000;
 require('dotenv').config();
+const passwordHash = require('password-hash');
 
 // mailing stuff
 const nodemailer = require('nodemailer');
@@ -112,12 +113,15 @@ app.post('/api/SignUp', async (req,res) =>
 
     // get incoming json and format
     const { firstName, lastName, email, password } = req.body;
+
+    var hashedPassword = passwordHash.generate(password);
+
     const newUser =
     {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password,
+        password: hashedPassword,
         emailVerification: 0
     }
 
@@ -188,12 +192,14 @@ app.post('/api/SignIn', async (req,res) =>
     // get incoming json
     const { email, password } = req.body;
 
+    var hashedPassword = passwordHash.generate(password);
+
     // do stuff with database
     const db = client.db();
     var query = 
     {
         email:email,
-        password:password
+        password:hashedPassword
     };
 
     var result = await db.collection('Users').findOne(query);
@@ -342,6 +348,7 @@ app.post('/api/SentResetPassword', async (req,res) =>
     console.log('SentResetPassword api hit');
     var error = '';
 
+    
     // get incoming json and format
     const {email} = req.body;
     const newUser =
@@ -408,6 +415,7 @@ app.put('/api/UpdatePassword', async (req, res) =>
 
     const db = client.db();
 
+    var hashedPassword = passwordHash.generate(password);
 
     var query = 
     { 
@@ -418,7 +426,7 @@ app.put('/api/UpdatePassword', async (req, res) =>
     {
         $set:
         {
-            password : password
+            password : hashedPassword
         }
     };
 

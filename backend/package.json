@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.5.9",
     "nodemailer": "^6.4.10",
+    "password-hash": "^1.2.2",
     "uuid": "^8.1.0"
   },
   "devDependencies": {

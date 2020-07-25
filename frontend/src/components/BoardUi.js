@@ -638,11 +638,12 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
-    getpictures = async (query) =>
+    getpictures = async (event,query) =>
     {
+        event.preventDefault();
         try
         {
-            const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=q4WYOaQmdzhlMD70q376IHwswPNmqQePfyeiRw_XGGg&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
+            const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
 
@@ -654,6 +655,24 @@ class BoardUi extends Component
         }
         catch(e)
         {
+            try
+            {
+                const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=q4WYOaQmdzhlMD70q376IHwswPNmqQePfyeiRw_XGGg&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
+    
+                var res = JSON.parse(await response.text());
+    
+                // res.map(res => console.log(res.urls.thumb));
+    
+                this.setState({
+                    thumbnails : res
+                });
+            }
+            catch(e)
+            {
+                console.log("there was an error");
+                console.log(e.toString());
+                return;
+            }
             console.log("there was an error");
             console.log(e.toString());
             return;
@@ -665,12 +684,22 @@ class BoardUi extends Component
         var modal = document.getElementById("editBgModal");
         if (modal.className === "modalbg modalHider")
         {
-            this.getpictures("nature");
+            this.getpictures(event,"nature");
             modal.className = "modalbg";
         }
         else
         {
             modal.className = "modalbg modalHider";
+            document.getElementById("imageSearch").value = "";
+        }
+    }
+
+    handleClose = (event) =>
+    {
+        if (event.target.id === "editBgModal")
+        {
+            event.target.className = "modalbg modalHider";
+            document.getElementById("imageSearch").value = "";
         }
     }
 
@@ -729,7 +758,7 @@ class BoardUi extends Component
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
                               
-                              <input className="completeList" type="checkbox" checked={true}></input>
+                              <input className="completeList" type="checkbox" ></input>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
                                   &times;
                               </button>
@@ -765,15 +794,14 @@ class BoardUi extends Component
               </div>
           </div>
 
-          <div id="editBgModal" className="modalbg modalHider">
+          <div id="editBgModal" onClick={(e) => this.handleClose(e)} className="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
               <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
-              <form>
-                <label>Search for images</label>
-                <input name="imageSearch" placeholder="keywords"></input>
-                <button name="doImageSearch" value="">&#x1f50d;</button>
-              </form>
+              <form className="addCard">
+                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/><br />
+                    <input className="doImageSearch" type="submit" value="Search" onClick={(e) => this.getpictures(e,e.target.previousSibling.value)}/><br/>
+                </form>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
                 {

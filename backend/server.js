@@ -5,6 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 const PORT = process.env.port || 5000;
 require('dotenv').config();
+const passwordHash = require('password-hash');
 
 // mailing stuff
 const nodemailer = require('nodemailer');
@@ -112,45 +113,65 @@ app.post('/api/SignUp', async (req,res) =>
 
     // get incoming json and format
     const { firstName, lastName, email, password } = req.body;
+
+    var hashedPassword = passwordHash.generate(password,);
+
     const newUser =
     {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password,
+        password: hashedPassword,
         emailVerification: 0
     }
 
+    const db = client.db();
+
+    const alreadyin = await db.collection("Users").find({email: email}).toArray();
+
+    // console.log(alreadyin.length);
+
+    if (alreadyin.length === 0)
+    {
+        // console.log("user is not in");
+        // user is not in database
+        // create user
+        try
+        {
+            const result = await db.collection('Users').insertOne(newUser);
+            var verifyUserEmail = {
+                from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: 'Verify Account', // Subject line
+                text: 'Click the link below to verify your email', // plain text body
+                // html: "<a href=\"localhost:3000/EmailVerification/" + result.ops[0]._id + "\">Verify Email</a>" // html body
+                html: `<a href=\"${process.env.EMAIL_URL}EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
     
+            };
+    
+            transporter.sendMail(verifyUserEmail, (error, info) => {
+                if (error) 
+                {
+                    return console.log(error);
+                }
+                // console.log('Message sent: %s', info.messageId);   
+                // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+          
+            });
+        }
+        catch(e)
+        {
+          error = e.toString();
+        }
+    }
+    else
+    {
+        // user is already in database
+        // dont create user
+        // send them to sign in
+        error = "An account is already associated with this email";
+    }
     // do stuff with database
-    try
-    {
-        const db = client.db();
-        const result = await db.collection('Users').insertOne(newUser);
-        var verifyUserEmail = {
-            from: '"Definitely Not Trello" <definitelynottrello@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: 'Verify Account', // Subject line
-            text: 'Click the link below to verify your email', // plain text body
-            // html: "<a href=\"localhost:3000/EmailVerification/" + result.ops[0]._id + "\">Verify Email</a>" // html body
-            html: `<a href=\"${process.env.EMAIL_URL}EmailVerification/${result.ops[0]._id}\">Verify Email</a>` // html body
-
-        };
-
-        transporter.sendMail(verifyUserEmail, (error, info) => {
-            if (error) 
-            {
-                return console.log(error);
-            }
-            console.log('Message sent: %s', info.messageId);   
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-      
-        });
-    }
-    catch(e)
-    {
-      error = e.toString();
-    }
 
     // send result back
     var ret = 
@@ -175,13 +196,12 @@ app.post('/api/SignIn', async (req,res) =>
     const db = client.db();
     var query = 
     {
-        email:email,
-        password:password
+        email: email
     };
 
     var result = await db.collection('Users').findOne(query);
 
-    if (result == null)
+    if (result == null || !(passwordHash.verify(password, result.password)))
     {
         result = 
         {
@@ -191,6 +211,7 @@ app.post('/api/SignIn', async (req,res) =>
             "emailVerification": "",
         };
     }
+
     // send result back
     var ret = 
     {
@@ -325,6 +346,7 @@ app.post('/api/SentResetPassword', async (req,res) =>
     console.log('SentResetPassword api hit');
     var error = '';
 
+    
     // get incoming json and format
     const {email} = req.body;
     const newUser =
@@ -393,6 +415,7 @@ app.put('/api/UpdatePassword', async (req, res) =>
 
     const db = client.db();
 
+    var hashedPassword = passwordHash.generate(password);
 
     var query = 
     { 
@@ -403,7 +426,7 @@ app.put('/api/UpdatePassword', async (req, res) =>
     {
         $set:
         {
-            password : password
+            password : hashedPassword
         }
     };
 

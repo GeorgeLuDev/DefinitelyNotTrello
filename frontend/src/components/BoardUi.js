@@ -642,6 +642,7 @@ class BoardUi extends Component
     {
         event.preventDefault();
         var res;
+        // console.log(query);
         try
         {
             const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
@@ -710,7 +711,8 @@ class BoardUi extends Component
         {
             var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","boardBackground":"' + url + '"}';
 
-            const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+            // const response = 
+            await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // var res = JSON.parse(await response.text());
 
@@ -800,7 +802,7 @@ class BoardUi extends Component
               <h3>Select a new background image</h3>
               <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
               <form className="addCard">
-                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/><br />
+                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/>
                     <input className="doImageSearch" type="submit" value="Search" onClick={(e) => this.getpictures(e,e.target.previousSibling.value)}/><br/>
                 </form>
               <p>Check out these sweet backgrounds</p>

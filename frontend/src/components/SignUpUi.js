@@ -15,6 +15,36 @@ function SignInUi()
         event.preventDefault();
         console.log("doSignUp called");
 
+        var flagerror = 0;
+        var error = "";
+
+        if (loginfirstName.value === "")
+        {
+            flagerror = 1;
+            error += "Please add a First Name<br />";
+        }
+        if (loginlastName.value === "")
+        {
+            flagerror = 1;
+            error += "Please add a Last Name<br />";
+        }
+        if (loginEmail.value === "")
+        {
+            flagerror = 1;
+            error += "Please add an Email<br />";
+        }
+        if (loginPassword.value === "")
+        {
+            flagerror = 1;
+            error += "Please add a Password<br />";
+        }
+
+        if (flagerror === 1)
+        {
+            setMessage(error);
+            return;
+        }
+
         var js = '{"firstName":"'+ loginfirstName.value + '","lastName":"'+ loginlastName.value + '","email":"'+ loginEmail.value + '","password":"' + loginPassword.value +'"}';
 
         console.log(js);
@@ -28,6 +58,7 @@ function SignInUi()
             var res = JSON.parse(await response.text());
 
             console.log(res);
+
             if (res.error === "")
             {
                 setMessage("Sign Up Successful");

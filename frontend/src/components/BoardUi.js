@@ -676,7 +676,10 @@ class BoardUi extends Component
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
               <span id="closeBgModal">&times;</span>
-              <span id="closeBgModal">&times;</span>
+              <form>
+                <label>Search for images</label>
+                <input name="imageSearch" placeholder="keywords"></input>
+              </form>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
                 <div className="bgoption"></div>

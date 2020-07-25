@@ -498,11 +498,11 @@ a.nav-link
 {
   position: absolute;
   top:5px;
-  right: 0;
+  right: 0.5rem;
   background-color: white;
   display: block;
   text-align: center;
-  width: 2rem;
+  width: 1rem;
   border: none;
 }
 

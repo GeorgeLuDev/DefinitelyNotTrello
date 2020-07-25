@@ -229,6 +229,53 @@ export default class Board extends Component {
   }
   
 
+  updateList = async (event,listId) => 
+  {
+    var js = '{"_id":"'+ listId + '","listName":"' + "Testerrrr" + '"}';
+
+    console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+      // alert("added successfully");
+      // this.setBoardName("");
+      // this.setIsVisible(false);
+      // this.componentDidMount();
+      var res = JSON.parse(await response.text());
+      // console.log(res);
+    }
+    catch(e)
+    {
+
+    }
+    this.componentDidMount();
+  }
+
+
+  updateCard = async (event,cardId) => 
+  {
+    var js = '{"_id":"'+ cardId + '","cardName":"' + "  We updated this card tho  " + '"}';
+
+    // console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+      // alert("added successfully");
+      // this.setBoardName("");
+      // this.setIsVisible(false);
+      // this.componentDidMount();
+      var res = JSON.parse(await response.text());
+      // console.log(res);
+    }
+    catch(e)
+    {
+
+    }
+    this.componentDidMount();
+  }
+
   render() {
 
     return (
@@ -286,12 +333,12 @@ export default class Board extends Component {
                 
                 {this.state.lists.map(list =>
                 <View>
-                    <Text>
+                    <Text onPress = {(e) => this.updateList(e,list._id)}>
                         {/* {console.log("CHECKING")} */}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
                                 
-                                    <Text onPress = {(e) => this.setIsVisible(true)}>
+                                    <Text onPress = {(e) => this.updateCard(e,card._id)}>
                                         {card.cardName}
                                         <Text onPress = {(e) => this.deleteCard(e,card._id)}>
                                             Delete Card

@@ -40,7 +40,7 @@ export default class LoginForm extends Component {
 
       
       try{
-             alert("calling Sign Up api");
+            //  alert("calling Sign Up api");
             const response = await fetch('http://3.17.45.57/api/SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             

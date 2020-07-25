@@ -427,7 +427,7 @@ app.post('/api/CreateBoard', async (req,res) =>
     console.log('CreateBoard api hit');
     var error = '';
 
-    var bgs = [
+    /*var bgs = [
       "https://images.unsplash.com/photo-1595323397978-65433d24fc23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
       "https://images.unsplash.com/photo-1590440048050-764e709d3380?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
       "https://images.unsplash.com/photo-1556031970-26f08a4b18ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80",
@@ -436,15 +436,18 @@ app.post('/api/CreateBoard', async (req,res) =>
       "https://images.unsplash.com/photo-1555679486-e341a3e7b6de?ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
       "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1425x1920/27bae813ecc676ae43446de94f23b218/photo-1595355833291-279b3a7a47ac.jpg",
       "https://images.unsplash.com/photo-1552372910-bd19f8ec2c9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1868&q=80"
-    ];
+    ];*/
+
+
 
     // get incoming json and format
-    const { boardName, index, parentUsers } = req.body;
+    const { boardName, index, parentUsers, background } = req.body;
+    
     const newBoard =
     {
         boardName : boardName,
         index : index,
-        boardBackground : bgs[Math.floor(Math.random(0) * bgs.length)],
+        boardBackground : background,
         parentUsers : parentUsers
     }
 

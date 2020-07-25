@@ -642,7 +642,7 @@ class BoardUi extends Component
     {
         try
         {
-            const response = await fetch("https://api.unsplash.com/photos/random?query=death&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
+            const response = await fetch("https://api.unsplash.com/photos/random?query=nature&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
 
@@ -757,11 +757,12 @@ class BoardUi extends Component
                       </div>)
               }
 
-
-              <form className="addList">
-                  <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
-                  <input className="createlistbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
-              </form>
+              <div className="listHolder">
+                <form className="addList">
+                    <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                    <input className="createlistbutton" type="submit" value="+" onClick={this.handleCreateList}/><br/>
+                </form>
+              </div>
           </div>
 
           <div id="editBgModal" className="modalbg modalHider">

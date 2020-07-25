@@ -641,11 +641,12 @@ class BoardUi extends Component
     getpictures = async (event,query) =>
     {
         event.preventDefault();
+        var res;
         try
         {
             const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
 
-            var res = JSON.parse(await response.text());
+            res = JSON.parse(await response.text());
 
             // res.map(res => console.log(res.urls.thumb));
 
@@ -659,7 +660,7 @@ class BoardUi extends Component
             {
                 const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=q4WYOaQmdzhlMD70q376IHwswPNmqQePfyeiRw_XGGg&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
     
-                var res = JSON.parse(await response.text());
+                res = JSON.parse(await response.text());
     
                 // res.map(res => console.log(res.urls.thumb));
     
@@ -711,7 +712,7 @@ class BoardUi extends Component
 
             const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
-            var res = JSON.parse(await response.text());
+            // var res = JSON.parse(await response.text());
 
             this.setState({
                 thumbnails : []

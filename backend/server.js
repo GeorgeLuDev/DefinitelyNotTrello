@@ -114,7 +114,7 @@ app.post('/api/SignUp', async (req,res) =>
     // get incoming json and format
     const { firstName, lastName, email, password } = req.body;
 
-    var hashedPassword = passwordHash.generate(password);
+    var hashedPassword = passwordHash.generate(password,);
 
     const newUser =
     {
@@ -192,19 +192,16 @@ app.post('/api/SignIn', async (req,res) =>
     // get incoming json
     const { email, password } = req.body;
 
-    var hashedPassword = passwordHash.generate(password);
-
     // do stuff with database
     const db = client.db();
     var query = 
     {
-        email:email,
-        password:hashedPassword
+        email: email
     };
 
     var result = await db.collection('Users').findOne(query);
 
-    if (result == null)
+    if (result == null || !(passwordHash.verify(password, result.password)))
     {
         result = 
         {
@@ -214,6 +211,7 @@ app.post('/api/SignIn', async (req,res) =>
             "emailVerification": "",
         };
     }
+
     // send result back
     var ret = 
     {

@@ -200,6 +200,11 @@ a.nav-link
   cursor: pointer;
 }
 
+#passwordSendNote
+{
+  display: none;
+}
+
 .boardDelete
 {
   display:none;
@@ -208,10 +213,13 @@ a.nav-link
 .boardDelete:hover, .boards:hover .boardDelete, .boards:hover .boardDelete:hover 
 {
   display: inline-block;
-  background: white;
+  background: rgba(150,150,150,0.5);
   position: absolute;
-  right: 0px;
-  bottom: 0px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  right: 5px;
+  bottom: 5px;
 }
 
 #boardMenuHeader
@@ -300,6 +308,7 @@ a.nav-link
   left: 0;
   top: 0;
   width: 100%;
+  height: 100%;
   overflow: auto;
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.6);
@@ -383,6 +392,11 @@ a.nav-link
   box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
   margin-bottom:100px;
   cursor: move;
+}
+
+.addList
+{
+  background-color: rgba(150,150,150,0.5);
 }
 
 .listHolder::-webkit-scrollbar {
@@ -473,17 +487,8 @@ a.nav-link
   float:left;
 }
 
-.createlistbutton
-{
-  float:left;
-  display: inline;
-  text-align: center;
-  margin-left: 0.6rem;
-  padding: 0;
-  width: 20%;
-}
 
-.createcardbutton
+.createcardbutton, .createlistbutton
 {
   float:left;
   display: inline;
@@ -492,6 +497,11 @@ a.nav-link
   margin-top: -1.5rem;
   padding: 0;
   width: 20%;
+}
+
+.createlistbutton
+{
+  margin-top: 0;
 }
 
 .dragging

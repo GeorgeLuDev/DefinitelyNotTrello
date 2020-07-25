@@ -638,15 +638,15 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
-    getpictures = async () =>
+    getpictures = async (query) =>
     {
         try
         {
-            const response = await fetch("https://api.unsplash.com/photos/random?query=death&client_id=2KOrQ_EMXvQyCzLNC64s1VlfW6Yyz3TGKGuBiER1mL4&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
+            const response = await fetch("https://api.unsplash.com/photos/random?query="+ query +"&client_id=q4WYOaQmdzhlMD70q376IHwswPNmqQePfyeiRw_XGGg&count=20",{method:'GET',headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
 
-            res.map(res => console.log(res.urls.thumb));
+            // res.map(res => console.log(res.urls.thumb));
 
             this.setState({
                 thumbnails : res
@@ -665,7 +665,7 @@ class BoardUi extends Component
         var modal = document.getElementById("editBgModal");
         if (modal.className === "modalbg modalHider")
         {
-            this.getpictures();
+            this.getpictures("nature");
             modal.className = "modalbg";
         }
         else
@@ -757,17 +757,22 @@ class BoardUi extends Component
                       </div>)
               }
 
-
-              <form className="addList">
-                  <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
-                  <input className="createlistbutton" type="submit" value="Create" onClick={this.handleCreateList}/><br/>
-              </form>
+              <div className="listHolder">
+                <form className="addList">
+                    <input className="ListInput" type="text" placeholder="Add a List..." value={this.state.listName} onChange={this.handleListNameChange}/><span></span>
+                    <input className="createlistbutton" type="submit" value="+" onClick={this.handleCreateList}/><br/>
+                </form>
+              </div>
           </div>
 
           <div id="editBgModal" className="modalbg modalHider">
             <div id="editBgModalContent">
               <h3>Select a new background image</h3>
               <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
+              <form>
+                <label>Search for images</label>
+                <input name="imageSearch" placeholder="keywords"></input>
+              </form>
               <p>Check out these sweet backgrounds</p>
               <div id="bgpreviewcontainer">
                 {

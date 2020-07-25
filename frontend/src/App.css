@@ -373,7 +373,7 @@ a.nav-link
   position: relative;
 }
 
-.list
+.list, .addList
 {
 
   background-color: #ebecf0;
@@ -462,13 +462,19 @@ a.nav-link
 .cardInput
 {
   display: inline;
-  width: 100%;
+  width: 75%;
+  float:left;
 }
 
 .createcardbutton
 {
+  float:left;
   display: inline;
+  text-align: center;
+  margin-left: 0.6rem;
+  margin-top: -1.5rem;
   padding: 0;
+  width: 20%;
 }
 
 .dragging
@@ -504,11 +510,11 @@ a.nav-link
 {
   position: absolute;
   top:5px;
-  right: 0;
+  right: 0.5rem;
   background-color: white;
   display: block;
   text-align: center;
-  width: 2rem;
+  width: 1rem;
   border: none;
 }
 
@@ -582,4 +588,9 @@ a.nav-link
 {
   width: 100%;
   text-align: center;
+}
+
+.createlistbutton
+{
+  padding: 0;
 }

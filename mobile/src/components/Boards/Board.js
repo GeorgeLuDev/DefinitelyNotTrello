@@ -31,7 +31,8 @@ export default class BoardList extends Component {
 
   componentDidMount() {
     this.fetchData();
-    console.log(this.state.boardId);
+    
+    // console.log(this.state.boardId);
   }
 
   fetchData = async () => {
@@ -64,10 +65,35 @@ export default class BoardList extends Component {
 
   }
 
+  deleteList = async (event,listId) => 
+  {
+    var js = '{"_id":"'+ listId + '"}';
+
+    // console.log(js);
+    try
+    {
+      // alert("here");
+      const response = await fetch('http://3.17.45.57/api/DeleteList',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+      // alert("added successfully");
+      // this.setBoardName("");
+      // this.setIsVisible(false);
+      // this.componentDidMount();
+      var res = JSON.parse(await response.text());
+      console.log(res);
+    }
+    catch(e)
+    {
+
+    }
+    this.componentDidMount();
+  }
+
   render() {
 
     return (
         <View>
+
+           
             
                 
                 {this.state.lists.map(list =>
@@ -82,6 +108,10 @@ export default class BoardList extends Component {
                             
                             )}
                     </Text>
+                    <Button
+                    onPress = {(e) => this.deleteList(e,list._id)}
+                    title="Delete"
+                    />
                 </View>)}
                 
         </View>

@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, T
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
+import SortableList from 'react-native-sortable-list';
  
 
 export default class Board extends Component {

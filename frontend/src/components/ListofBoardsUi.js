@@ -11,7 +11,9 @@ class ListofBoardsUi extends Component
             boards: [],
             boardName: '',
             newboardindex: '',
-            oldboardindex: ''
+            oldboardindex: '',
+            x : 0,
+            y : 0
         }
     }
 
@@ -208,44 +210,70 @@ class ListofBoardsUi extends Component
                 }
             )
         }
+        this.setState({x: event.pageX, y:event.pageY});
     }
 
     dragOver = event =>
     {
         event.preventDefault();
         var element = document.querySelector('.dragging');
+        var parent = document.getElementById("boardsList");
         var afterElement;
-       if (event.target.className === "boards" && element.className === "boards dragging")
+
+        // console.log(event.target);
+       if (event.target.className === "boards")
        {    
             // console.log(event.target);
             // console.log(event.clientY);
-            afterElement = this.getDragAfterElementBoard(event.target.parentNode, event.clientX);
+            // afterElement = this.getDragAfterElementBoard(parent, event.clientX, event.clientY);
+            afterElement = event.target;
+            
+            var box = event.target.getBoundingClientRect();
+            console.log(box);
+            console.log(event.pageX);
+            if (box.x > event.pageX)
+            {
+                // coming from left
+                afterElement = event.target;
+            }
+            else
+            {
+                // coming from right
+                afterElement = event.target.nextSibling;
+            }
+            // console.log(afterElement);
             if (afterElement == null)
             {
                 // console.log("1");
-                afterElement = event.target.parentNode.querySelector('.addBoard');
-                event.target.parentNode.insertBefore(element, afterElement);
+                afterElement = parent.querySelector('.addBoard');
+                parent.insertBefore(element, afterElement);
             } 
             else
             {
-                event.target.parentNode.insertBefore(element, afterElement);
+                parent.insertBefore(element, afterElement);
             }
 
        }
+       this.setState({x: event.pageX, y:event.pageY});
     }
 
-    getDragAfterElementBoard = (container, x) => {
+    getDragAfterElementBoard = (container, x, y) => {
         const draggableElements = [...container.querySelectorAll('.boards:not(.dragging)')]
-      
         return draggableElements.reduce((closest, child) => {
           const box = child.getBoundingClientRect();
-          const offset = x - box.left - box.width / 2;
-          if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child }
-          } else {
+          const offset1 = x - box.left - box.width / 2;
+          const offset2 = y - box.top - box.height / 2;
+          if (offset1 < 0 && offset1 > closest.offset1 && offset2 < 0 && offset2 > closest.offset1 ) 
+          {
+            // console.log(closest);
+            return { offset1: offset1,offset2: offset2 ,element: child }
+          }
+           else 
+            {
+                // console.log(closest);
             return closest
           }
-        }, { offset: Number.NEGATIVE_INFINITY }).element
+        }, { offset1: Number.NEGATIVE_INFINITY, offset2: Number.NEGATIVE_INFINITY }).element
       }
 
     dragEnd = async event =>
@@ -288,18 +316,18 @@ class ListofBoardsUi extends Component
     render()
     {
         return(
-          <div id="boardsContainer">
+          <div id="boardsContainer" >
             <h2 id="boardsTitle">My Boards</h2>
-            <div id="boardsList" onDragOver={(e) => this.dragOver(e)}>  
+            <div id="boardsList">  
                 {/* <h1>WELCOME This is the list of boards page</h1> */}
                 {
                     this.state.boards.map(board =>
-                        <div className="boards" style={{backgroundImage: "url(\"" + board.boardBackground + "\")"}}  onClick={(e) => this.handleGotoPage(e, board._id)} data-_id={board._id} key={board._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                        <div className="boards" onDragLeave={(e) => this.dragOver(e)}  onDragEnter={(e) => this.dragOver(e)} style={{backgroundImage: "url(\"" + board.boardBackground + "\")"}} onClick={(e) => this.handleGotoPage(e, board._id)} data-_id={board._id} key={board._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
                             <div className="boardsname" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e,board._id)}>{board.boardName}</div>
                             <button className="boardDelete" onClick = {(e) => this.handleDelete(e,board._id)}>&times;</button>
                         </div>)
                 }
-                <form className="addBoard">
+                <form className="addBoard boards">
                     {/* <label>Create Board</label> */}
                     <input type="text" id="boardName" placeholder="Name of new Board" value={this.state.boardName} onChange={this.handleBoardNameChange}/><br/>
                     <input type="submit" value="Create" onClick={this.handleCreate}/><br/>

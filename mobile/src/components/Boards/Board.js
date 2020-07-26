@@ -3,7 +3,9 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, T
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
+import { createDndContext } from "react-native-easy-dnd";
 import SortableList from 'react-native-sortable-list';
+const { Provider, Droppable, Draggable } = createDndContext();
  
 
 export default class Board extends Component {
@@ -310,11 +312,11 @@ export default class Board extends Component {
 
     return (
         
-        
-        <View>
+<Provider>
+  <View>
 
         {/* {console.log(this.state.lists)} */}
-<View style={styles.container}>
+      <View style={styles.container}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -359,17 +361,23 @@ export default class Board extends Component {
           </View>
         </Modal>
 
+
+    
       </View>
             
                 {console.log(this.state.lists)}
                 {this.state.lists.map(list =>
                 <View>
-                    <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}> 
+                    <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}
+                          onLongPress = {(e) => alert("Long Pressed")}
+                    > 
                         {/* {console.log("CHECKING")} */}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
                                 
-                                    <Text onPress = {(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}>
+                                    <Text onPress = {(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}
+                                          onLongPress = {(e) => alert("Long Pressed")}
+                                    >
                                         {card.cardName}
                                         <Text onPress = {(e) => this.deleteCard(e,card._id)}>
                                             Delete Card
@@ -389,10 +397,13 @@ export default class Board extends Component {
                 </View>)}
                 
         </View>
-    );
 
-  }
-}
+
+</Provider>
+        
+        );
+      }
+      }
 
  const styles = StyleSheet.create({
   container: {

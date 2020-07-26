@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, TouchableHighlight, Button, Dimensions  } from 'react-native';
-import {ListItem, SearchBar, Overlay, Platform} from 'react-native-elements'
+import { Animated, FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, TouchableHighlight, Button } from 'react-native';
+import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';

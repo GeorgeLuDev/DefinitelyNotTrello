@@ -513,6 +513,7 @@ a.nav-link
 .deleteCard
 {
   display: none;
+  background: transparent;
 }
 
 .completeCard

@@ -585,7 +585,7 @@ class BoardUi extends Component
             for (j=0;j<this.state.cards[i].length;j++)
             {
                 // console.log([i,j]);
-                console.log(this.state.cards[i][j].cardName);
+                // console.log(this.state.cards[i][j].cardName);
                 if (event.target.value === "")
                 {
                     document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
@@ -813,6 +813,55 @@ class BoardUi extends Component
         this.componentDidMount();
     }
 
+    handleCheckSearch = (event) =>
+    {
+        console.log("searching for checks");
+        console.log(event.target.id);
+        var i,j;
+        var flag;
+        document.getElementById("searchlist").value = "";
+        document.getElementById("searchcard").value = "";
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+            for (j=0; j<this.state.cards[i].length;j++)
+            {
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+            }
+        }
+
+        if (event.target.id === "checkedAll")
+        {
+            //nothing
+        }
+        else if (event.target.id === "checkedIncomplete")
+        {
+            for (i=0;i<this.state.lists.length;i++)
+            {
+                for (j=0; j<this.state.cards[i].length;j++)
+                {
+                    if (document.getElementById(this.state.cards[i][j]._id).children[1].checked === true)
+                    {
+                        document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                    }
+                }
+            }
+        }
+        else if (event.target.id === "checkedComplete")
+        {
+            for (i=0;i<this.state.lists.length;i++)
+            {
+                for (j=0; j<this.state.cards[i].length;j++)
+                {
+                    if (document.getElementById(this.state.cards[i][j]._id).children[1].checked === false)
+                    {
+                        document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                    }
+                }
+            }
+        }
+    }
+
 
     render()
     {
@@ -837,9 +886,17 @@ class BoardUi extends Component
                 <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
               </div>
               <form>
-                <input id="searchlist" name="searchList" placeholder="Highlight Lists" onChange={(e) => this.searchList(e)}></input>
-                <input id="searchcard" name="searchCard" placeholder="Highlight Cards" onChange={(e) => this.searchCard(e)}></input>
+                <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.searchList(e)}></input>
+                <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.searchCard(e)}></input>
               </form>
+                <form>
+                    <label>All</label>
+                    <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.handleCheckSearch(e)} defaultChecked={true}></input>
+                    <label>Incomplete</label>
+                    <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.handleCheckSearch(e)}></input>
+                    <label>Complete</label>
+                    <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.handleCheckSearch(e)}></input>
+                </form>
             </div>
           </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
@@ -858,7 +915,7 @@ class BoardUi extends Component
                           </div>
                           {
                               this.state.cards[list.index].map(card =>
-                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} style={{background : ( (card.checked === "true") ? "lightgreen" : "")}}>
                                       <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
                                         
                                           {card.cardName}

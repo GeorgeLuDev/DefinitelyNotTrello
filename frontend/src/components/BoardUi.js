@@ -747,6 +747,7 @@ class BoardUi extends Component
         try
         {
             var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","email":"' + event.target.previousSibling.value + '"}';
+            event.target.previousSibling.value = "";
 
             // const response = 
             var response = await fetch(process.env.REACT_APP_URL  + 'AddUser',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
@@ -762,6 +763,7 @@ class BoardUi extends Component
                 document.getElementById("addUserResult").innerText = "User added";
             }
 
+            this.componentDidMount();
         }
         catch(e)
         {
@@ -769,7 +771,6 @@ class BoardUi extends Component
             console.log(e.toString());
             return;
         }
-        this.componentDidMount();
     }
 
     handleCheckedList = async (event,listId) =>
@@ -871,9 +872,11 @@ class BoardUi extends Component
     search = (event) =>
     {
         // gets filter values
-        var listtext = document.getElementById("searchlist").value;
-        var cardtext = document.getElementById("searchcard").value;
+        var listtext = document.getElementById("searchlist").value.toLowerCase();
+        var cardtext = document.getElementById("searchcard").value.toLowerCase();
         var type;
+        var listquery = new RegExp(listtext, 'g');
+        var cardquery = new RegExp(cardtext, 'g');
         if (document.getElementById("checkedAll").checked)
         {
             type = null;
@@ -887,9 +890,9 @@ class BoardUi extends Component
             type = true;
         }
 
-        console.log(listtext);
-        console.log(cardtext);
-        console.log(type)
+        // console.log(listtext);
+        // console.log(cardtext);
+        // console.log(type)
 
         // reset opacity
         var i,j;
@@ -905,7 +908,7 @@ class BoardUi extends Component
         // filter
         for (i=0;i<this.state.lists.length;i++)
         {
-            if (this.state.lists[i].listName !== listtext && listtext !== "")
+            if (this.state.lists[i].listName.toLowerCase().match(listquery) === null && listtext !== "")
             {
                 document.getElementById(this.state.lists[i]._id).style.opacity = 0.5;
                 // for (j=0; j<this.state.cards[i].length;j++)
@@ -918,7 +921,7 @@ class BoardUi extends Component
             for (j=0; j<this.state.cards[i].length;j++)
             {
                 console.log("we coming in j loop");
-                if ( (this.state.cards[i][j].cardName !== cardtext && cardtext !== "") || (document.getElementById(this.state.cards[i][j]._id).children[1].checked !== type && (type !== null)))
+                if ( (this.state.cards[i][j].cardName.toLowerCase().match(cardquery) === null && cardtext !== "") || (document.getElementById(this.state.cards[i][j]._id).children[1].checked !== type && (type !== null)))
                 {
                     document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
                 }
@@ -941,7 +944,7 @@ class BoardUi extends Component
             <span id="addUserButton">
               <form>
                 <label>Share</label>
-                <input name="shareEmail"placeholder="User's email"></input>
+                <input name="shareEmail" placeholder="User's email"></input>
                 <input className="addUserButton" type="submit" value="Add User" onClick={(e) => this.addUser(e)}/>
               </form>
             </span>

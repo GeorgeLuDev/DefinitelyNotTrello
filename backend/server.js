@@ -441,7 +441,69 @@ app.put('/api/UpdatePassword', async (req, res) =>
 
     res.status(200).json(ret);
 
-});    
+});
+
+// add a user to a board
+app.put('/api/AddUser', async (req,res) => 
+{
+    console.log('AddUser api hit');
+    var error = '';
+
+    // get incoming json
+    const { _id, email } = req.body;
+
+    // do stuff with database
+    const db = client.db();
+    
+    // query to find board
+    var query = 
+    { 
+        _id: ObjectId(_id)
+    };
+
+    // query to find user
+    var query1 = 
+    { 
+        email: email
+    };
+
+    var result = await db.collection('Users').findOne(query1);
+
+    // maybe account for users that are already in the database
+    if (result !== null)
+    {
+        // if user is found
+
+        // set new values to add
+        var newValues = 
+        {
+            $addToSet:
+            {
+                // change to user id later
+                parentUsers : result._id.toString()
+            }
+        };
+    
+        var result = await db.collection('Boards').updateOne(query,newValues);
+    }
+    else
+    {
+        // user is not found
+        error = "Could not find a user associated with that email";
+    }
+
+
+
+    // send result back
+    var ret = 
+    {
+        result: result,
+        error: error
+    };
+
+    res.status(200).json(ret);
+
+});
 
 // --board api's--
 
@@ -734,7 +796,8 @@ app.post('/api/CreateList', async (req,res) =>
     {
         listName : listName,
         index : index,
-        parentBoard : parentBoard
+        parentBoard : parentBoard,
+        checked : false
     };
 
     // Insert new list into DNTDB Lists collection.
@@ -791,7 +854,7 @@ app.put('/api/UpdateList', async (req,res) =>
     var error = '';
 
     // Retrieve JSON.
-    const { _id, listName, index, parentBoard } = req.body;
+    const { _id, listName, index, parentBoard, checked } = req.body;
 
     // Get the ID to query the database.
     var query = 
@@ -804,6 +867,8 @@ app.put('/api/UpdateList', async (req,res) =>
     if (req.body.listName) objForUpdate.listName = req.body.listName;
     if (req.body.index) objForUpdate.index = req.body.index;
     if (req.body.parentBoard) objForUpdate.parentBoard = req.body.parentBoard;
+    if (req.body.checked) objForUpdate.checked = req.body.checked;
+
     
     var newValues = 
     {
@@ -812,7 +877,24 @@ app.put('/api/UpdateList', async (req,res) =>
     
     // Database search and update.
     const db = client.db();
+    if (req.body.checked != null)
+    {
+        var query1 =
+        {
+            parentList : _id
+        }
+        var set1 = 
+        {
+            $set:
+            {
+                checked : req.body.checked
+            }
+        }
+
+        var result = await db.collection('Cards').updateMany(query1, set1);
+    }
     var result = await db.collection('Lists').updateOne(query, newValues);
+
 
     // Return result.
     var ret = 
@@ -986,7 +1068,8 @@ app.post('/api/CreateCard', async(req,res) =>
     {
         cardName : cardName,
         index : index,
-        parentList : parentList
+        parentList : parentList,
+        checked : false
     };
     // insert into db
     try
@@ -1036,7 +1119,7 @@ app.put('/api/UpdateCard', async(req,res) =>
 {
     console.log('UpdateCard api hit');
     var error = '';
-    const { _id, cardName, index, parentList } = req.body;
+    const { _id, cardName, index, parentList, checked} = req.body;
     // do stuff with database
     const db = client.db();
 
@@ -1050,7 +1133,8 @@ app.put('/api/UpdateCard', async(req,res) =>
     if (req.body.cardName) objForUpdate.cardName = req.body.cardName;
     if (req.body.index) objForUpdate.index = req.body.index;
     if (req.body.parentList) objForUpdate.parentList = req.body.parentList;
-    
+    if (req.body.checked) objForUpdate.checked = req.body.checked;
+
     var newValues = 
     {
         $set : objForUpdate
@@ -1058,6 +1142,28 @@ app.put('/api/UpdateCard', async(req,res) =>
 
     var result = await db.collection('Cards').updateOne(query,newValues);
 
+
+    if (req.body.checked === "true")
+    {
+        var result1 = await db.collection("Cards").find({parentList : req.body.listId}).toArray();
+        var flag = 1;
+        for (var i = 0; i<result1.length;i++)
+        {
+            if (result1[i].checked === "false")
+            {
+                flag = 0;
+                break;
+            }
+        }
+        if (flag === 1)
+        {
+            var result2 = await db.collection("Lists").updateOne({_id : ObjectId(req.body.listId)},{$set:{checked : req.body.checked}});
+        }
+    }
+    else if (req.body.checked === "false")
+    {
+        var result2 = await db.collection("Lists").updateOne({_id : ObjectId(req.body.listId)},{$set:{checked : req.body.checked}});
+    }
     // send result back
     var ret = 
     {
@@ -1271,6 +1377,7 @@ app.get('/api/User/:id', async (req,res) =>
     const db = client.db();
     var result = await db.collection('Boards').find(query).sort(sort).toArray();
 
+    console.log(req.params.id);
 
     // Return result.
     var ret = 
@@ -1306,11 +1413,26 @@ app.get('/api/Board/:id', async (req,res) =>
 
     var boardResult = await db.collection('Boards').findOne(query1);
 
+    var boardUsers = [];
+
+    // console.log(boardResult);
+    for (i=0;i<boardResult.parentUsers.length;i++)
+    {
+        var query2 = 
+        {
+            _id: ObjectId(boardResult.parentUsers[i])
+        }
+        // console.log(query2);
+        // console.log(boardResult.parentUsers[i]);
+        var temp = await db.collection('Users').findOne(query2);
+
+        // console.log(temp.firstName);
+        // tempString = temp.firstName.chatAt(0) + temp.lastName.chatAt(0);
+        boardUsers.push(temp.firstName[0] + temp.lastName[0]);
+    }
+    // console.log(boardUsers);
     // given a board return all Lists and Cards associated with that board
-if (process.env.NODE_ENV === 'production')
-{
-	app.use(express.static('frontend/build'));
-}
+
     var listResult = await db.collection('Lists').find(query).sort(sort).toArray();
     var listString = [];
     var cardString = [[],[]];
@@ -1334,10 +1456,11 @@ if (process.env.NODE_ENV === 'production')
         //     cardString[i].push(cardResult[j].cardName);
         // }
     }
-
+    // console.log(boardResult.boardName);
     // send result back
     var ret = 
     {
+        boardUsers: boardUsers,
         boardString: boardResult.boardName,
         boardBackground: boardResult.boardBackground,
         listString: listResult,

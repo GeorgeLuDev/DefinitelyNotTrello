@@ -17,7 +17,8 @@ class BoardUi extends Component
             newcardindex: null,
             oldlistindex: null,
             oldcardindex: null,
-            thumbnails: []
+            thumbnails: [],
+            boardUsers: []
         }
     }
     
@@ -54,6 +55,7 @@ class BoardUi extends Component
             this.setState
             (
                 {
+                    boardUsers : res.boardUsers,
                     boardName : res.boardString,
                     boardBackground : ( "url(" + res.boardBackground + ")"),
                     boardBackgroundHeight: bgHeight,
@@ -729,6 +731,88 @@ class BoardUi extends Component
         this.handleModal();
         this.componentDidMount();
     }
+    
+    addUser = async (event) =>
+    {
+        event.preventDefault();
+        console.log("calling add user");
+        console.log(event.target.previousSibling.value);
+        try
+        {
+            var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","email":"' + event.target.previousSibling.value + '"}';
+
+            // const response = 
+            var response = await fetch(process.env.REACT_APP_URL  + 'AddUser',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+            var res = JSON.parse(await response.text());
+
+            if (res.error === "Could not find a user associated with that email")
+            {
+                document.getElementById("addUserResult").innerText = res.error;
+            }
+            else
+            {
+                document.getElementById("addUserResult").innerText = "User added";
+            }
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.componentDidMount();
+    }
+
+    handleCheckedList = async (event,listId) =>
+    {
+        // event.preventDefault();
+        console.log("calling checked list");
+        // console.log(event.target.checked);
+        // console.log(event.target.previousSibling.value);
+        try
+        {
+            var js = '{"_id":"'+ listId + '","checked":"' + event.target.checked + '"}';
+
+            // console.log(js);
+            // const response = 
+            await fetch(process.env.REACT_APP_URL  + 'UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.componentDidMount();
+    }
+
+    handleCheckedCard = async (event,listId,cardId) =>
+    {
+        // event.preventDefault();
+        console.log("calling checked card");
+        // console.log(event.target.checked);
+        // console.log(event.target.previousSibling.value);
+        try
+        {
+            var js = '{"_id":"'+ cardId + '","checked":"' + event.target.checked + '","listId":"' + listId + '"}';
+
+            // console.log(js);
+            // const response = 
+            await fetch(process.env.REACT_APP_URL  + 'UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.componentDidMount();
+    }
+
 
     render()
     {
@@ -737,12 +821,17 @@ class BoardUi extends Component
           <div id="boardMenuHeader">
             <span id="boardNameSpan" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
+            {this.state.boardUsers.map(boardUser => 
+                <span key={boardUser}>{boardUser}</span>
+                )}
             <span id="addUserButton">
               <form>
                 <label>Share</label>
                 <input name="shareEmail"placeholder="User's email"></input>
+                <input className="addUserButton" type="submit" value="Add User" onClick={(e) => this.addUser(e)}/>
               </form>
             </span>
+            <span id="addUserResult"></span>
             <div id="boardMenuRightside">
               <div id="editBGButton">
                 <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
@@ -761,7 +850,7 @@ class BoardUi extends Component
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
                               
-                              <input className="completeList" type="checkbox" ></input>
+                              <input className="completeList" type="checkbox" checked={list.checked === "true"} onChange={(e) => this.handleCheckedList(e,list._id)}></input>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
                                   &times;
                               </button>
@@ -775,7 +864,7 @@ class BoardUi extends Component
                                           {card.cardName}
                                         
                                       </div>
-                                      <input className="completeCard" type="checkbox"></input>
+                                      <input className="completeCard" type="checkbox" checked={card.checked === "true"} onChange={(e) => this.handleCheckedCard(e,list._id,card._id)}></input>
                                       <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
                                           &times;
                                       </button>
@@ -802,7 +891,7 @@ class BoardUi extends Component
               <h3>Select a new background image</h3>
               <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
               <form className="addCard">
-                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/>
+                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/> 
                     <input className="doImageSearch" type="submit" value="Search" onClick={(e) => this.getpictures(e,e.target.previousSibling.value)}/><br/>
                 </form>
               <p>Check out these sweet backgrounds</p>

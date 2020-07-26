@@ -355,11 +355,11 @@ class BoardUi extends Component
         var currentList = document.getElementById(listid);
         // console.log(currentList);
         var afterElement;
-        // if (event.target.className === "cardName" || event.target.className === "card" || event.target.className === "card dragging")
-        // {
-        //     return;
-        // }
-        // console.log("hello")
+        if (event.target.className === "cardName" || event.target.className === "card" || event.target.className === "card dragging")
+        {
+            return;
+        }
+        console.log("hello")
        if (element.className === "card dragging")
        {    
         //    console.log("card");

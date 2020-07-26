@@ -1418,6 +1418,8 @@ app.get('/api/Board/:id', async (req,res) =>
 
     var boardUsers = [];
 
+    var boardInitials = [];
+
     // console.log(boardResult);
     for (i=0;i<boardResult.parentUsers.length;i++)
     {

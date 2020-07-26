@@ -939,7 +939,7 @@ class BoardUi extends Component
             <span id="boardNameSpan" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
             {this.state.boardUsers.map(boardUser => 
-                <span key={boardUser}>{boardUser}</span>
+                <span className="userInitials" title="FirstName LastName" key={boardUser}>{boardUser}</span>
                 )}
             <span id="addUserButton">
               <form>
@@ -953,18 +953,20 @@ class BoardUi extends Component
               <div id="editBGButton">
                 <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
               </div>
+              <div>
               <form>
                 <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.search(e)}></input>
                 <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.search(e)}></input>
               </form>
-                <form>
-                    <label>All</label>
-                    <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
-                    <label>Incomplete</label>
-                    <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.search(e)}></input>
-                    <label>Complete</label>
-                    <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.search(e)}></input>
-                </form>
+              <form id="radioSelectors">
+                  <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
+                  <label class="headerCheckLabel" for="checkedAll">All</label>
+                  <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.search(e)}></input>
+                  <label class="headerCheckLabel" for="checkedIncomplete">Incomplete</label>
+                  <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.search(e)}></input>
+                  <label class="headerCheckLabel" for="checkedComplete">Complete</label>
+              </form>
+              </div>
             </div>
           </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >

@@ -312,8 +312,7 @@ export default class Board extends Component {
 
     return (
         
-      
-        
+<Provider>
   <View>
 
         {/* {console.log(this.state.lists)} */}
@@ -369,12 +368,16 @@ export default class Board extends Component {
                 
                 {this.state.lists.map(list =>
                 <View>
-                    <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}> 
+                    <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}
+                          onLongPress = {(e) => alert("Long Pressed")}
+                    > 
                         {/* {console.log("CHECKING")} */}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
                                 
-                                    <Text onPress = {(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}>
+                                    <Text onPress = {(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}
+                                          onLongPress = {(e) => alert("Long Pressed")}
+                                    >
                                         {card.cardName}
                                         <Text onPress = {(e) => this.deleteCard(e,card._id)}>
                                             Delete Card
@@ -394,10 +397,13 @@ export default class Board extends Component {
                 </View>)}
                 
         </View>
-    );
 
-  }
-}
+
+</Provider>
+        
+        );
+      }
+      }
 
  const styles = StyleSheet.create({
   container: {

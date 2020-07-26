@@ -960,8 +960,8 @@ class BoardUi extends Component
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
               {
                   this.state.lists.map(list =>
-                      <div className="listHolder" data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>
-                        <div className="list" id={list._id} data-_id={list._id} key={list._id} scrollable="true">
+                      <div className="listHolder" id={list._id} data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>
+                        <div className="list" data-_id={list._id} key={list._id} scrollable="true">
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
                               

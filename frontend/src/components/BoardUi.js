@@ -17,7 +17,8 @@ class BoardUi extends Component
             newcardindex: null,
             oldlistindex: null,
             oldcardindex: null,
-            thumbnails: []
+            thumbnails: [],
+            boardUsers: []
         }
     }
     
@@ -54,6 +55,7 @@ class BoardUi extends Component
             this.setState
             (
                 {
+                    boardUsers : res.boardUsers,
                     boardName : res.boardString,
                     boardBackground : ( "url(" + res.boardBackground + ")"),
                     boardBackgroundHeight: bgHeight,
@@ -583,7 +585,7 @@ class BoardUi extends Component
             for (j=0;j<this.state.cards[i].length;j++)
             {
                 // console.log([i,j]);
-                console.log(this.state.cards[i][j].cardName);
+                // console.log(this.state.cards[i][j].cardName);
                 if (event.target.value === "")
                 {
                     document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
@@ -729,6 +731,195 @@ class BoardUi extends Component
         this.handleModal();
         this.componentDidMount();
     }
+    
+    addUser = async (event) =>
+    {
+        event.preventDefault();
+        console.log("calling add user");
+        console.log(event.target.previousSibling.value);
+        try
+        {
+            var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","email":"' + event.target.previousSibling.value + '"}';
+
+            // const response = 
+            var response = await fetch(process.env.REACT_APP_URL  + 'AddUser',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+            var res = JSON.parse(await response.text());
+
+            if (res.error === "Could not find a user associated with that email")
+            {
+                document.getElementById("addUserResult").innerText = res.error;
+            }
+            else
+            {
+                document.getElementById("addUserResult").innerText = "User added";
+            }
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.componentDidMount();
+    }
+
+    handleCheckedList = async (event,listId) =>
+    {
+        // event.preventDefault();
+        console.log("calling checked list");
+        // console.log(event.target.checked);
+        // console.log(event.target.previousSibling.value);
+        try
+        {
+            var js = '{"_id":"'+ listId + '","checked":"' + event.target.checked + '"}';
+
+            // console.log(js);
+            // const response = 
+            await fetch(process.env.REACT_APP_URL  + 'UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.componentDidMount();
+    }
+
+    handleCheckedCard = async (event,listId,cardId) =>
+    {
+        // event.preventDefault();
+        console.log("calling checked card");
+        // console.log(event.target.checked);
+        // console.log(event.target.previousSibling.value);
+        try
+        {
+            var js = '{"_id":"'+ cardId + '","checked":"' + event.target.checked + '","listId":"' + listId + '"}';
+
+            // console.log(js);
+            // const response = 
+            await fetch(process.env.REACT_APP_URL  + 'UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+        }
+        catch(e)
+        {
+            console.log("there was an error");
+            console.log(e.toString());
+            return;
+        }
+        this.componentDidMount();
+    }
+
+    handleCheckSearch = (event) =>
+    {
+        console.log("searching for checks");
+        console.log(event.target.id);
+        var i,j;
+        document.getElementById("searchlist").value = "";
+        document.getElementById("searchcard").value = "";
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+            for (j=0; j<this.state.cards[i].length;j++)
+            {
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+            }
+        }
+
+        if (event.target.id === "checkedAll")
+        {
+            //nothing
+        }
+        else if (event.target.id === "checkedIncomplete")
+        {
+            for (i=0;i<this.state.lists.length;i++)
+            {
+                for (j=0; j<this.state.cards[i].length;j++)
+                {
+                    if (document.getElementById(this.state.cards[i][j]._id).children[1].checked === true)
+                    {
+                        document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                    }
+                }
+            }
+        }
+        else if (event.target.id === "checkedComplete")
+        {
+            for (i=0;i<this.state.lists.length;i++)
+            {
+                for (j=0; j<this.state.cards[i].length;j++)
+                {
+                    if (document.getElementById(this.state.cards[i][j]._id).children[1].checked === false)
+                    {
+                        document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                    }
+                }
+            }
+        }
+    }
+
+    search = (event) =>
+    {
+        // gets filter values
+        var listtext = document.getElementById("searchlist").value;
+        var cardtext = document.getElementById("searchcard").value;
+        var type;
+        if (document.getElementById("checkedAll").checked)
+        {
+            type = null;
+        }
+        if (document.getElementById("checkedIncomplete").checked)
+        {
+            type = false;
+        }
+        if (document.getElementById("checkedComplete").checked)
+        {
+            type = true;
+        }
+
+        console.log(listtext);
+        console.log(cardtext);
+        console.log(type)
+
+        // reset opacity
+        var i,j;
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            document.getElementById(this.state.lists[i]._id).style.opacity = 1;
+            for (j=0; j<this.state.cards[i].length;j++)
+            {
+                document.getElementById(this.state.cards[i][j]._id).style.opacity = 1;
+            }
+        }
+
+        // filter
+        for (i=0;i<this.state.lists.length;i++)
+        {
+            if (this.state.lists[i].listName !== listtext && listtext !== "")
+            {
+                document.getElementById(this.state.lists[i]._id).style.opacity = 0.5;
+                // for (j=0; j<this.state.cards[i].length;j++)
+                // {
+                //     document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                // }
+                continue;
+            }
+
+            for (j=0; j<this.state.cards[i].length;j++)
+            {
+                console.log("we coming in j loop");
+                if ( (this.state.cards[i][j].cardName !== cardtext && cardtext !== "") || (document.getElementById(this.state.cards[i][j]._id).children[1].checked !== type && (type !== null)))
+                {
+                    document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
+                }
+            }
+        }
+
+    }
+
 
     render()
     {
@@ -737,31 +928,44 @@ class BoardUi extends Component
           <div id="boardMenuHeader">
             <span id="boardNameSpan" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
+            {this.state.boardUsers.map(boardUser => 
+                <span key={boardUser}>{boardUser}</span>
+                )}
             <span id="addUserButton">
               <form>
                 <label>Share</label>
                 <input name="shareEmail"placeholder="User's email"></input>
+                <input className="addUserButton" type="submit" value="Add User" onClick={(e) => this.addUser(e)}/>
               </form>
             </span>
+            <span id="addUserResult"></span>
             <div id="boardMenuRightside">
               <div id="editBGButton">
                 <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
               </div>
               <form>
-                <input id="searchlist" name="searchList" placeholder="Highlight Lists" onChange={(e) => this.searchList(e)}></input>
-                <input id="searchcard" name="searchCard" placeholder="Highlight Cards" onChange={(e) => this.searchCard(e)}></input>
+                <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.search(e)}></input>
+                <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.search(e)}></input>
               </form>
+                <form>
+                    <label>All</label>
+                    <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
+                    <label>Incomplete</label>
+                    <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.search(e)}></input>
+                    <label>Complete</label>
+                    <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.search(e)}></input>
+                </form>
             </div>
           </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >
               {
                   this.state.lists.map(list =>
-                      <div className="listHolder" id={list._id} data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>
-                        <div className="list" data-_id={list._id} key={list._id} scrollable="true">
+                      <div className="listHolder" data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>
+                        <div className="list" id={list._id} data-_id={list._id} key={list._id} scrollable="true">
                           <div className="listContainer">
                               <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
                               
-                              <input className="completeList" type="checkbox" ></input>
+                              <input className="completeList" type="checkbox" checked={list.checked === "true"} onChange={(e) => this.handleCheckedList(e,list._id)}></input>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
                                   &times;
                               </button>
@@ -769,13 +973,13 @@ class BoardUi extends Component
                           </div>
                           {
                               this.state.cards[list.index].map(card =>
-                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)}>
+                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} style={{background : ( (card.checked === "true") ? "lightgreen" : "")}}>
                                       <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
                                         
                                           {card.cardName}
                                         
                                       </div>
-                                      <input className="completeCard" type="checkbox"></input>
+                                      <input className="completeCard" type="checkbox" checked={card.checked === "true"} onChange={(e) => this.handleCheckedCard(e,list._id,card._id)}></input>
                                       <button className="deleteCard" onClick={(e) => this.handledeleteCard(e,card._id)}>
                                           &times;
                                       </button>
@@ -802,7 +1006,7 @@ class BoardUi extends Component
               <h3>Select a new background image</h3>
               <span id="closeBgModal" onClick={(e) => this.handleModal(e)}>&times;</span>
               <form className="addCard">
-                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/>
+                    <input id="imageSearch" className="imageSearch" type="text" placeholder="keywords"/> 
                     <input className="doImageSearch" type="submit" value="Search" onClick={(e) => this.getpictures(e,e.target.previousSibling.value)}/><br/>
                 </form>
               <p>Check out these sweet backgrounds</p>

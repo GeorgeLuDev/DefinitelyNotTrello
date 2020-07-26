@@ -69,7 +69,7 @@ class ListofBoardsUi extends Component
         var query = "nature";
 
         var imageURL = "";
-
+        var res;
         try
         {
             const response = await fetch("https://api.unsplash.com/photos/random?query="+
@@ -102,7 +102,7 @@ class ListofBoardsUi extends Component
 
             console.log("calling Create Board api");
 
-            var res = JSON.parse(await response.text());
+            res = JSON.parse(await response.text());
 
             console.log(res);
 

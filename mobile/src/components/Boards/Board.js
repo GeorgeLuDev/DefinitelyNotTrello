@@ -24,7 +24,12 @@ export default class Board extends Component {
         lists: [],
         cards: [],
         boardId: props.route.params.id,
-        listName: ''
+        listName: '',
+        modalGoButtonValue: '', 
+        modalGoButtonAction: '', 
+        modalGoButtonID: '', 
+        modalInputValue: '', 
+        modalInputPlaceHolder: ''
 
 
     };
@@ -45,7 +50,7 @@ export default class Board extends Component {
                 style={{
                   marginRight: 20
                 }}
-                onPress={() => this.setIsVisible(true)}>
+                onPress={() => this.setIsVisible(true, "Add", "ADDLIST", null, "", "List Name")}>
   
               <Entypo name="plus" size={34} color="white" />
                 </TouchableOpacity>
@@ -65,8 +70,9 @@ export default class Board extends Component {
     // console.log(this.state.boardId);
   }
 
-  setIsVisible = (bool) => {
-    this.setState({'isVisible' : bool})
+  setIsVisible = (bool, goButtonValue, goButtonAction, ID, inputValue, inputPlaceHolder) => {
+    
+    this.setState({'isVisible' : bool, 'modalGoButtonValue': goButtonValue, 'modalGoButtonAction': goButtonAction, 'modalGoButtonID': ID, 'modalInputValue': inputValue, 'modalInputPlaceHolder': inputPlaceHolder})
   }
 
   fetchData = async () => {
@@ -165,7 +171,7 @@ export default class Board extends Component {
     //   console.log("Something went wrong in fetching the users data.");
     // }
 
-    var js = '{"listName":"'+ this.state.listName.toString() + '","index":"'+ this.state.lists.length + '","parentBoard":["'+ this.state.boardId +'"]}';
+    var js = '{"listName":"'+ this.state.modalInputValue.toString() + '","index":"'+ this.state.lists.length + '","parentBoard":["'+ this.state.boardId +'"]}';
     
     // console.log(js);
     try
@@ -174,9 +180,10 @@ export default class Board extends Component {
       const response = await fetch('http://3.17.45.57/api/CreateList',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
     //   alert("added successfully");
       // console.log(this.lists[0]);
-      this.setListName("");
-      this.setIsVisible(false);
+      this.setModalInputValue("");
+      this.setIsVisible(false, "", "", "", "");
       this.componentDidMount();
+      this.setIsVisible(false, "", "", "", "", "");
     }
     catch(e)
     {
@@ -186,7 +193,7 @@ export default class Board extends Component {
 
 
 
-  addCard = async (listId,listIndex) => 
+  addCard = async (listId, listIndex) => 
   {
 
     // try 
@@ -204,7 +211,7 @@ export default class Board extends Component {
     //   console.log("Something went wrong in fetching the users data.");
     // }
 
-    var js = '{"cardName":"'+ "TEST CARD" + '","index":"'+ listIndex + '","parentList":"'+ listId +'"}';
+    var js = '{"cardName":"'+ this.state.modalInputValue + '","index":"'+ listIndex + '","parentList":"'+ listId +'"}';
     
     // console.log(js);
     try
@@ -213,9 +220,10 @@ export default class Board extends Component {
       const response = await fetch('http://3.17.45.57/api/CreateCard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
     //   alert("added successfully");
       // console.log(this.lists[0]);
-      this.setListName("");
+      this.setModalInputValue("");
       // this.setIsVisible(false);
       this.componentDidMount();
+      this.setIsVisible(false, "", "", "", "", "");
     }
     catch(e)
     {
@@ -224,15 +232,15 @@ export default class Board extends Component {
   }
 
 
-  setListName = (name) => {
+  setModalInputValue = (name) => {
     // console.log(name);
-    this.setState({'listName' : name})
+    this.setState({'modalInputValue' : name})
   }
   
 
-  updateList = async (event,listId) => 
+  updateList = async (listId) => 
   {
-    var js = '{"_id":"'+ listId + '","listName":"' + "Testerrrr" + '"}';
+    var js = '{"_id":"'+ listId + '","listName":"' + this.state.modalInputValue + '"}';
 
     console.log(js);
     try
@@ -241,10 +249,10 @@ export default class Board extends Component {
       const response = await fetch('http://3.17.45.57/api/UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
       // alert("added successfully");
       // this.setBoardName("");
-      // this.setIsVisible(false);
       // this.componentDidMount();
       var res = JSON.parse(await response.text());
       // console.log(res);
+      this.setIsVisible(false, "", "", "", "", "");
     }
     catch(e)
     {
@@ -254,9 +262,9 @@ export default class Board extends Component {
   }
 
 
-  updateCard = async (event,cardId) => 
+  updateCard = async (cardId) => 
   {
-    var js = '{"_id":"'+ cardId + '","cardName":"' + "  We updated this card tho  " + '"}';
+    var js = '{"_id":"'+ cardId + '","cardName":"' + this.state.modalInputValue + '"}';
 
     // console.log(js);
     try
@@ -269,12 +277,33 @@ export default class Board extends Component {
       // this.componentDidMount();
       var res = JSON.parse(await response.text());
       // console.log(res);
+      this.setIsVisible(false, "", "", "", "", "");
     }
     catch(e)
     {
 
     }
     this.componentDidMount();
+  }
+
+  goButtonAction = () => {
+    if (this.state.modalGoButtonAction === "ADDLIST")
+    {
+      this.addList();
+    }
+    else if (this.state.modalGoButtonAction === "ADDCARD")
+    {
+      this.addCard(this.state.modalGoButtonID,0)
+    }
+    else if (this.state.modalGoButtonAction === "UPDATELIST")
+    {
+      this.updateList(this.state.modalGoButtonID)
+    }
+    else if (this.state.modalGoButtonAction === "UPDATECARD")
+    {
+      this.updateCard(this.state.modalGoButtonID)
+    }
+
   }
 
   render() {
@@ -301,8 +330,9 @@ export default class Board extends Component {
                 style={styles.overlayInput}
                 
                   // {console.log(this.state.boards)}
-                onChangeText={(name) => this.setListName(name)}
-                placeholder="List Name"
+                defaultValue={this.state.modalInputValue}
+                onChangeText={(name) => this.setModalInputValue(name)}
+                placeholder={this.state.modalInputPlaceHolder}
                 placeholderTextColor="rgba(255, 255, 255, 0.7)"
 
               />
@@ -310,7 +340,7 @@ export default class Board extends Component {
                 <Text>{board.boardName}</Text>) } */}
               <View style={styles.overlayButtonContainer}>
 
-                <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false)}>
+                <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false, "", "", "", "", "")}>
                   <Text style={styles.overlayButtonText}>
                     Cancel
                   </Text>
@@ -318,9 +348,9 @@ export default class Board extends Component {
 
                 <View style={{ width: 20 }}></View>
 
-                <TouchableOpacity style={styles.overlayButton} onPress={() => this.addList()}>
+                <TouchableOpacity style={styles.overlayButton} onPress={() => this.goButtonAction()}>
                   <Text style={styles.overlayButtonText}>
-                    Add
+                    {this.state.modalGoButtonValue}
                   </Text>
                 </TouchableOpacity>
 
@@ -334,12 +364,12 @@ export default class Board extends Component {
                 
                 {this.state.lists.map(list =>
                 <View>
-                    <Text onPress = {(e) => this.updateList(e,list._id)}>
+                    <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}> 
                         {/* {console.log("CHECKING")} */}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
                                 
-                                    <Text onPress = {(e) => this.updateCard(e,card._id)}>
+                                    <Text onPress = {(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}>
                                         {card.cardName}
                                         <Text onPress = {(e) => this.deleteCard(e,card._id)}>
                                             Delete Card
@@ -349,7 +379,7 @@ export default class Board extends Component {
                             )}
                     </Text>
                     <Button
-                    onPress = {(e) => this.addCard(list._id,0)}
+                    onPress = {(e) => this.setIsVisible(true, "Add", "ADDCARD", list._id, "", "Card Name")}
                     title="Add Card to List"
                     />
                     <Button

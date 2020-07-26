@@ -90,7 +90,7 @@ class ListofBoardsUi extends Component
             return;
         }
         
-        imageURL = res[0].urls.thumb;
+        imageURL = res[0].urls.regular;
         var user = JSON.parse(localStorage.getItem('user_data'));
         var js = '{"boardName":"'+ this.state.boardName + '","index":' + this.state.boards.length + ',"parentUsers":["' + user.id + '"],"background":"' + imageURL + '"}';
 

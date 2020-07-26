@@ -5,6 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
 import { createDndContext } from "react-native-easy-dnd";
 import SortableList from 'react-native-sortable-list';
+import {Animated} from 'react-native';
 const { Provider, Droppable, Draggable } = createDndContext();
  
 
@@ -40,8 +41,8 @@ export default class Board extends Component {
 
   componentDidMount() {
     // this.addCard("5f1bbdb9b6f43b1c840bdb85",0);
-    // console.log(this.state.lists);
     this.fetchData();
+    // console.log(this.state.boards);
     
 
     this.props.navigation.setOptions(
@@ -311,99 +312,99 @@ export default class Board extends Component {
   render() {
 
     return (
-        
-<Provider>
-  <View>
 
-        {/* {console.log(this.state.lists)} */}
-      <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.isVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-        >
-          <View style={styles.centeredView}>
+      <Provider>
+        <View>
 
-            <View style={styles.modalView}>
-              <TextInput
-                style={styles.overlayInput}
-                
-                  // {console.log(this.state.boards)}
-                defaultValue={this.state.modalInputValue}
-                onChangeText={(name) => this.setModalInputValue(name)}
-                placeholder={this.state.modalInputPlaceHolder}
-                placeholderTextColor="rgba(255, 255, 255, 0.7)"
+          {/* {console.log(this.state.lists)} */}
+          <View style={styles.container}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={this.state.isVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+              }}
+            >
+              <View style={styles.centeredView}>
 
-              />
-              {/* {this.state.boards.map(board =>
-                <Text>{board.boardName}</Text>) } */}
-              <View style={styles.overlayButtonContainer}>
+                <View style={styles.modalView}>
+                  <TextInput
+                    style={styles.overlayInput}
 
-                <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false, "", "", "", "", "")}>
-                  <Text style={styles.overlayButtonText}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
+                    // {console.log(this.state.boards)}
+                    defaultValue={this.state.modalInputValue}
+                    onChangeText={(name) => this.setModalInputValue(name)}
+                    placeholder={this.state.modalInputPlaceHolder}
+                    placeholderTextColor="rgba(255, 255, 255, 0.7)"
 
-                <View style={{ width: 20 }}></View>
+                  />
+                    {/* {this.state.boards.map(board =>
+                    <Text>{board.boardName}</Text>) } */}
+                  <View style={styles.overlayButtonContainer}>
 
-                <TouchableOpacity style={styles.overlayButton} onPress={() => this.goButtonAction()}>
-                  <Text style={styles.overlayButtonText}>
-                    {this.state.modalGoButtonValue}
-                  </Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.overlayButton} onPress={() => this.setIsVisible(false, "", "", "", "", "")}>
+                      <Text style={styles.overlayButtonText}>
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
 
+                    <View style={{ width: 20 }}></View>
+
+                    <TouchableOpacity style={styles.overlayButton} onPress={() => this.goButtonAction()}>
+                      <Text style={styles.overlayButtonText}>
+                        {this.state.modalGoButtonValue}
+                      </Text>
+                    </TouchableOpacity>
+
+                  </View>
+                </View>
               </View>
-            </View>
+            </Modal>
+
+
+
           </View>
-        </Modal>
 
 
-    
-      </View>
-            
+          {this.state.lists.map(list =>
+            <View>
+              <Text onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}
+                onLongPress={(e) => alert("Long Pressed")}
+              >
+                {/* {console.log("CHECKING")} */}
+                {list.listName}
+                {this.state.cards[list.index].map(card =>
                 
-                {this.state.lists.map(list =>
-                <View>
-                    <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}
-                          onLongPress = {(e) => alert("Long Pressed")}
-                    > 
-                        {/* {console.log("CHECKING")} */}
-                        {list.listName}
-                        {this.state.cards[list.index].map(card =>
-                                
-                                    <Text onPress = {(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}
-                                          onLongPress = {(e) => alert("Long Pressed")}
-                                    >
-                                        {card.cardName}
-                                        <Text onPress = {(e) => this.deleteCard(e,card._id)}>
-                                            Delete Card
-                                        </Text>
-                                    </Text>
-                                
-                            )}
+                  <Text onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", card._id, card.cardName, "Card Name")}
+                    onLongPress={(e) => alert("Long Pressed")}
+                  >
+                    {card.cardName}
+                    <Text onPress={(e) => this.deleteCard(e, card._id)}>
+                      Delete Card
                     </Text>
-                    <Button
-                    onPress = {(e) => this.setIsVisible(true, "Add", "ADDCARD", list._id, "", "Card Name")}
-                    title="Add Card to List"
-                    />
-                    <Button
-                    onPress = {(e) => this.deleteList(e,list._id)}
-                    title="Delete List"
-                    />
-                </View>)}
-                
+                  </Text>
+
+                )}
+              </Text>
+              <Button
+                onPress={(e) => this.setIsVisible(true, "Add", "ADDCARD", list._id, "", "Card Name")}
+                title="Add Card to List"
+              />
+              <Button
+                onPress={(e) => this.deleteList(e, list._id)}
+                title="Delete List"
+              />
+            </View>)}
+
         </View>
 
 
-</Provider>
-        
-        );
-      }
-      }
+      </Provider>
+
+    );
+  }
+}
 
  const styles = StyleSheet.create({
   container: {

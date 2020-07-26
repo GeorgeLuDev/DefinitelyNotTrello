@@ -40,7 +40,7 @@ export default class LoginForm extends Component {
 
       
       try{
-             alert("calling Sign Up api");
+            //  alert("calling Sign Up api");
             const response = await fetch('http://3.17.45.57/api/SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             
@@ -54,7 +54,7 @@ export default class LoginForm extends Component {
             var res = JSON.parse(json);
             console.log(res);
             console.log(res.emailVerification);
-            if (res.id === -1)
+            if (res.id === "-1")
             {
               alert("User/Password combination is incorrect.");
             }

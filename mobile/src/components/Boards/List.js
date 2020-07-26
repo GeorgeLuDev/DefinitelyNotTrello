@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, T
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
-import SortableList from 'react-native-sortable-list';
  
 
 export default class Board extends Component {
@@ -32,10 +31,7 @@ export default class Board extends Component {
   }
 
   componentDidMount() {
-    // this.addCard("5f1bbdb9b6f43b1c840bdb85",0);
-    // console.log(this.state.lists);
     this.fetchData();
-    
 
     this.props.navigation.setOptions(
         {
@@ -113,7 +109,7 @@ export default class Board extends Component {
       // this.setIsVisible(false);
       // this.componentDidMount();
       var res = JSON.parse(await response.text());
-      // console.log(res);
+      console.log(res);
     }
     catch(e)
     {
@@ -121,53 +117,29 @@ export default class Board extends Component {
     }
     this.componentDidMount();
   }
-
-  deleteCard = async (event,cardId) => 
-  {
-    var js = '{"_id":"'+ cardId + '"}';
-
-    // console.log(js);
-    try
-    {
-      // alert("here");
-      const response = await fetch('http://3.17.45.57/api/DeleteCard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
-      // alert("added successfully");
-      // this.setBoardName("");
-      // this.setIsVisible(false);
-      // this.componentDidMount();
-      var res = JSON.parse(await response.text());
-      // console.log(res);
-    }
-    catch(e)
-    {
-
-    }
-    this.componentDidMount();
-  }
-
 
 
   addList = async () => 
   {
 
-    // try 
-    // {
-    //   var value = await AsyncStorage.getItem("user");
-    //   if (value !== null)
-    //   {
-    //     value = JSON.parse(value);
-    //     // console.log(value.id);
-    //     // return value.id;
-    //   }
-    // } 
-    // catch (e) 
-    // {
-    //   console.log("Something went wrong in fetching the users data.");
-    // }
+    try 
+    {
+      var value = await AsyncStorage.getItem("user");
+      if (value !== null)
+      {
+        value = JSON.parse(value);
+        // console.log(value.id);
+        // return value.id;
+      }
+    } 
+    catch (e) 
+    {
+      console.log("Something went wrong in fetching the users data.");
+    }
 
     var js = '{"listName":"'+ this.state.listName.toString() + '","index":"'+ this.state.lists.length + '","parentBoard":["'+ this.state.boardId +'"]}';
     
-    // console.log(js);
+    console.log(js);
     try
     {
       // alert("here");
@@ -184,107 +156,20 @@ export default class Board extends Component {
     }
   }
 
-
-
-  addCard = async (listId,listIndex) => 
-  {
-
-    // try 
-    // {
-    //   var value = await AsyncStorage.getItem("user");
-    //   if (value !== null)
-    //   {
-    //     value = JSON.parse(value);
-    //     // console.log(value.id);
-    //     // return value.id;
-    //   }
-    // } 
-    // catch (e) 
-    // {
-    //   console.log("Something went wrong in fetching the users data.");
-    // }
-
-    var js = '{"cardName":"'+ "TEST CARD" + '","index":"'+ listIndex + '","parentList":"'+ listId +'"}';
-    
-    // console.log(js);
-    try
-    {
-      // alert("here");
-      const response = await fetch('http://3.17.45.57/api/CreateCard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-    //   alert("added successfully");
-      // console.log(this.lists[0]);
-      this.setListName("");
-      // this.setIsVisible(false);
-      this.componentDidMount();
-    }
-    catch(e)
-    {
-
-    }
-  }
-
-
   setListName = (name) => {
-    // console.log(name);
+    console.log(name);
     this.setState({'listName' : name})
   }
   
 
-  updateList = async (event,listId) => 
-  {
-    var js = '{"_id":"'+ listId + '","listName":"' + "Testerrrr" + '"}';
-
-    console.log(js);
-    try
-    {
-      // alert("here");
-      const response = await fetch('http://3.17.45.57/api/UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-      // alert("added successfully");
-      // this.setBoardName("");
-      // this.setIsVisible(false);
-      // this.componentDidMount();
-      var res = JSON.parse(await response.text());
-      // console.log(res);
-    }
-    catch(e)
-    {
-
-    }
-    this.componentDidMount();
-  }
-
-
-  updateCard = async (event,cardId) => 
-  {
-    var js = '{"_id":"'+ cardId + '","cardName":"' + "  We updated this card tho  " + '"}';
-
-    // console.log(js);
-    try
-    {
-      // alert("here");
-      const response = await fetch('http://3.17.45.57/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-      // alert("added successfully");
-      // this.setBoardName("");
-      // this.setIsVisible(false);
-      // this.componentDidMount();
-      var res = JSON.parse(await response.text());
-      // console.log(res);
-    }
-    catch(e)
-    {
-
-    }
-    this.componentDidMount();
-  }
-
   render() {
 
     return (
+
         
-        
+
         <View>
 
-        {/* {console.log(this.state.lists)} */}
 <View style={styles.container}>
         <Modal
           animationType="slide"
@@ -334,27 +219,20 @@ export default class Board extends Component {
                 
                 {this.state.lists.map(list =>
                 <View>
-                    <Text onPress = {(e) => this.updateList(e,list._id)}>
-                        {/* {console.log("CHECKING")} */}
+                    <Text>
+                        {console.log("CHECKING")}
                         {list.listName}
                         {this.state.cards[list.index].map(card =>
-                                
-                                    <Text onPress = {(e) => this.updateCard(e,card._id)}>
-                                        {card.cardName}
-                                        <Text onPress = {(e) => this.deleteCard(e,card._id)}>
-                                            Delete Card
-                                        </Text>
-                                    </Text>
-                                
+                            
+                                <Text>
+                                    {card.cardName}
+                                </Text>
+                            
                             )}
                     </Text>
                     <Button
-                    onPress = {(e) => this.addCard(list._id,0)}
-                    title="Add Card to List"
-                    />
-                    <Button
                     onPress = {(e) => this.deleteList(e,list._id)}
-                    title="Delete List"
+                    title="Delete"
                     />
                 </View>)}
                 

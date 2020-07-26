@@ -3,13 +3,9 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, T
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
-<<<<<<< HEAD
 import { createDndContext } from "react-native-easy-dnd";
-
-const { Provider, Droppable, Draggable } = createDndContext();
-=======
 import SortableList from 'react-native-sortable-list';
->>>>>>> mobile-Angel
+const { Provider, Droppable, Draggable } = createDndContext();
  
 
 export default class Board extends Component {
@@ -56,7 +52,7 @@ export default class Board extends Component {
                 style={{
                   marginRight: 20
                 }}
-                onPress={() => this.setIsVisible(true, "Add", "ADDLIST", null, "", "List Name")}>
+                onPress={() => this.setIsVisible(true, "Add", "ADDLIST", "", "", "List Name")}>
   
               <Entypo name="plus" size={34} color="white" />
                 </TouchableOpacity>

@@ -353,13 +353,19 @@ class BoardUi extends Component
         event.preventDefault();
         var element = document.querySelector('.dragging');
         var currentList = document.getElementById(listid);
+        // console.log(currentList);
         var afterElement;
+        if (event.target.className === "cardName" || event.target.className === "card" || event.target.className === "card dragging")
+        {
+            return;
+        }
        if (element.className === "card dragging")
        {    
         //    console.log("card");
 
             afterElement = this.getDragAfterElementCard(currentList.children[0], event.clientY);
 
+            console.log(event.target);
 
             if (afterElement == null)
             {
@@ -394,7 +400,7 @@ class BoardUi extends Component
       
         return draggableElements.reduce((closest, child) => {
           const box = child.getBoundingClientRect();
-          const offset = y - box.top - box.height / 2;
+          const offset = y - box.top - (box.height / 2);
           if (offset < 0 && offset > closest.offset) {
             return { offset: offset, element: child }
           } else {
@@ -408,7 +414,7 @@ class BoardUi extends Component
       
         return draggableElements.reduce((closest, child) => {
           const box = child.getBoundingClientRect();
-          const offset = x - box.left - box.width / 2;
+          const offset = x - box.left - (box.width / 2);
           if (offset < 0 && offset > closest.offset) {
             return { offset: offset, element: child }
           } else {
@@ -963,7 +969,7 @@ class BoardUi extends Component
                       <div className="listHolder" id={list._id} data-_id={list._id} key={list._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} onDragOver={(e) => this.dragOver(e,list._id)}>
                         <div className="list" data-_id={list._id} key={list._id} scrollable="true">
                           <div className="listContainer">
-                              <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)}>{list.listName}</div>
+                              <div className="listName"  contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateList(e,list._id)} onDragOver={(e) => this.dragOver(e,list._id)}>{list.listName}</div>
                               
                               <input className="completeList" type="checkbox" checked={list.checked === "true"} onChange={(e) => this.handleCheckedList(e,list._id)}></input>
                               <button className="listButton" data-type={"list"}  onClick={(e) => this.handledeleteList(e,list._id)}>
@@ -973,8 +979,8 @@ class BoardUi extends Component
                           </div>
                           {
                               this.state.cards[list.index].map(card =>
-                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} style={{background : ( (card.checked === "true") ? "lightgreen" : "")}}>
-                                      <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)}>
+                                  <div className="card" id={card._id} data-_id={card._id} key={card._id} draggable="true" onDragStart={(e) => this.dragStart(e)} onDragEnd={(e) => this.dragEnd(e)} style={{background : ( (card.checked === "true") ? "lightgreen" : "")}} onDragOver={(e) => this.dragOver(e,list._id)}>
+                                      <div className="cardName" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateCard(e,card._id)} onDragOver={(e) => this.dragOver(e,list._id)}>
                                         
                                           {card.cardName}
                                         
@@ -985,7 +991,7 @@ class BoardUi extends Component
                                       </button>
                                   </div>)
                           }
-                          <form className="addCard">
+                          <form className="addCard" onDragOver={(e) => this.dragOver(e,list._id)}>
                               <input className="cardInput" type="text" placeholder="Add a Card..."/><br />
                               <input className="createcardbutton" type="submit" value="+" onClick={(e) => this.handleCreateCard(e,list._id,list.index)}/><br/>
                           </form>

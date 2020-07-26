@@ -3,6 +3,9 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity, TextInput, Modal, T
 import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
+import { createDndContext } from "react-native-easy-dnd";
+
+const { Provider, Droppable, Draggable } = createDndContext();
  
 
 export default class Board extends Component {
@@ -280,11 +283,12 @@ export default class Board extends Component {
 
     return (
         
+      
         
-        <View>
+  <View>
 
         {/* {console.log(this.state.lists)} */}
-<View style={styles.container}>
+      <View style={styles.container}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -328,6 +332,8 @@ export default class Board extends Component {
           </View>
         </Modal>
 
+
+    
       </View>
             
                 

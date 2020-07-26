@@ -4,6 +4,7 @@ import {ListItem, SearchBar, Overlay, Platform} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
+import { TabBar } from 'react-native-tab-view';
 
 
 
@@ -31,9 +32,21 @@ import TouchableScale from 'react-native-touchable-scale';
 //     second: SecondRoute,
 //   });
 
+//   const renderTabBar = () => (
+//     <TabBar
+//   renderIcon={({ route, focused, color }) => (
+//     <Icon
+//       name={focused ? 'abums' : 'albums-outlined'}
+//       color={color}
+//     />
+//   )}
+// />
+//   );
 //   return (
 //     <TabView
+//       tabBarPosition='bottom'
 //       navigationState={{ index, routes }}
+//       renderTabBar={renderTabBar}
 //       renderScene={renderScene}
 //       onIndexChange={setIndex}
 //       initialLayout={initialLayout}

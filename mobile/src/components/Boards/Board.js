@@ -50,7 +50,7 @@ export default class Board extends Component {
                 style={{
                   marginRight: 20
                 }}
-                onPress={() => this.setIsVisible(true, "Add", "ADDLIST", null, "", "List Name")}>
+                onPress={() => this.setIsVisible(true, "Add", "ADDLIST", "", "", "List Name")}>
   
               <Entypo name="plus" size={34} color="white" />
                 </TouchableOpacity>
@@ -361,7 +361,7 @@ export default class Board extends Component {
 
       </View>
             
-                
+                {console.log(this.state.lists)}
                 {this.state.lists.map(list =>
                 <View>
                     <Text onPress = {(e) =>  this.setIsVisible(true, "Update", "UPDATELIST", list._id, list.listName, "List Name")}> 

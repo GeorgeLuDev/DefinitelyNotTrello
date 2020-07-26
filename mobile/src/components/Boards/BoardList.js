@@ -4,8 +4,61 @@ import {ListItem, SearchBar, Overlay} from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
+//import { TabBar } from 'react-native-tab-view';
 
 
+
+// import { TabView, SceneMap } from 'react-native-tab-view';
+
+// const FirstRoute = () => (
+//   <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
+// );
+
+// const SecondRoute = () => (
+//   <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+// );
+
+// const initialLayout = { width: Dimensions.get('window').width };
+
+// export default function BoardList() {
+//   const [index, setIndex] = React.useState(0);
+//   const [routes] = React.useState([
+//     { key: 'first', title: 'First' },
+//     { key: 'second', title: 'Second' },
+//   ]);
+
+//   const renderScene = SceneMap({
+//     first: FirstRoute,
+//     second: SecondRoute,
+//   });
+
+//   const renderTabBar = () => (
+//     <TabBar
+//   renderIcon={({ route, focused, color }) => (
+//     <Icon
+//       name={focused ? 'abums' : 'albums-outlined'}
+//       color={color}
+//     />
+//   )}
+// />
+//   );
+//   return (
+//     <TabView
+//       tabBarPosition='bottom'
+//       navigationState={{ index, routes }}
+//       renderTabBar={renderTabBar}
+//       renderScene={renderScene}
+//       onIndexChange={setIndex}
+//       initialLayout={initialLayout}
+//     />
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   scene: {
+//     flex: 1,
+//   },
+// });
 
 export default class BoardList extends Component {
 
@@ -295,29 +348,29 @@ export default class BoardList extends Component {
                 // />
 
                 <ListItem
-  Component={TouchableScale}
-  containerStyle={{
-    borderRadius: 10,
-    marginHorizontal: 5,
-    marginBottom: 5
-  }}
-  friction={90} //
-  tension={100} // These props are passed to the parent component (here TouchableScale)
-  activeScale={0.95} //
-  linearGradientProps={{
-    colors: ['#475DC0', '#28A0F6'],
-    start: [1, 0],
-    end: [0.2, 0],
-  }}
-  leftAvatar={{ rounded: true, source: { uri: item.boardBackground } }}
-  title={item.boardName}
-  titleStyle={{ color: 'white', fontWeight: 'bold' }}
-  subtitleStyle={{ color: 'white' }}
-  chevron={{ color: 'white' }}
-  onPress = {(e) => this.navigate(e,item._id)}
-  onLongPress={(e) => this.deleteBoard(e,item._id)}
-/>
-                }
+                  Component={TouchableScale}
+                  containerStyle={{
+                    borderRadius: 10,
+                    marginHorizontal: 5,
+                    marginBottom: 5
+                  }}
+                  friction={90} //
+                  tension={100} // These props are passed to the parent component (here TouchableScale)
+                  activeScale={0.95} //
+                  linearGradientProps={{
+                    colors: ['#475DC0', '#28A0F6'],
+                    start: [1, 0],
+                    end: [0.2, 0],
+                  }}
+                  leftAvatar={{ rounded: true, source: { uri: item.boardBackground } }}
+                  title={item.boardName}
+                  titleStyle={{ color: 'white', fontWeight: 'bold' }}
+                  subtitleStyle={{ color: 'white' }}
+                  chevron={{ color: 'white' }}
+                  onPress={(e) => this.navigate(e, item._id)}
+                  onLongPress={(e) => this.deleteBoard(e, item._id)}
+                />
+              }
               ListHeaderComponent={this.renderHeader}
 
             />

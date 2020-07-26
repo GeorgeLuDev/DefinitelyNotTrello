@@ -800,7 +800,7 @@ app.post('/api/CreateList', async (req,res) =>
         listName : listName,
         index : index,
         parentBoard : parentBoard,
-        checked : false
+        checked : "false"
     };
 
     // Insert new list into DNTDB Lists collection.
@@ -1072,7 +1072,7 @@ app.post('/api/CreateCard', async(req,res) =>
         cardName : cardName,
         index : index,
         parentList : parentList,
-        checked : false
+        checked : "false"
     };
     // insert into db
     try

@@ -33,7 +33,7 @@ export default class PasswordRecovery extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3498db',
+    backgroundColor: '#24a9ae',
     flexDirection: 'column', 
     justifyContent: 'center',
     alignItems: 'stretch', 
@@ -42,15 +42,14 @@ const styles = StyleSheet.create({
   }, 
   input: {
     height: 45, 
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginBottom:  10, 
     marginTop: 2,
-    color: '#fff', 
     paddingHorizontal: 10,
-    borderWidth: 3, 
+    borderWidth: 1.5, 
     borderRadius: 3,
-    borderColor: '#2980b9'
-
+    borderColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    color: '#fff', 
     
   }, 
   buttonContainer: {
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 50,
     width: 170,
-    backgroundColor: '#2980b9', 
+    backgroundColor: '#149499', 
     marginTop: 40,
     marginBottom: 40, 
     paddingVertical: 15
@@ -74,6 +73,8 @@ const styles = StyleSheet.create({
   }, 
   text1: {
     alignSelf: 'center',
+    fontFamily: 'sans-serif-medium',
+    color: 'white',
     fontSize: 22,
     marginBottom: 30
   }, 

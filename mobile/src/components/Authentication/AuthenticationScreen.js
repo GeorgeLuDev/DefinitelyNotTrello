@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import {  StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
+import { Image, Icon } from 'react-native-elements';
 
 
 export default class AuthenticationScreen extends Component {
 
   render() {
     return (
+
       <View style={styles.container}>
         
         <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Login')}>

@@ -318,7 +318,7 @@ export default class BoardList extends Component {
                   </Text>
                 </TouchableOpacity>
 
-                <View style={{ width: 20 }}></View>
+                <View style={{ width: 20, backgroundColor: '#24a9ae' }}></View>
 
                 <TouchableOpacity style={styles.overlayButton} onPress={() => this.addBoard()}>
                   <Text style={styles.overlayButtonText}>
@@ -352,13 +352,15 @@ export default class BoardList extends Component {
                   containerStyle={{
                     borderRadius: 10,
                     marginHorizontal: 5,
-                    marginBottom: 5
+                    marginTop: 7,
+                    
+                    
                   }}
                   friction={90} //
                   tension={100} // These props are passed to the parent component (here TouchableScale)
                   activeScale={0.95} //
                   linearGradientProps={{
-                    colors: ['#475DC0', '#28A0F6'],
+                    colors: ['#14adb4', '#14cdd5'],
                     start: [1, 0],
                     end: [0.2, 0],
                   }}
@@ -371,7 +373,7 @@ export default class BoardList extends Component {
                   onLongPress={(e) => this.deleteBoard(e, item._id)}
                 />
               }
-              ListHeaderComponent={this.renderHeader}
+              // ListHeaderComponent={this.renderHeader}
 
             />
           </View>
@@ -385,7 +387,8 @@ export default class BoardList extends Component {
  const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    padding: 7
   }, 
   overlayContainer: {
     // height: '80%',
@@ -405,7 +408,7 @@ export default class BoardList extends Component {
   },
   overlayButtonContainer: {
     flexDirection: 'row',
-    backgroundColor: '#3498db', 
+    backgroundColor: '#24a9ae', 
     justifyContent: 'space-between',
     alignItems: 'flex-end', 
     paddingHorizontal: 0
@@ -417,7 +420,7 @@ export default class BoardList extends Component {
     borderColor: '#FFF',
     height: 40,
     width: 70,
-    backgroundColor: '#2980b9',  
+    backgroundColor: '#149499',  
     paddingVertical: 15
 
   },
@@ -437,7 +440,7 @@ export default class BoardList extends Component {
     margin: 20,
     flexDirection: "column",
     justifyContent: 'flex-end',
-    backgroundColor: "#3498db",
+    backgroundColor: "#24a9ae",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",

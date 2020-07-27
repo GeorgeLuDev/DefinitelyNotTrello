@@ -4,8 +4,8 @@
   "expo": {
     "name": "mobile",
     "slug": "mobile",
-    "version": "1.0.0",
     "android":{"softwareKeyboardLayoutMode": "pan"},
+    "version": "1.0.0",
     "platforms": [
       "ios",
       "android",

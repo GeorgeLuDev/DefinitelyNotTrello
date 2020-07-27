@@ -85,9 +85,11 @@ export default class SignupForm extends Component {
 
       <KeyboardAwareScrollView
       style={{ backgroundColor: '#4c69a5' }}
+      enableOnAndroid={true}
       resetScrollToCoords={{ x: 0, y: 0 }}
       contentContainerStyle={styles.container}
       scrollEnabled={true}
+      extraHeight={10}
       
     >
 

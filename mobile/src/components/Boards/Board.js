@@ -396,16 +396,17 @@ export default class Board extends Component {
                 extraData={this.state}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) =>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row'}}>
 
-                    <Text>{item.cardName}</Text>
+                    <Text style={{alignSelf: 'center'}}>{item.cardName}</Text>
 
+                    
                     <CheckBox
                       checked={this.state.checked}
                       onPress={() => this.setState({checked: !this.state.checked})}
                       uncheckedColor='black'
                     />
-
+                   
                     </View>
                   
                   }

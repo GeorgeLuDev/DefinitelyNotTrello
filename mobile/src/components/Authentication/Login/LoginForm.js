@@ -107,7 +107,7 @@ export default class LoginForm extends Component {
       
 
 <KeyboardAwareScrollView
-      style={{ backgroundColor: '#4c69a5' }}
+      style={{ backgroundColor: '#24a9ae' }}
       resetScrollToCoords={{ x: 0, y: 0 }}
       contentContainerStyle={styles.container}
       scrollEnabled={true}
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 50,
     width: 170,
-    backgroundColor: '#2980b9', 
+    backgroundColor: '#149499', 
     marginTop: 40,
     marginBottom: 40, 
     paddingVertical: 15

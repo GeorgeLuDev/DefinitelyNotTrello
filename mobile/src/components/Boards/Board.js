@@ -309,6 +309,40 @@ export default class Board extends Component {
 
   }
 
+  handleCheckedCard = (listId,cardId) =>
+  {
+      // event.preventDefault();
+      console.log("calling checked card");
+      // console.log(event.target.checked);
+      // console.log(event.target.previousSibling.value);
+      var bool;
+      if (card.checked === "true")
+      {
+        bool = "false";
+      }
+      else
+      {
+        bool = "true"
+      }
+
+      try
+      {
+          var js = '{"_id":"'+ cardId + '","checked":"' + bool + '","listId":"' + listId + '"}';
+
+          // console.log(js);
+          // const response = 
+          await fetch(process.env.REACT_APP_URL  + 'UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+      }
+      catch(e)
+      {
+          console.log("there was an error");
+          console.log(e.toString());
+          return;
+      }
+      this.componentDidMount();
+  }
+
   render() {
 
     return (

@@ -8,6 +8,33 @@
 }
 
 @font-face {
+  font-family: 'robotoblack';
+  src: url('roboto-black-webfont.woff2') format('woff2'),
+       url('roboto-black-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'robotobold';
+  src: url('roboto-bold-webfont.woff2') format('woff2'),
+       url('roboto-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'robotomedium';
+  src: url('roboto-medium-webfont.woff2') format('woff2'),
+       url('roboto-medium-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
   font-family: 'pacificoregular';
   src: url('pacifico-regular-webfont.woff2') format('woff2'),
        url('pacifico-regular-webfont.woff') format('woff');
@@ -224,7 +251,7 @@ a.nav-link
 
 #boardMenuHeader
 {
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0,0,0,0.5);
   width: 100%;
   color: white;
   font-weight: bold;
@@ -240,6 +267,7 @@ a.nav-link
 
 #addUserButton
 {
+  margin-left: 20px;
   padding:0.5rem 0;
   font-size:1rem;
 }
@@ -249,9 +277,21 @@ a.nav-link
   margin-left: 5px;
 }
 
+.addUserButton
+{
+  border: none;
+  padding: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+}
+
 #boardNameSpan
 {
-  max-width: 50%;
+  font-family: "robotomedium";
+  max-width:20rem;
+  height: 3rem;
+  overflow-y: hidden;
 }
 
 .boardMenuDivider
@@ -268,12 +308,22 @@ a.nav-link
   margin: 0.5rem 1rem;
 }
 
+.userInitials
+{
+  background: #24a9ae;
+  padding: 0 5px;
+  border-radius: 1rem;
+  margin-top: 8px;
+  margin-left: 4px;
+  font-size: 22px;
+}
+
 #boardMenuRightside
 {
   font-size:1rem;
   right:1rem;
   position: absolute;
-  width: 50%;
+  width: 60%;
 }
 #boardMenuRightside form
 {
@@ -284,6 +334,42 @@ a.nav-link
 #boardMenuRightside form input
 {
   margin-right: 1rem;
+}
+
+#radioSelectors
+{
+  display: block;
+}
+
+input[type="radio"]{
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  margin-left: 5px;
+}
+
+input[type="radio"]:checked + label{
+  background-color: #24a9ae;
+  float: right;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+input[type="radio"]:not(:checked) + label{
+  float: right;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  background-color: #454545;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-right: 5px;
 }
 
 #editBGButton
@@ -382,6 +468,7 @@ a.nav-link
   white-space: nowrap;
   margin-left: 20px;
   position: relative;
+  padding-top: 1rem;
 }
 
 .list, .addList
@@ -413,9 +500,10 @@ a.nav-link
 
 .listName
 {
-  margin-top: -5px;
+  font-family: "robotobold";
+  margin-top: -8px;
   display: flex;
-  margin-left: 1.5rem;
+  margin-left: 2rem;
   white-space: normal;
   display: inline-block;
   cursor: text;
@@ -434,7 +522,7 @@ a.nav-link
 .list:hover .listButton
 {
   position: absolute;
-  top:1rem;
+  top:1.5rem;
   right: 1rem;
   background-color: rgb(220,220,220);
   display: block;
@@ -520,7 +608,7 @@ a.nav-link
 {
   position: absolute;
   left: 0.5rem;
-  top: 10px;
+  top: 12px;
   background-color: tomato;
   border: none;
 }
@@ -528,8 +616,8 @@ a.nav-link
 .completeList
 {
   position: absolute;
-  left: 1rem;
-  top: 1.5rem;
+  left: 1.8rem;
+  top: 2.3rem;
   background-color: tomato;
   border: none;
 }
@@ -538,12 +626,19 @@ a.nav-link
 {
   position: absolute;
   top:5px;
-  right: 0.5rem;
-  background-color: white;
+  right: 1rem;
+  background-color: rgba(0,0,0,0.15);
   display: block;
   text-align: center;
-  width: 1rem;
+  width: 1.5rem;
   border: none;
+  border-radius: 4px;
+}
+
+#loginResult
+{
+  text-align: center;
+  margin-top: 3rem;
 }
 
 .trelloicon
@@ -577,7 +672,6 @@ a.nav-link
   padding: 25px 40px;
   border-radius: 3px;
   width: 400px;
-  height: 500px;
   background: white;
   margin: 0;
   position: absolute;
@@ -590,6 +684,7 @@ a.nav-link
 {
   background: rgb(52, 175, 52);
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .signinemail

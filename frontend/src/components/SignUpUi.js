@@ -16,32 +16,33 @@ function SignInUi()
         console.log("doSignUp called");
 
         var flagerror = 0;
-        var error = "";
+        var error = [];
 
         if (loginfirstName.value === "")
         {
             flagerror = 1;
-            error += "Please add a First Name<br />";
+            error.push("Please add a First Name\n");
         }
         if (loginlastName.value === "")
         {
             flagerror = 1;
-            error += "Please add a Last Name<br />";
+            error.push("Please add a Last Name\n");
         }
         if (loginEmail.value === "")
         {
             flagerror = 1;
-            error += "Please add an Email<br />";
+            error.push("Please add an Email\n");
         }
         if (loginPassword.value === "")
         {
             flagerror = 1;
-            error += "Please add a Password<br />";
+            error.push("Please add a Password\n");
         }
 
         if (flagerror === 1)
         {
             setMessage(error);
+            console.log(error);
             return;
         }
 
@@ -61,7 +62,10 @@ function SignInUi()
 
             if (res.error === "")
             {
-                setMessage("Sign Up Successful");
+                setMessage("Sign Up Successful\nCheck your email for\nverification link.");
+                setTimeout(() => {
+                  window.location.href = '/SignInPage';
+                }, 1500);
             }
             else
             {
@@ -115,7 +119,11 @@ function SignInUi()
                 <Button className="signinbutton" variant="primary" type="submit" onClick={doSignUp}>
                     Sign up
                 </Button>
-                <span id="loginResult">{message}</span>
+                <span id="loginResult">
+                  <pre>
+                    {message}
+                  </pre>
+                </span>
                 <hr></hr>
                 <div className="linktootherpage">
                     <a href="/SignIn" className="link">Already have an account? Log in</a>

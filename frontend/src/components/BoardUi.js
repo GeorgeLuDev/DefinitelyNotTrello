@@ -747,13 +747,14 @@ class BoardUi extends Component
         try
         {
             var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","email":"' + event.target.previousSibling.value + '"}';
+            event.target.previousSibling.value = "";
 
             // const response = 
             var response = await fetch(process.env.REACT_APP_URL  + 'AddUser',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
 
-            if (res.error === "Could not find a user associated with that email")
+            if (res.error == "Not found.")
             {
                 document.getElementById("addUserResult").innerText = res.error;
             }
@@ -762,6 +763,7 @@ class BoardUi extends Component
                 document.getElementById("addUserResult").innerText = "User added";
             }
 
+            this.componentDidMount();
         }
         catch(e)
         {
@@ -769,7 +771,6 @@ class BoardUi extends Component
             console.log(e.toString());
             return;
         }
-        this.componentDidMount();
     }
 
     handleCheckedList = async (event,listId) =>
@@ -871,9 +872,11 @@ class BoardUi extends Component
     search = (event) =>
     {
         // gets filter values
-        var listtext = document.getElementById("searchlist").value;
-        var cardtext = document.getElementById("searchcard").value;
+        var listtext = document.getElementById("searchlist").value.toLowerCase();
+        var cardtext = document.getElementById("searchcard").value.toLowerCase();
         var type;
+        var listquery = new RegExp(listtext, 'g');
+        var cardquery = new RegExp(cardtext, 'g');
         if (document.getElementById("checkedAll").checked)
         {
             type = null;
@@ -887,9 +890,9 @@ class BoardUi extends Component
             type = true;
         }
 
-        console.log(listtext);
-        console.log(cardtext);
-        console.log(type)
+        // console.log(listtext);
+        // console.log(cardtext);
+        // console.log(type)
 
         // reset opacity
         var i,j;
@@ -905,7 +908,7 @@ class BoardUi extends Component
         // filter
         for (i=0;i<this.state.lists.length;i++)
         {
-            if (this.state.lists[i].listName !== listtext && listtext !== "")
+            if (this.state.lists[i].listName.toLowerCase().match(listquery) === null && listtext !== "")
             {
                 document.getElementById(this.state.lists[i]._id).style.opacity = 0.5;
                 // for (j=0; j<this.state.cards[i].length;j++)
@@ -918,7 +921,7 @@ class BoardUi extends Component
             for (j=0; j<this.state.cards[i].length;j++)
             {
                 console.log("we coming in j loop");
-                if ( (this.state.cards[i][j].cardName !== cardtext && cardtext !== "") || (document.getElementById(this.state.cards[i][j]._id).children[1].checked !== type && (type !== null)))
+                if ( (this.state.cards[i][j].cardName.toLowerCase().match(cardquery) === null && cardtext !== "") || (document.getElementById(this.state.cards[i][j]._id).children[1].checked !== type && (type !== null)))
                 {
                     document.getElementById(this.state.cards[i][j]._id).style.opacity = 0.5;
                 }
@@ -936,13 +939,13 @@ class BoardUi extends Component
             <span id="boardNameSpan" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
             {this.state.boardUsers.map(boardUser => 
-                <span key={boardUser}>{boardUser}</span>
+                <span className="userInitials" title="FirstName LastName" key={boardUser}>{boardUser}</span>
                 )}
             <span id="addUserButton">
               <form>
-                <label>Share</label>
-                <input name="shareEmail"placeholder="User's email"></input>
-                <input className="addUserButton" type="submit" value="Add User" onClick={(e) => this.addUser(e)}/>
+                <label>Add user:</label>
+                <input name="shareEmail" placeholder="User's email"></input>
+                <input className="addUserButton" type="submit" value="+" onClick={(e) => this.addUser(e)}/>
               </form>
             </span>
             <span id="addUserResult"></span>
@@ -950,18 +953,20 @@ class BoardUi extends Component
               <div id="editBGButton">
                 <p id="choosebackground" onClick={(e) => this.handleModal(e)}>Choose Background</p>
               </div>
+              <div>
               <form>
                 <input id="searchlist" name="searchList" placeholder="Search Lists" onChange={(e) => this.search(e)}></input>
                 <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.search(e)}></input>
               </form>
-                <form>
-                    <label>All</label>
-                    <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
-                    <label>Incomplete</label>
-                    <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.search(e)}></input>
-                    <label>Complete</label>
-                    <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.search(e)}></input>
-                </form>
+              <form id="radioSelectors">
+                  <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
+                  <label class="headerCheckLabel" for="checkedAll">All</label>
+                  <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.search(e)}></input>
+                  <label class="headerCheckLabel" for="checkedIncomplete">Incomplete</label>
+                  <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.search(e)}></input>
+                  <label class="headerCheckLabel" for="checkedComplete">Complete</label>
+              </form>
+              </div>
             </div>
           </div>
           <div className="board"  onWheel={(e) => this.replaceVerticalScrollByHorizontal(e)} ref={this.board} style={{height : this.state.boardBackgroundHeight} } >

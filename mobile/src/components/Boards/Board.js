@@ -33,7 +33,8 @@ export default class Board extends Component {
         modalGoButtonID: '', 
         modalInputValue: '', 
         modalInputPlaceHolder: '',
-        checked: false
+        checked: false,
+        currentCardCheck: ''
 
 
     };
@@ -310,29 +311,35 @@ export default class Board extends Component {
 
   }
 
-  handleCheckedCard = async (listId,cardId) =>
+  handleCheckedCard = async (card) =>
   {
       // event.preventDefault();
       console.log("calling checked card");
       // console.log(event.target.checked);
       // console.log(event.target.previousSibling.value);
-      var bool;
       if (card.checked === "true")
       {
-        bool = "false";
+        card.checked = "false"
       }
       else
       {
-        bool = "true"
+        card.checked = "true"
       }
-
       try
       {
-          var js = '{"_id":"'+ cardId + '","checked":"' + bool + '","listId":"' + listId + '"}';
+          var js = '{"_id":"'+ card._id + '","checked":"' + card.checked + '","listId":"' + card.parentList + '"}';
 
-          // console.log(js);
+          console.log(js);
           // const response = 
-          await fetch(process.env.REACT_APP_URL  + 'UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+          await fetch('http://3.17.45.57/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+          if (card.checked === "true")
+          {
+            this.setState({"currentCardCheck": false})
+          }
+          else
+          {
+            this.setState({"currentCardCheck": true})
+          }
 
       }
       catch(e)
@@ -374,6 +381,20 @@ export default class Board extends Component {
           console.log(e.toString());
       }
       this.componentDidMount();
+  }
+
+  checkCheck = (value) =>
+  {
+    console.log("CHECKING VALUE")
+    console.log(value)
+    if (value.cheked === "false")
+    {
+      return false
+    }
+    else 
+    {
+      return true
+    }
   }
 
 
@@ -466,11 +487,16 @@ export default class Board extends Component {
                 renderItem={({ item }) =>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
 
-                    <Text>{item.cardName}</Text>
+                  <Text onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
+                    onLongPress={(e) => alert("Long Pressed")}
+                  >
+                    {item.cardName}
+                    {console.log(item)}
+                  </Text>
 
                     <CheckBox
-                      checked={this.state.checked}
-                      onPress={() => this.setState({checked: !this.state.checked})}
+                      checked={() => true}
+                      onPress={() => this.handleCheckedCard(item)}
                       uncheckedColor='black'
                     />
 

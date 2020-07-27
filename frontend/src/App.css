@@ -8,6 +8,33 @@
 }
 
 @font-face {
+  font-family: 'robotoblack';
+  src: url('roboto-black-webfont.woff2') format('woff2'),
+       url('roboto-black-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'robotobold';
+  src: url('roboto-bold-webfont.woff2') format('woff2'),
+       url('roboto-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'robotomedium';
+  src: url('roboto-medium-webfont.woff2') format('woff2'),
+       url('roboto-medium-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
   font-family: 'pacificoregular';
   src: url('pacifico-regular-webfont.woff2') format('woff2'),
        url('pacifico-regular-webfont.woff') format('woff');
@@ -224,7 +251,7 @@ a.nav-link
 
 #boardMenuHeader
 {
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0,0,0,0.5);
   width: 100%;
   color: white;
   font-weight: bold;
@@ -261,7 +288,10 @@ a.nav-link
 
 #boardNameSpan
 {
-  max-width: 50%;
+  font-family: "robotomedium";
+  max-width:20rem;
+  height: 3rem;
+  overflow-y: hidden;
 }
 
 .boardMenuDivider
@@ -341,7 +371,6 @@ input[type="radio"]:not(:checked) + label{
   border-radius: 3px;
   margin-right: 5px;
 }
-
 
 #editBGButton
 {
@@ -439,6 +468,7 @@ input[type="radio"]:not(:checked) + label{
   white-space: nowrap;
   margin-left: 20px;
   position: relative;
+  padding-top: 1rem;
 }
 
 .list, .addList
@@ -470,9 +500,10 @@ input[type="radio"]:not(:checked) + label{
 
 .listName
 {
-  margin-top: -5px;
+  font-family: "robotobold";
+  margin-top: -8px;
   display: flex;
-  margin-left: 1.5rem;
+  margin-left: 2rem;
   white-space: normal;
   display: inline-block;
   cursor: text;
@@ -491,7 +522,7 @@ input[type="radio"]:not(:checked) + label{
 .list:hover .listButton
 {
   position: absolute;
-  top:1rem;
+  top:1.5rem;
   right: 1rem;
   background-color: rgb(220,220,220);
   display: block;
@@ -577,7 +608,7 @@ input[type="radio"]:not(:checked) + label{
 {
   position: absolute;
   left: 0.5rem;
-  top: 10px;
+  top: 12px;
   background-color: tomato;
   border: none;
 }
@@ -585,8 +616,8 @@ input[type="radio"]:not(:checked) + label{
 .completeList
 {
   position: absolute;
-  left: 1rem;
-  top: 1.5rem;
+  left: 1.8rem;
+  top: 2.3rem;
   background-color: tomato;
   border: none;
 }
@@ -595,12 +626,19 @@ input[type="radio"]:not(:checked) + label{
 {
   position: absolute;
   top:5px;
-  right: 0.5rem;
-  background-color: white;
+  right: 1rem;
+  background-color: rgba(0,0,0,0.15);
   display: block;
   text-align: center;
-  width: 1rem;
+  width: 1.5rem;
   border: none;
+  border-radius: 4px;
+}
+
+#loginResult
+{
+  text-align: center;
+  margin-top: 3rem;
 }
 
 .trelloicon
@@ -634,7 +672,6 @@ input[type="radio"]:not(:checked) + label{
   padding: 25px 40px;
   border-radius: 3px;
   width: 400px;
-  height: 500px;
   background: white;
   margin: 0;
   position: absolute;
@@ -647,6 +684,7 @@ input[type="radio"]:not(:checked) + label{
 {
   background: rgb(52, 175, 52);
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .signinemail

@@ -754,7 +754,7 @@ class BoardUi extends Component
 
             var res = JSON.parse(await response.text());
 
-            if (res.error === "Could not find a user associated with that email")
+            if (res.error == "Not found.")
             {
                 document.getElementById("addUserResult").innerText = res.error;
             }
@@ -943,9 +943,9 @@ class BoardUi extends Component
                 )}
             <span id="addUserButton">
               <form>
-                <label>Share</label>
+                <label>Add user:</label>
                 <input name="shareEmail" placeholder="User's email"></input>
-                <input className="addUserButton" type="submit" value="Add User" onClick={(e) => this.addUser(e)}/>
+                <input className="addUserButton" type="submit" value="+" onClick={(e) => this.addUser(e)}/>
               </form>
             </span>
             <span id="addUserResult"></span>

@@ -169,7 +169,7 @@ app.post('/api/SignUp', async (req,res) =>
         // user is already in database
         // dont create user
         // send them to sign in
-        error = "An account is already associated with this email";
+        error = "An account is already associated\nwith this email";
     }
     // do stuff with database
 
@@ -489,7 +489,7 @@ app.put('/api/AddUser', async (req,res) =>
     else
     {
         // user is not found
-        error = "Could not find a user associated with that email";
+        error = "Not found.";
     }
 
 

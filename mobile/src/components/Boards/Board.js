@@ -5,6 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
 import { createDndContext } from "react-native-easy-dnd";
 import SortableList from 'react-native-sortable-list';
+import {Animated} from 'react-native';
 const { Provider, Droppable, Draggable } = createDndContext();
 import { CheckBox } from 'react-native-elements'
 
@@ -32,7 +33,8 @@ export default class Board extends Component {
         modalGoButtonID: '', 
         modalInputValue: '', 
         modalInputPlaceHolder: '',
-        checked: false
+        checked: false,
+        currentCardCheck: ''
 
 
     };
@@ -41,8 +43,8 @@ export default class Board extends Component {
 
   componentDidMount() {
     // this.addCard("5f1bbdb9b6f43b1c840bdb85",0);
-    // console.log(this.state.lists);
     this.fetchData();
+    // console.log(this.state.boards);
     
 
     this.props.navigation.setOptions(
@@ -309,6 +311,92 @@ export default class Board extends Component {
 
   }
 
+  handleCheckedCard = async (card) =>
+  {
+      // event.preventDefault();
+      // console.log("calling checked card");
+      // console.log(event.target.checked);
+      // console.log(event.target.previousSibling.value);
+      if (card.checked === "true")
+      {
+        card.checked = "false"
+      }
+      else
+      {
+        card.checked = "true"
+      }
+      try
+      {
+          var js = '{"_id":"'+ card._id + '","checked":"' + card.checked + '","listId":"' + card.parentList + '"}';
+
+          // console.log(js);
+          // const response = 
+          await fetch('http://3.17.45.57/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+          if (card.checked === "true")
+          {
+            this.setState({"currentCardCheck": false})
+          }
+          else
+          {
+            this.setState({"currentCardCheck": true})
+          }
+
+      }
+      catch(e)
+      {
+          console.log("there was an error");
+          console.log(e.toString());
+      }
+      this.componentDidMount();
+  }
+
+
+  handleCheckedList = async (list) =>
+  {
+      // event.preventDefault();
+      console.log("calling checked list");
+      // console.log(event.target.checked);
+      // console.log(event.target.previousSibling.value);
+      if (list.checked === "true")
+      {
+        list.checked = "false";
+      }
+      else
+      {
+        list.checked = "true"
+      }
+      try
+      {
+          var js = '{"_id":"'+ list._id + '","checked":"' + list.checked + '"}';
+
+          console.log(js);
+          // const response = 
+          await fetch('http://3.17.45.57/api/UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+
+      }
+      catch(e)
+      {
+          console.log("there was an error");
+          console.log(e.toString());
+      }
+      this.componentDidMount();
+  }
+
+  checkCheck = (value) =>
+  {
+    console.log("CHECKING VALUE")
+    console.log(value)
+    if (value.cheked === "false")
+    {
+      return false
+    }
+    else 
+    {
+      return true
+    }
+  }
+
+
   render() {
 
     return (
@@ -381,11 +469,12 @@ export default class Board extends Component {
                      onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", item._id, item.listName, "List Name")}
                      onLongPress={(e) => alert("Long Pressed")}>
                 {item.listName}
+                {console.log(item)}
                 </Text>
 
                   <CheckBox
-                    checked={this.state.checked}
-                    onPress={() => this.setState({checked: !this.state.checked})}
+                    checked={item.checked === "true"}
+                    onPress={() => this.handleCheckedList(item)}
                     uncheckedColor='black'
                   />
                 </View> 
@@ -399,11 +488,16 @@ export default class Board extends Component {
                 <View style={{flexDirection: 'row'}}>
 
                     <Text style={{alignSelf: 'center'}}>{item.cardName}</Text>
+                  <Text onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
+                    onLongPress={(e) => alert("Long Pressed")}
+                  >
+                    {item.cardName}
+                  </Text>
 
                     
                     <CheckBox
-                      checked={this.state.checked}
-                      onPress={() => this.setState({checked: !this.state.checked})}
+                      checked={item.checked === "true"}
+                      onPress={() => this.handleCheckedCard(item)}
                       uncheckedColor='black'
                     />
                    

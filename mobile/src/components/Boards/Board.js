@@ -314,7 +314,7 @@ export default class Board extends Component {
   handleCheckedCard = async (card) =>
   {
       // event.preventDefault();
-      console.log("calling checked card");
+      // console.log("calling checked card");
       // console.log(event.target.checked);
       // console.log(event.target.previousSibling.value);
       if (card.checked === "true")
@@ -329,7 +329,7 @@ export default class Board extends Component {
       {
           var js = '{"_id":"'+ card._id + '","checked":"' + card.checked + '","listId":"' + card.parentList + '"}';
 
-          console.log(js);
+          // console.log(js);
           // const response = 
           await fetch('http://3.17.45.57/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
           if (card.checked === "true")
@@ -351,28 +351,27 @@ export default class Board extends Component {
   }
 
 
-  handleCheckedList = async (listId) =>
+  handleCheckedList = async (list) =>
   {
       // event.preventDefault();
       console.log("calling checked list");
       // console.log(event.target.checked);
       // console.log(event.target.previousSibling.value);
-      var bool;
-      if (card.checked === "true")
+      if (list.checked === "true")
       {
-        bool = "false";
+        list.checked = "false";
       }
       else
       {
-        bool = "true"
+        list.checked = "true"
       }
       try
       {
-          var js = '{"_id":"'+ listId + '","checked":"' + bool + '"}';
+          var js = '{"_id":"'+ list._id + '","checked":"' + list.checked + '"}';
 
-          // console.log(js);
+          console.log(js);
           // const response = 
-          await fetch(process.env.REACT_APP_URL  + 'UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
+          await fetch('http://3.17.45.57/api/UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
       }
       catch(e)
@@ -470,11 +469,12 @@ export default class Board extends Component {
                      onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", item._id, item.listName, "List Name")}
                      onLongPress={(e) => alert("Long Pressed")}>
                 {item.listName}
+                {console.log(item)}
                 </Text>
 
                   <CheckBox
-                    checked={this.state.checked}
-                    onPress={() => this.setState({checked: !this.state.checked})}
+                    checked={item.checked === "true"}
+                    onPress={() => this.handleCheckedList(item)}
                     uncheckedColor='black'
                   />
                 </View> 
@@ -491,11 +491,10 @@ export default class Board extends Component {
                     onLongPress={(e) => alert("Long Pressed")}
                   >
                     {item.cardName}
-                    {console.log(item)}
                   </Text>
 
                     <CheckBox
-                      checked={() => true}
+                      checked={item.checked === "true"}
                       onPress={() => this.handleCheckedCard(item)}
                       uncheckedColor='black'
                     />

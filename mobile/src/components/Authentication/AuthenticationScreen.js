@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#3498db', 
+    backgroundColor: '#24a9ae', 
     justifyContent: 'space-between',
     alignItems: 'flex-end', 
     paddingHorizontal: 20
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderColor: '#FFF',
     height: 50,
     width: 130,
-    backgroundColor: '#2980b9', 
+    backgroundColor: '#149499', 
     marginBottom: 40, 
     paddingVertical: 15
 

@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
   }, 
   buttonContainer: {
     alignSelf: 'center',
-    borderWidth: 1.5,
+    // borderWidth: 1.5,
     borderRadius: 7,
-    borderColor: '#FFF',
+    // borderColor: '#FFF',
     justifyContent: 'center',
     height: 50,
     width: 170,
@@ -81,5 +81,6 @@ const styles = StyleSheet.create({
   text2: { 
     marginLeft: 2,
     marginBottom: 5,
+    color: 'white',
   }
 })

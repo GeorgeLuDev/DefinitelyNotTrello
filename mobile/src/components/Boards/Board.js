@@ -61,7 +61,7 @@ export default class Board extends Component {
                 </TouchableOpacity>
             ),
             headerStyle: {
-              backgroundColor: '#4b414a',
+              backgroundColor: '#24a9ae',
               
             },
             headerTintColor: '#fff',
@@ -402,7 +402,7 @@ export default class Board extends Component {
     return (
 
       <Provider>
-        <View>
+        <View style={{padding: 10}}>
 
           {/* {console.log(this.state.lists)} */}
           {/* MODAL */}
@@ -465,11 +465,14 @@ export default class Board extends Component {
               <View style={styles.listContainer}>
 
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+
               <Text style={styles.listTitle} 
                      onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", item._id, item.listName, "List Name")}
                      onLongPress={(e) => alert("Long Pressed")}>
+                       
                 {item.listName}
                 {console.log(item)}
+
                 </Text>
 
                   <CheckBox
@@ -485,22 +488,24 @@ export default class Board extends Component {
                 extraData={this.state}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) =>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', backgroundColor: 'white', borderRadius: 7, height: 35, justifyContent: 'space-between', 
+                marginBottom: 5}}>
 
-                    <Text style={{alignSelf: 'center'}}>{item.cardName}</Text>
-                  <Text onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
+                
+                  <Text style={{alignSelf:'center', marginLeft: 10}} onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
                     onLongPress={(e) => alert("Long Pressed")}
                   >
                     {item.cardName}
                   </Text>
 
-                    
+                    <View style={{alignSelf:'center'}}>
                     <CheckBox
                       checked={item.checked === "true"}
                       onPress={() => this.handleCheckedCard(item)}
                       uncheckedColor='black'
                     />
-                   
+                   </View>
+
                     </View>
                   
                   }
@@ -585,7 +590,7 @@ const styles = StyleSheet.create({
   },
   overlayButtonContainer: {
     flexDirection: 'row',
-    backgroundColor: '#3498db', 
+    backgroundColor: '#24a9ae', 
     justifyContent: 'space-between',
     alignItems: 'flex-end', 
     paddingHorizontal: 0
@@ -597,7 +602,7 @@ const styles = StyleSheet.create({
     borderColor: '#FFF',
     height: 40,
     width: 70,
-    backgroundColor: '#2980b9',  
+    backgroundColor: '#149499',  
     paddingVertical: 15
 
   },
@@ -617,7 +622,7 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "column",
     justifyContent: 'flex-end',
-    backgroundColor: "#3498db",
+    backgroundColor: "#24a9ae",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -654,6 +659,7 @@ const styles = StyleSheet.create({
   }, 
   listTitle: {
     textAlign: 'center',
+    alignSelf: 'center',
     justifyContent:'center'
   }
 })

@@ -36,7 +36,7 @@ export default class LoginForm extends Component {
     {
       // this.state.email.toString()  this.state.password.toString()
 
-        var js = '{"email":"'+ "ccartalona@gmail.com" + '","password":"' + "password" +'"}';
+        var js = '{"email":"'+ "angel.ams.8600@gmail.com" + '","password":"' + "password" +'"}';
 
         console.log(js);
 
@@ -127,6 +127,7 @@ export default class LoginForm extends Component {
            placeholder="Password"
            placeholderTextColor="rgba(255, 255, 255, 0.7)"
            onChangeText={(password) => this.setPassword(password)}
+           secureTextEntry={true}
           />
 
         <TouchableOpacity onPress={() => this.props.navigation.navigate('PasswordRecovery')}>

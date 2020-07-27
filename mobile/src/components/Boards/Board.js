@@ -309,7 +309,7 @@ export default class Board extends Component {
 
   }
 
-  handleCheckedCard = (listId,cardId) =>
+  handleCheckedCard = async (listId,cardId) =>
   {
       // event.preventDefault();
       console.log("calling checked card");
@@ -343,7 +343,7 @@ export default class Board extends Component {
   }
 
 
-  handleCheckedList = (listId) =>
+  handleCheckedList = async (listId) =>
   {
       // event.preventDefault();
       console.log("calling checked list");

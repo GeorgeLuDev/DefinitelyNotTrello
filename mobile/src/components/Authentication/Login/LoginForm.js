@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import AsyncStorage from '@react-native-community/async-storage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class LoginForm extends Component {
  
@@ -33,8 +34,9 @@ export default class LoginForm extends Component {
 
   doLogIn = async () =>
     {
+      // this.state.email.toString()  this.state.password.toString()
 
-        var js = '{"email":"'+ this.state.email.toString() + '","password":"' + this.state.password.toString() +'"}';
+        var js = '{"email":"'+ "ccartalona@gmail.com" + '","password":"' + "password" +'"}';
 
         console.log(js);
 
@@ -102,7 +104,16 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      
+
+<KeyboardAwareScrollView
+      style={{ backgroundColor: '#4c69a5' }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.container}
+      scrollEnabled={true}
+    >
+
+<View style={styles.container}>
 
         <TextInput 
           style={styles.input}
@@ -132,7 +143,10 @@ export default class LoginForm extends Component {
                   </Text>
         </TouchableOpacity>
 
-      </View>
+        </View>
+        </KeyboardAwareScrollView>
+
+      
     );
   }
 }

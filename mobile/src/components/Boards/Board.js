@@ -6,7 +6,7 @@ import { AsyncStorage } from 'react-native';
 import { createDndContext } from "react-native-easy-dnd";
 import SortableList from 'react-native-sortable-list';
 const { Provider, Droppable, Draggable } = createDndContext();
- 
+import { CheckBox } from 'react-native-elements'
 
 export default class Board extends Component {
   static navigationOption = ({ navigation }) => 
@@ -31,7 +31,8 @@ export default class Board extends Component {
         modalGoButtonAction: '', 
         modalGoButtonID: '', 
         modalInputValue: '', 
-        modalInputPlaceHolder: ''
+        modalInputPlaceHolder: '',
+        checked: false
 
 
     };
@@ -375,12 +376,19 @@ export default class Board extends Component {
             renderItem={({ item, index }) =>
               <View style={styles.listContainer}>
 
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.listTitle} 
                      onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", item._id, item.listName, "List Name")}
                      onLongPress={(e) => alert("Long Pressed")}>
                 {item.listName}
                 </Text>
-                  
+
+                  <CheckBox
+                    checked={this.state.checked}
+                    onPress={() => this.setState({checked: !this.state.checked})}
+                    uncheckedColor='black'
+                  />
+                </View> 
 
               <FlatList
                 data={this.state.cards[index]}
@@ -388,12 +396,18 @@ export default class Board extends Component {
                 extraData={this.state}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) =>
-                  <ListItem
-                    title={item.cardName}
-                    bottomDivider
-                    onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
-                      onLongPress={(e) => alert("Long Pressed")}
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+
+                    <Text>{item.cardName}</Text>
+
+                    <CheckBox
+                      checked={this.state.checked}
+                      onPress={() => this.setState({checked: !this.state.checked})}
+                      uncheckedColor='black'
                     />
+
+                    </View>
+                  
                   }
                   ListHeaderComponent={this.renderHeader}
 

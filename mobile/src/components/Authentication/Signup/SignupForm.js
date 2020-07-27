@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class SignupForm extends Component {
  
@@ -74,11 +75,26 @@ export default class SignupForm extends Component {
        
     }
 
+    _scrollToInput (reactNode) {
+      // Add a 'scroll' ref to your ScrollView
+      this.scroll.props.scrollToFocusedInput(reactNode)
+    }
+
   render() {
     return (
+
+      <KeyboardAwareScrollView
+      style={{ backgroundColor: '#4c69a5' }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.container}
+      scrollEnabled={true}
+      
+    >
+
       <View style={styles.container}>
 
         <TextInput 
+        
           style={styles.input}
           placeholder="First Name"
           placeholderTextColor="rgba(255, 255, 255, 0.7)"
@@ -100,6 +116,7 @@ export default class SignupForm extends Component {
         />
 
         <TextInput
+          
            style={styles.input}
            placeholder="Password"
            placeholderTextColor="rgba(255, 255, 255, 0.7)"
@@ -113,6 +130,7 @@ export default class SignupForm extends Component {
         </TouchableOpacity>
 
       </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

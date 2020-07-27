@@ -5,6 +5,7 @@
     "name": "mobile",
     "slug": "mobile",
     "version": "1.0.0",
+    "android":{"softwareKeyboardLayoutMode": "pan"},
     "platforms": [
       "ios",
       "android",

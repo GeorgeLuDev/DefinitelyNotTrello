@@ -464,12 +464,13 @@ export default class Board extends Component {
             renderItem={({ item, index }) =>
               <View style={styles.listContainer}>
 
-              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                {/* justifyContent: 'space-between' */}
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#0b6cad' }}> 
 
               <Text style={styles.listTitle} 
                      onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", item._id, item.listName, "List Name")}
                      onLongPress={(e) => alert("Long Pressed")}>
-                       
+
                 {item.listName}
                 {console.log(item)}
 
@@ -477,8 +478,10 @@ export default class Board extends Component {
 
                   <CheckBox
                     checked={item.checked === "true"}
+                    checkedColor='white'
                     onPress={() => this.handleCheckedList(item)}
-                    uncheckedColor='black'
+                    uncheckedColor='white'
+                    // style={{flex: 1}}
                   />
                 </View> 
 
@@ -488,11 +491,12 @@ export default class Board extends Component {
                 extraData={this.state}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) =>
+
                 <View style={{flexDirection: 'row', backgroundColor: 'white', borderRadius: 7, height: 35, justifyContent: 'space-between', 
                 marginBottom: 5}}>
 
                 
-                  <Text style={{alignSelf:'center', marginLeft: 10}} onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
+                  <Text style={{alignSelf:'center', marginLeft: 10, flex: 4,}} onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
                     onLongPress={(e) => alert("Long Pressed")}
                   >
                     {item.cardName}
@@ -503,6 +507,7 @@ export default class Board extends Component {
                       checked={item.checked === "true"}
                       onPress={() => this.handleCheckedCard(item)}
                       uncheckedColor='black'
+                      style={{flex: 4}}
                     />
                    </View>
 
@@ -513,14 +518,27 @@ export default class Board extends Component {
 
                 />
 
-                <Button
-                  onPress={(e) => this.setIsVisible(true, "Add", "ADDCARD", item._id, "", "Card Name")}
-                  title="Add Card to List"
-                />
-                <Button
+                <TouchableOpacity 
+                style={{
+                  alignSelf: 'center',
+                  borderWidth: 1.5,
+                  borderRadius: 7,
+                  borderColor: '#FFF',
+                  justifyContent: 'center',
+                  height: 40,
+                  width: 120,
+                  backgroundColor: '#07568a', 
+                  marginTop: 10,
+                   }} 
+                   onPress={(e) => this.setIsVisible(true, "Add", "ADDCARD", item._id, "", "Card Name")}>
+                  <Text style={{alignSelf: 'center', color: 'white'}}>
+                  Add Card
+                  </Text>
+                </TouchableOpacity>
+                {/* <Button
                   onPress={(e) => this.deleteList(e, item._id)}
                   title="Delete List"
-                />
+                /> */}
               </View>
             }
             ListHeaderComponent={this.renderHeader}
@@ -652,12 +670,16 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flexDirection: 'column',
-    backgroundColor: '#bdc3c7', 
+    backgroundColor: '#0b6cad', 
     borderRadius: 10, 
-    padding: 10,
+    padding: 12,
     marginTop: 10
   }, 
   listTitle: {
+    color: 'white',
+    flex: 5,
+    fontSize: 18,
+    marginLeft: 60,
     textAlign: 'center',
     alignSelf: 'center',
     justifyContent:'center'

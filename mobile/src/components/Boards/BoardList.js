@@ -360,7 +360,8 @@ export default class BoardList extends Component {
                   tension={100} // These props are passed to the parent component (here TouchableScale)
                   activeScale={0.95} //
                   linearGradientProps={{
-                    colors: ['#14adb4', '#14cdd5'],
+                    // colors: ['#14adb4', '#14cdd5'],
+                    colors: ['#0b6cad', '#0b6cad'],
                     start: [1, 0],
                     end: [0.2, 0],
                   }}

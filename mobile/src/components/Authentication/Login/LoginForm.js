@@ -36,7 +36,7 @@ export default class LoginForm extends Component {
     {
       // this.state.email.toString()  this.state.password.toString()
 
-        var js = '{"email":"'+ "angel.ams.8600@gmail.com" + '","password":"' + "password" +'"}';
+        var js = '{"email":"'+ this.state.email.toString() + '","password":"' + this.state.password.toString() +'"}';
 
         console.log(js);
 

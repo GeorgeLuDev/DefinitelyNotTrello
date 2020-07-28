@@ -959,12 +959,12 @@ class BoardUi extends Component
                 <input id="searchcard" name="searchCard" placeholder="Search Cards" onChange={(e) => this.search(e)}></input>
               </form>
               <form id="radioSelectors">
-                  <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
-                  <label class="headerCheckLabel" for="checkedAll">All</label>
                   <input type="radio" id="checkedIncomplete" name="checked" onChange={(e) => this.search(e)}></input>
                   <label class="headerCheckLabel" for="checkedIncomplete">Incomplete</label>
                   <input type="radio" id="checkedComplete" name="checked" onChange={(e) => this.search(e)}></input>
                   <label class="headerCheckLabel" for="checkedComplete">Complete</label>
+                  <input type="radio" id="checkedAll" name="checked" onChange={(e) => this.search(e)} defaultChecked={true}></input>
+                  <label class="headerCheckLabel" for="checkedAll">All</label>
               </form>
               </div>
             </div>

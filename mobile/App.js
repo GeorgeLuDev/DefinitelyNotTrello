@@ -22,7 +22,12 @@ export default function App() {
 
     <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
-        <Stack.Screen name="Auth" component={AuthenticationScreen} />
+        <Stack.Screen 
+          name="Auth"
+           component={AuthenticationScreen}
+           options={{
+            title: "Definitely Not Trello"
+          }} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="PasswordRecovery" component={PasswordRecovery} />

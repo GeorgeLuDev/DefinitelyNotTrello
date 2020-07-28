@@ -133,7 +133,7 @@ export default class Board extends Component {
     this.componentDidMount();
   }
 
-  deleteCard = async (event,cardId) => 
+  deleteCard = async (cardId) => 
   {
     var js = '{"_id":"'+ cardId + '"}';
 
@@ -465,11 +465,12 @@ export default class Board extends Component {
               <View style={styles.listContainer}>
 
                 {/* justifyContent: 'space-between' */}
-              <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#0b6cad' }}> 
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#0b6cad' }}
+              > 
 
               <Text style={styles.listTitle} 
                      onPress={(e) => this.setIsVisible(true, "Update", "UPDATELIST", item._id, item.listName, "List Name")}
-                     onLongPress={(e) => alert("Long Pressed")}>
+                     >
 
                 {item.listName}
                 {console.log(item)}
@@ -497,7 +498,7 @@ export default class Board extends Component {
 
                 
                   <Text style={{alignSelf:'center', marginLeft: 10, flex: 4,}} onPress={(e) => this.setIsVisible(true, "Update", "UPDATECARD", item._id, item.cardName, "Card Name")}
-                    onLongPress={(e) => alert("Long Pressed")}
+                    onLongPress={(e) => this.deleteCard(item._id)}
                   >
                     {item.cardName}
                   </Text>
@@ -518,6 +519,26 @@ export default class Board extends Component {
 
                 />
 
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15}}>
+
+                <TouchableOpacity 
+                style={{
+                  alignSelf: 'center',
+                  borderWidth: 1.5,
+                  borderRadius: 7,
+                  borderColor: '#FFF',
+                  justifyContent: 'center',
+                  height: 40,
+                  width: 120,
+                  backgroundColor: '#07568a', 
+                  marginTop: 10,
+                   }} 
+                   onPress={(e) => this.deleteList(e, item._id)}>
+                  <Text style={{alignSelf: 'center', color: 'white'}}>
+                  Delete List
+                  </Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity 
                 style={{
                   alignSelf: 'center',
@@ -535,6 +556,8 @@ export default class Board extends Component {
                   Add Card
                   </Text>
                 </TouchableOpacity>
+
+                </View>
                 {/* <Button
                   onPress={(e) => this.deleteList(e, item._id)}
                   title="Delete List"

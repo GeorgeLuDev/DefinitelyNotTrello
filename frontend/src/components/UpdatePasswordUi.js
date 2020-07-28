@@ -30,6 +30,9 @@ function UpdatePasswordUi()
             if (res.error === "")
             {
                 setMessage("Success! Redirecting to sign-in...");
+                setTimeout(() => {
+                  window.location.href = '/SignInPage';
+                }, 1500);
             }
             else
             {

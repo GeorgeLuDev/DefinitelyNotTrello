@@ -939,7 +939,7 @@ class BoardUi extends Component
             <span id="boardNameSpan" contentEditable="true" spellCheck="false" suppressContentEditableWarning={true} onBlur={(e) => this.handleUpdateBoard(e)}>{this.state.boardName}</span>
             <span className="boardMenuDivider"></span>
             {this.state.boardUsers.map(boardUser => 
-                <span className="userInitials" title="FirstName LastName" key={boardUser}>{boardUser}</span>
+                <span className="userInitials" key={boardUser}>{boardUser}</span>
                 )}
             <span id="addUserButton">
               <form>

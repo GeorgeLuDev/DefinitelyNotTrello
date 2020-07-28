@@ -292,7 +292,13 @@ a.nav-link
   max-width:20rem;
   height: 3rem;
   overflow-y: hidden;
+  scrollbar-width: none;
 }
+
+#boardNameSpan::-webkit-scrollbar {
+  display: none;
+}
+
 
 .boardMenuDivider
 {
@@ -523,12 +529,13 @@ input[type="radio"]:not(:checked) + label{
 {
   position: absolute;
   top:1.5rem;
-  right: 1rem;
-  background-color: rgb(220,220,220);
+  right: 2.3rem;
+  background-color: rgba(0,0,0,0.15);
   display: block;
   text-align: center;
-  width: 1.5rem;
+  width: 1.6rem;
   border: none;
+  border-radius: 3px;
 }
 
 .card

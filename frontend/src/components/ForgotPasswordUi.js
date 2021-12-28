@@ -11,21 +11,21 @@ function ForgotPasswordUi()
     const doForgotPassword = async event =>
     {
         event.preventDefault();
-        console.log("doForgotPassword called.");
+        // console.log("doForgotPassword called.");
 
         var js = '{"email":"'+loginEmail.value + '"}';
 
-        console.log(js);
+        // console.log(js);
 
         try
         {
             const response = await fetch(process.env.REACT_APP_URL + 'SentResetPassword',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             
-            console.log("Calling the send password reset api");
+            // console.log("Calling the send password reset api");
 
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
             if(res.error != null)
             {

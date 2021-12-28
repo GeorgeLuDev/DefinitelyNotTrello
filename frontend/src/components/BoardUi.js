@@ -91,9 +91,10 @@ class BoardUi extends Component
 
             // console.log("calling Create List api");
 
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -127,10 +128,10 @@ class BoardUi extends Component
             const response = await fetch(process.env.REACT_APP_URL + 'CreateCard',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Create Card api");
-
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -156,10 +157,10 @@ class BoardUi extends Component
             const response = await fetch(process.env.REACT_APP_URL + 'DeleteList',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Delete List api");
-
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -187,10 +188,10 @@ class BoardUi extends Component
             const response = await fetch(process.env.REACT_APP_URL + 'DeleteCard',{method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Delete Card api");
-
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -224,10 +225,10 @@ class BoardUi extends Component
             const response = await fetch(process.env.REACT_APP_URL + 'UpdateList',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Update List api");
-
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -260,10 +261,10 @@ class BoardUi extends Component
             const response = await fetch(process.env.REACT_APP_URL + 'UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Update Card api");
-
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -274,39 +275,6 @@ class BoardUi extends Component
         }
 
         this.componentDidMount();
-    }
-
-    
-    handleUpdateBoard = async (event) =>
-    {
-        console.log("calling update board");
-
-        // event.preventDefault();
-        // // console.log(event);
-
-        // var js = '{"_id":"'+ cardId + '","cardName":"' + event.target.innerText + '"}';
-
-        // // console.log(js);
-
-        // try
-        // {
-        //     const response = await fetch('http://localhost:5000/api/UpdateCard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
-
-        //     // console.log("calling Update Card api");
-
-        //     var res = JSON.parse(await response.text());
-
-        //     console.log(res);
-
-        // }
-        // catch(e)
-        // {
-        //     console.log("there was an error");
-        //     console.log(e.toString());
-        //     return;
-        // }
-
-        // this.componentDidMount();
     }
 
     handleListNameChange = event =>
@@ -359,7 +327,7 @@ class BoardUi extends Component
         {
             return;
         }
-        console.log("hello")
+
        if (element.className === "card dragging")
        {    
         //    console.log("card");
@@ -427,20 +395,21 @@ class BoardUi extends Component
     dragEnd = async event =>
     {
         var js;
+        // eslint-disable-next-line no-unused-vars
         var res;
         if (event.target.className === "card dragging")
         {
             event.target.className = "card";
             // update index of card
-            console.log("old index of card");
-            console.log([this.state.oldlistindex,this.state.oldcardindex]);
-            console.log("new index of card");
-            console.log([Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode),(Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1)]);
+            // console.log("old index of card");
+            // console.log([this.state.oldlistindex,this.state.oldcardindex]);
+            // console.log("new index of card");
+            // console.log([Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode),(Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1)]);
             // call move card api
 
             js = '{"_id":"'+ event.target.getAttribute("data-_id") + '","oldIndex":"' + this.state.oldcardindex + '","newIndex":"' + (Array.prototype.indexOf.call(event.target.parentNode.children, event.target)-1) + '","oldparentList":"' + this.state.oldparentList + '","newparentList":"' + event.target.parentNode.getAttribute("data-_id") + '"}';
             // var js = '{"_id":"'+ this.state.lists[event.target.getAttribute("data-listindex")-0]._id + '","oldIndex":' + (event.target.getAttribute("data-listindex")-0) + '","newIndex":' + 3 + ',"parentBoard":"' + 4 + '"}';            
-            console.log(js);
+            // console.log(js);
 
             try
             {
@@ -450,7 +419,7 @@ class BoardUi extends Component
 
                 res = JSON.parse(await response.text());
 
-                console.log(res);
+                // console.log(res);
 
             }
             catch(e)
@@ -470,10 +439,10 @@ class BoardUi extends Component
         {
             event.target.className = "listHolder";
             // update index of list
-            console.log("old index of list");
-            console.log(this.state.oldlistindex);
-            console.log("new index of list");
-            console.log(Array.prototype.indexOf.call(event.target.parentNode.children, event.target));
+            // console.log("old index of list");
+            // console.log(this.state.oldlistindex);
+            // console.log("new index of list");
+            // console.log(Array.prototype.indexOf.call(event.target.parentNode.children, event.target));
             // call move list api
 
             // console.log(event.target.getAttribute("data-_id"));
@@ -490,7 +459,7 @@ class BoardUi extends Component
 
                 res = JSON.parse(await response.text());
 
-                console.log(res);
+                // console.log(res);
 
             }
             catch(e)
@@ -631,10 +600,10 @@ class BoardUi extends Component
             const response = await fetch(process.env.REACT_APP_URL  + 'UpdateBoard',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             // console.log("calling Update Board api");
-
+            // eslint-disable-next-line no-unused-vars
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
         }
         catch(e)
@@ -742,8 +711,8 @@ class BoardUi extends Component
     addUser = async (event) =>
     {
         event.preventDefault();
-        console.log("calling add user");
-        console.log(event.target.previousSibling.value);
+        // console.log("calling add user");
+        // console.log(event.target.previousSibling.value);
         try
         {
             var js = '{"_id":"'+ window.location.pathname.slice(-24) + '","email":"' + event.target.previousSibling.value + '"}';
@@ -753,8 +722,8 @@ class BoardUi extends Component
             var response = await fetch(process.env.REACT_APP_URL  + 'AddUser',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
-
-            if (res.error == "Not found.")
+            
+            if (res.error === "Not found.")
             {
                 document.getElementById("addUserResult").innerText = res.error;
             }
@@ -776,7 +745,7 @@ class BoardUi extends Component
     handleCheckedList = async (event,listId) =>
     {
         // event.preventDefault();
-        console.log("calling checked list");
+        // console.log("calling checked list");
         // console.log(event.target.checked);
         // console.log(event.target.previousSibling.value);
         try
@@ -800,7 +769,7 @@ class BoardUi extends Component
     handleCheckedCard = async (event,listId,cardId) =>
     {
         // event.preventDefault();
-        console.log("calling checked card");
+        // console.log("calling checked card");
         // console.log(event.target.checked);
         // console.log(event.target.previousSibling.value);
         try
@@ -823,8 +792,8 @@ class BoardUi extends Component
 
     handleCheckSearch = (event) =>
     {
-        console.log("searching for checks");
-        console.log(event.target.id);
+        // console.log("searching for checks");
+        // console.log(event.target.id);
         var i,j;
         document.getElementById("searchlist").value = "";
         document.getElementById("searchcard").value = "";
@@ -1027,8 +996,6 @@ class BoardUi extends Component
                     this.state.thumbnails.map(thumbnail => 
                         <div key={thumbnail.id} className="bgoption" onClick={(e) => this.updateBoardBackground(e,thumbnail.urls.regular)} style={{backgroundImage : "url(" + thumbnail.urls.thumb +")"}}></div>)
                 }
-
-                {/* {console.log(this.state.thumbnails)} */}
 
                 {/* <div className="bgoption"></div>
                 <div className="bgoption"></div>

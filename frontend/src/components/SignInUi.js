@@ -11,21 +11,21 @@ function SignInUi()
     const doLogin = async event =>
     {
         event.preventDefault();
-        console.log("doLogin called");
+        // console.log("doLogin called");
 
         var js = '{"email":"'+ loginEmail.value + '","password":"' + loginPassword.value +'"}';
 
-        console.log(js);
+        // console.log(js);
 
         try
         {
             const response = await fetch(process.env.REACT_APP_URL + 'SignIn',{method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
-            console.log("calling Sign in api");
+            // console.log("calling Sign in api");
 
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
             if (res.id === "-1")
             {

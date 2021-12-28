@@ -11,17 +11,14 @@ const passwordHash = require('password-hash');
 const nodemailer = require('nodemailer');
 const { connect } = require('mongodb');
 var transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    service: "Gmail",
     auth: {
-        user: 'definitelynottrello@gmail.com', // generated ethereal user
-        pass: 'COP4331_11'  // generated ethereal password
-    },
-    tls:{
-      rejectUnauthorized:false
+        user: process.env.EMAIL_USERNAME, // generated ethereal user
+        pass: process.env.EMAIL_PASSWORD  // generated ethereal password
     }
 });
+process.env.EMAIL_USERNAME
+process.env.EMAIL_PASSWORD
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;

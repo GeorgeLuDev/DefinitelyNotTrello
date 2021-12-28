@@ -10,22 +10,22 @@ function UpdatePasswordUi()
     const doUpdatePassword = async event =>
     {
         event.preventDefault();
-        console.log("doResetPassword called.");
+        // console.log("doResetPassword called.");
 
-        console.log(window.location.pathname.slice(-24));
+        // console.log(window.location.pathname.slice(-24));
         var js = '{"_id":"'+window.location.pathname.slice(-24)+'","password":"'+loginPassword.value+'"}';
 
 
-        console.log(js);
+        // console.log(js);
         try
         {
             const response = await fetch(process.env.REACT_APP_URL + 'UpdatePassword',{method:'PUT',body:js,headers:{'Content-Type': 'application/json'}});
 
-            console.log("calling UpdatePassword api");
+            // console.log("calling UpdatePassword api");
 
             var res = JSON.parse(await response.text());
 
-            console.log(res);
+            // console.log(res);
 
             if (res.error === "")
             {

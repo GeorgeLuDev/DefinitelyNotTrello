@@ -13,7 +13,7 @@ function SignInUi()
     const doSignUp = async event =>
     {
         event.preventDefault();
-        console.log("doSignUp called");
+        // console.log("doSignUp called");
 
         var flagerror = 0;
         var error = [];
@@ -48,7 +48,7 @@ function SignInUi()
 
         var js = '{"firstName":"'+ loginfirstName.value + '","lastName":"'+ loginlastName.value + '","email":"'+ loginEmail.value + '","password":"' + loginPassword.value +'"}';
 
-        console.log(js);
+        // console.log(js);
 
         try
         {

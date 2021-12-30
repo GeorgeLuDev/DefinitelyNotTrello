@@ -17,8 +17,6 @@ var transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASSWORD  // generated ethereal password
     }
 });
-process.env.EMAIL_USERNAME
-process.env.EMAIL_PASSWORD
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;

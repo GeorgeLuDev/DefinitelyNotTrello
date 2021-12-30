@@ -8,7 +8,7 @@ const EmailVerifiedPage = () =>
     return(
         <div>
             <NavBarUi />
-            <EmailVerifiedUi components={EmailVerifiedUi}/>
+            <EmailVerifiedUi/>
         </div>
     );
 }
